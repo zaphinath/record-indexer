@@ -1,6 +1,10 @@
-drop table users
-drop table projects
 
+drop table if exists users;
+drop table if exists projects;
+drop table if exists fields;
+drop table if exists images;
+drop table if exists records;
+drop table if exists record_values;
 
 create table users 
 (
@@ -19,5 +23,35 @@ create table projects
   title varchar(255) not null,
   records_per_image integer default 0,
   first_y_coord integer default 0,
-  record_height integer default 0,
+  record_height integer default 0
+);
+
+create table fields
+(
+  id integer not null primary key autoincrement,
+  project_id integer not null,
+  title varchar(255) not null,
+  xcoord integer default 0,
+  width integer default 0,
+  help_html varchar(255),
+  known_data varchar(255)
+);
+
+create table images
+(
+  id integer not null primary key autoincrement,
+  project_id integer not null,
+  image_file varchar(255)
+);
+
+create table records
+(
+  id integer not null primary key autoincrement,
+  image_id integer not null
+);
+
+create table record_values
+(
+  id integer not null primary key autoincrement,
+  record_id integer not null
 );
