@@ -6,13 +6,10 @@
 	
 	<!-- Directory containing application source code -->
 	<property name="src" location="src"/>
-	
 	<!-- Directory containing testing source code -->
 	<property name="test" location="test"/>
-	
 	<!-- Directory containing Java libraries -->
 	<property name="lib" location="lib"/>
-	
 	<!-- Directory where the Java compiler puts .class files -->
 	<property name="build" location="build"/>
 	
