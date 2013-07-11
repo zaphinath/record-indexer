@@ -10,13 +10,16 @@ import org.w3c.dom.Element;
 
 public class Parser{
 
-
+  /** 
+   * Constructor
+   */
   public Parser() {
 
   }
-  /* This takes a record-indexer.xml and parses the values out of it
+  /**
+   * This takes a record-indexer.xml and parses the values out of it
    * Then it calls the dbConn class to insert into the database
-   * @param File Record.xml
+   * @param xml
    */
   public void parse(File xml) {
     try {

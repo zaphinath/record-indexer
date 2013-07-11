@@ -15,10 +15,15 @@ public class ServerUnitTests {
 	
 	@Test
 	public void test_1() {
-		assertEquals("OK", "OK");
+		assertEquals("OKi", "OK");
 		assertTrue(true);
 		assertFalse(false);
 	}
+  
+  @Test
+  public void test() {
+    System.out.println("HITEST");
+  }
 
 	public static void main(String[] args) {
 		

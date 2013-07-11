@@ -15,7 +15,7 @@ public class DbConn {
   private String connectionURL = "jdbc:sqlite:"+dbName;
 
   private Connection connection = null;
-  /*
+  /**
    * Class constructor
    */
   public DbConn() {
@@ -26,7 +26,8 @@ public class DbConn {
     }
   }
  
-  /* This will insert a user into the database
+  /**
+   * This will insert a user into the database
    * @param user the user's username to login 
    * @param pass the user's password
    * @param firstName the user's first name
@@ -34,7 +35,8 @@ public class DbConn {
    * @param email the user's email address
    * @param indexed the number of indexed records by this user
    */
-  public void insertUser(String user, String pass, String firstName, String lastName, String email, int indexed) {
+  public void insertUser(String user, String pass, String firstName, String lastName, String email, int indexed) 
+    throws SQLException {
     PreparedStatement stmt = null;
     Statement keyStmt = null;
     ResultSet keyRS = null;
@@ -54,10 +56,22 @@ public class DbConn {
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
-      if (stmt != null) try {stmt.close();} catch(SQLException e){}
-      if (keyRS != null) try {keyRS.close();} catch(SQLException e){}
-      if (keyStmt != null) try {keyStmt.close();} catch(SQLException e){}
+      if (stmt != null) stmt.close();
+      if (keyRS != null) keyRS.close();
+      if (keyStmt != null) keyStmt.close();
     }
   }
+  
+  /**
+   * This will close the database connection opened in the constructor
+   * This should be called evertyime a DbConn object is initialized 
+   */
+  public void close() {
+    try {
+      connection.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  } 
 
 } 

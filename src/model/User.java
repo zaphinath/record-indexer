@@ -11,7 +11,7 @@ public class User {
   User() {
 
   }
-  /*
+  /* This sets the first name 
    * @param name First Name
    */
   public void setFirstName(String name) {
