@@ -74,7 +74,7 @@
 	</target>
 
   <target name="doc" depends="clean" description="builds javadoc documentation">
-    <javadoc sourcepath="${src}" destdir="${doc}" docfilessubdirs="true" />
+    <javadoc sourcepath="${src}" destdir="${doc}"  />
   </target>
 	
 	<!-- ant import -Dfile=<INDEXER_DATA_XML_FILE> -->
