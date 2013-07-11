@@ -1,2 +1,4 @@
-model
+server
+server.database
+shared.model
 utils

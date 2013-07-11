@@ -41,8 +41,8 @@ public class Parser{
           String lastName = uElement.getElementsByTagName("lastname").toString();
           String email = uElement.getElementsByTagName("email").toString();
           int indexedRecords = Integer.parseInt(uElement.getElementsByTagName("indexedrecords").toString());
-          DbConn con = new DbConn();
-          con.insertUser(username, password, firstName, lastName, email, indexedRecords);
+          //DbConn con = new DbConn();
+          //con.insertUser(username, password, firstName, lastName, email, indexedRecords);
         }
       }
 

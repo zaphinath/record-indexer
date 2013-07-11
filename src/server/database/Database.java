@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.io.File;
 
 
-public class DbConn {
+public class Database {
   
   private String dbName = "database"+File.separator+"indexer_server.db";
   private String connectionURL = "jdbc:sqlite:"+dbName;
@@ -18,7 +18,7 @@ public class DbConn {
   /**
    * Class constructor
    */
-  public DbConn() {
+  public Database() {
     try {
       connection = DriverManager.getConnection(connectionURL);
     } catch (SQLException e) {
