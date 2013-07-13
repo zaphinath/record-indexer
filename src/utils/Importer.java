@@ -2,7 +2,6 @@ package utils;
 
 
 import java.io.File;
-import shared.model.User;
 
 public class Importer{
 
