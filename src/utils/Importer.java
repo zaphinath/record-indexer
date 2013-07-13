@@ -1,7 +1,12 @@
 package utils;
 
-
 import java.io.File;
+
+/**
+ * 
+ * @author zaphinath
+ *
+ */
 
 public class Importer{
 
@@ -12,7 +17,7 @@ public class Importer{
     System.out.println(args[0]);
 
     Parser parse = new Parser(); 
-    //User user = parse.parse(xml); 
+    parse.parse(xml); 
   }
 
 }

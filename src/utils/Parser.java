@@ -1,12 +1,23 @@
 package utils;
 
 import java.io.File;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+
+import server.database.UserDB;
+import shared.model.User;
+
+/**
+ * 
+ * @author zaphinath
+ *
+ */
 
 public class Parser{
 
@@ -41,6 +52,15 @@ public class Parser{
           String lastName = uElement.getElementsByTagName("lastname").toString();
           String email = uElement.getElementsByTagName("email").toString();
           int indexedRecords = Integer.parseInt(uElement.getElementsByTagName("indexedrecords").toString());
+          User user = new User();
+          user.setUsername(username);
+          user.setPassword(password);
+          user.setFirstName(firstName);
+          user.setLastName(lastName);
+          user.setEmail(email);
+          user.setIndexedRecords(indexedRecords);
+          UserDB db = new UserDB();
+          db.add(user);
           //DbConn con = new DbConn();
           //con.insertUser(username, password, firstName, lastName, email, indexedRecords);
         }

@@ -1,5 +1,11 @@
 package shared.model;
 
+/**
+ * 
+ * @author zaphinath
+ *
+ */
+
 public class Field {
 
   private int id;

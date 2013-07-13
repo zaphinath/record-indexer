@@ -14,7 +14,8 @@ create table users
   name_first varchar(255) not null,
   name_last varchar(255) not null,
   email varchar(255) not null,
-  indexed_records integer
+  indexed_records integer,
+  current_image_id integer default 0
 );
 
 create table projects

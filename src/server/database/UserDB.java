@@ -3,9 +3,14 @@ package server.database;
 
 import java.util.List;
 import java.util.ArrayList;
-import shared.model.User;
 import server.ServerException;
+import shared.model.User;
 
+/**
+ * 
+ * @author zaphinath
+ *
+ */
 
 public class UserDB {
 

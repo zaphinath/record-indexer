@@ -2,6 +2,12 @@ package servertester.views;
 
 import servertester.controllers.*;
 
+/**
+ * 
+ * @author zaphinath
+ *
+ */
+
 public class TestView implements IView {
 
 	private IController _controller;

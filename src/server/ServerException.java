@@ -1,5 +1,11 @@
 package server;
 
+/**
+ * 
+ * @author zaphinath
+ *
+ */
+
 @SuppressWarnings("serial")
 public class ServerException extends Exception {
 

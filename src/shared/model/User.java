@@ -1,5 +1,11 @@
 package shared.model;
 
+/**
+ * 
+ * @author zaphinath
+ *
+ */
+
 public class User {
 
   private int id;
@@ -8,12 +14,13 @@ public class User {
   private String nameFirst;
   private String nameLast;
   private String email;
+  private String openImage;
   private int indexedRecords;
 
 /*
  * Class constructor
  */
-  User() {
+  public User() {
 
   }
 
@@ -66,6 +73,13 @@ public class User {
   }
 
   /**
+   * Returns the id for this user.
+   * @return this.id;
+   */
+  public int getID() {
+  	return this.id;
+  }
+  /**
    * This gets the username
    * @return this.username
    */
@@ -112,5 +126,21 @@ public class User {
   public int getIndexedRecords() {
     return this.indexedRecords;
   }
+
+	/**
+	 * The user can only have one open image at a time
+	 * @return the openImage
+	 */
+	public String getOpenImage() {
+		return openImage;
+	}
+
+	/**
+	 * When an user opens an image set the file url here
+	 * @param openImage the openImage to set
+	 */
+	public void setOpenImage(String openImage) {
+		this.openImage = openImage;
+	}
 
 }
