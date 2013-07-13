@@ -24,6 +24,7 @@ public class User {
   public void setUsername(String user) {
     this.username = user;
   }
+  
   /** 
    * This sets the password
    * @param pass The password
@@ -31,6 +32,7 @@ public class User {
   public void setPassword(String pass) {
     this.password = pass;
   }
+  
   /**
    * This sets the first name 
    * @param firstName First Name
@@ -38,6 +40,7 @@ public class User {
   public void setFirstName(String firstName) {
     this.nameFirst = firstName;
   }
+  
   /**
    * This sets the last name 
    * @param lastName Last Name
@@ -53,6 +56,7 @@ public class User {
   public void setEmail(String email) {
     this.email = email;
   }
+  
   /**
    * Sets the number of Indexed Records
    * @param num Number of indexed records user has done
@@ -68,19 +72,45 @@ public class User {
   public String getUsername() {
     return this.username;
   }
+
+  /** 
+   * This gets the User's password 
+   * @return this.password The user's password
+   */
+  public String getPassword() {
+    return this.password;
+  }
+
   /**
    * Get's the username
-   * @return this.nameFirst
+   * @return this.nameFirst The user's first name
    */
   public String getFirstName() {
     return this.nameFirst;
   }
+  
   /**
    * This gets the last name
-   * @return this.nameLast
+   * @return this.nameLast The user's last name
    */
   public String getLastName() {
     return this.nameLast;
+  }
+
+  /**
+   * This gets the user's email
+   * @return this.email The user's email address
+   */
+  public String getEmail() {
+    return this.email;
+  }
+  
+  /**
+   * This returns the number of indexed records
+   * @return this.indexedRecords The number of records the user has indexed
+   */
+  public int getIndexedRecords() {
+    return this.indexedRecords;
   }
 
 }
