@@ -3,6 +3,7 @@ package server.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 import java.io.File;
 
 import server.ServerException;
@@ -15,7 +16,8 @@ import server.ServerException;
  */
 
 public class Database {
-  
+  private static Logger logger;
+	
 	private UserDB user;
 	private FieldDB field;
 	private ProjectDB project;
@@ -28,16 +30,26 @@ public class Database {
    * Class constructor
    */
   public Database() {
-    try {
-      connection = DriverManager.getConnection(connectionURL);
-    } catch (SQLException e) {
-      System.out.println("Could Not Connect");
-    }
+  	 try {
+       connection = DriverManager.getConnection(connectionURL);
+     } catch (SQLException e) {
+       System.out.println("Could Not Connect");
+     }
     user = new UserDB(this);
     field = new FieldDB(this);
     project = new ProjectDB(this);
   }
  
+  /**
+   * Loads the SQLLite database driver
+   * @throws ServerException
+   */
+  public static void initialize() throws ServerException {
+  	logger.entering("server.database.Database","initialize");
+   //TODO Load the SQLLite database driver
+    logger.exiting("server.database.Database", "initialize");
+  }
+  
   /**
    * 
    * @return this.connection
