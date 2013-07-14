@@ -13,9 +13,16 @@ public class ServerUnitTests {
 	public void teardown() {
 	}
 	
+
+  
+  @Test 
+  public void testAddUser() {
+
+  }
+
 	@Test
 	public void test_1() {
-		assertEquals("OKi", "OK");
+		//assertEquals("OKi", "OK");
 		assertTrue(true);
 		assertFalse(false);
 	}

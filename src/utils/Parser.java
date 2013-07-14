@@ -54,14 +54,14 @@ public class Parser{
           String firstName = uElement.getElementsByTagName("firstname").toString();
           String lastName = uElement.getElementsByTagName("lastname").toString();
           String email = uElement.getElementsByTagName("email").toString();
-          int indexedRecords = Integer.parseInt(uElement.getElementsByTagName("indexedrecords").toString());
+          //int indexedRecords = uElement.getElementsByTagName("indexedrecords").toString());
           User user = new User();
           user.setUsername(username);
           user.setPassword(password);
           user.setFirstName(firstName);
           user.setLastName(lastName);
           user.setEmail(email);
-          user.setIndexedRecords(indexedRecords);
+          //user.setIndexedRecords(indexedRecords);
           
           UserDB ub  = new UserDB(db);
           ub.add(user);
