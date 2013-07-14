@@ -38,7 +38,7 @@ create table fields
   known_data varchar(255)
 );
 
-create table images
+create table batches
 (
   id integer not null primary key autoincrement,
   project_id integer not null,

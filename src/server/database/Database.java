@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.io.File;
 
-import shared.model.User;
-import shared.model.Field;
-import shared.model.Project;
+import server.ServerException;
+
+
 /**
  * 
  * @author zaphinath
@@ -16,9 +16,9 @@ import shared.model.Project;
 
 public class Database {
   
-	private User user;
-	private Field field;
-	private Project project;
+	private UserDB user;
+	private FieldDB field;
+	private ProjectDB project;
 	
   private String dbName = "database"+File.separator+"indexer_server.db";
   private String connectionURL = "jdbc:sqlite:"+dbName;
@@ -33,10 +33,41 @@ public class Database {
     } catch (SQLException e) {
       System.out.println("Could Not Connect");
     }
+    user = new UserDB(this);
+    field = new FieldDB(this);
+    project = new ProjectDB(this);
   }
  
+  /**
+   * 
+   * @return this.connection
+   */
   public Connection getConnection(){
   	return this.connection;
+  }
+  
+  /**
+   * Gets the UserDB object.
+   * @return this.user;
+   */
+  public UserDB getUserDB() {
+  	return this.user;
+  }
+  
+  /**
+   * Gets the FieldDB object
+   * @return this.user;
+   */
+  public FieldDB getFieldDB(){
+  	return this.field;
+  }
+  
+  /**
+   * Gets this ProjectDB object
+   * @return this.project;
+   */
+  public ProjectDB getProjectDB() {
+  	return this.project;
   }
   /**
    * This will close the database connection opened in the constructor
@@ -49,5 +80,31 @@ public class Database {
       e.printStackTrace();
     }
   } 
+  /**
+   * @throws ServerException
+   */
+	public void startTransaction() throws ServerException {
+		
+		//logger.entering("server.database.Database", "startTransaction");
+		
+		// TODO: Open a connection to the database and start a transaction
+		//logger.fine("TODO: Open a connection to the database and start a transaction");
+		
+		//logger.exiting("server.database.Database", "startTransaction");
+	}
+	
+	/**
+	 * 
+	 * @param commit
+	 */
+	public void endTransaction(boolean commit) {
+		
+		//logger.entering("server.database.Database", "endTransaction");
+		
+		// TODO: Commit or rollback the transaction and close the connection
+		//logger.fine("TODO: Commit or rollback the transaction and close the connection");
+		
+		//logger.exiting("server.database.Database", "endTransaction");
+	}
 
 } 

@@ -19,6 +19,7 @@ public class Project {
 	}
 
 	/**
+	 * Gets the project id
 	 * @return the id
 	 */
 	public int getId() {
@@ -26,6 +27,7 @@ public class Project {
 	}
 
 	/**
+	 * Sets the project id
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
@@ -33,6 +35,7 @@ public class Project {
 	}
 
 	/**
+	 * Returns the project title
 	 * @return the title
 	 */
 	public String getTitle() {
@@ -40,6 +43,7 @@ public class Project {
 	}
 
 	/**
+	 * Sets the title of the project
 	 * @param title the title to set
 	 */
 	public void setTitle(String title) {
@@ -47,6 +51,7 @@ public class Project {
 	}
 
 	/**
+	 * Gets the number of records per image for the project
 	 * @return the recordsPerImage
 	 */
 	public int getRecordsPerImage() {
@@ -54,6 +59,7 @@ public class Project {
 	}
 
 	/**
+	 * Sets the number of records per image for the project
 	 * @param recordsPerImage the recordsPerImage to set
 	 */
 	public void setRecordsPerImage(int recordsPerImage) {
@@ -61,6 +67,7 @@ public class Project {
 	}
 
 	/**
+	 * Gets the first Y coordinate 
 	 * @return the firstYCoord
 	 */
 	public int getFirstYCoord() {
@@ -68,6 +75,7 @@ public class Project {
 	}
 
 	/**
+	 * Sets the first Y coordinate
 	 * @param firstYCoord the firstYCoord to set
 	 */
 	public void setFirstYCoord(int firstYCoord) {
@@ -75,6 +83,7 @@ public class Project {
 	}
 
 	/**
+	 * Gets the record height;
 	 * @return the recordHeight
 	 */
 	public int getRecordHeight() {
@@ -82,6 +91,7 @@ public class Project {
 	}
 
 	/**
+	 * Sets the record height;
 	 * @param recordHeight the recordHeight to set
 	 */
 	public void setRecordHeight(int recordHeight) {
