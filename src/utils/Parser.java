@@ -10,8 +10,10 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
+import server.database.Database;
 import server.database.UserDB;
 import shared.model.User;
+
 
 /**
  * 
@@ -34,6 +36,7 @@ public class Parser{
    */
   public void parse(File xml) {
     try {
+    	Database db = new Database();
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
       Document doc = dBuilder.parse(xml);
@@ -59,8 +62,9 @@ public class Parser{
           user.setLastName(lastName);
           user.setEmail(email);
           user.setIndexedRecords(indexedRecords);
-          UserDB db = new UserDB();
-          db.add(user);
+          
+          UserDB ub  = new UserDB(db);
+          ub.add(user);
           //DbConn con = new DbConn();
           //con.insertUser(username, password, firstName, lastName, email, indexedRecords);
         }
