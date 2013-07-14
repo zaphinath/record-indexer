@@ -49,7 +49,7 @@ public class ClientCommunicator {
 	 * @param username
 	 * @param password
 	 * @param projectID
-	 * @return 
+	 * @return String of batch information
 	 */
 	public String downloadBatch(String username, String password, int projectID) {
 		return null;
@@ -76,7 +76,7 @@ public class ClientCommunicator {
 	 * @param username
 	 * @param password
 	 * @param projectID
-	 * @return
+	 * @return string of fields
 	 */
 	public String getFields(String username, String password, int projectID) {
 		return null;
@@ -105,7 +105,7 @@ public class ClientCommunicator {
 	 * @param password
 	 * @param fields
 	 * @param searchValues
-	 * @return
+	 * @return string of search results
 	 */
 	public String search(String username, String password, String fields, String searchValues) {
 		return null;

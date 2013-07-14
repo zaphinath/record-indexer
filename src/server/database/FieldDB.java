@@ -22,7 +22,7 @@ public class FieldDB {
 	
 	/**
 	 * Queries the database for all fields and returns them in a list
-	 * @return
+	 * @return List of fields
 	 * @throws ServerException
 	 */
 	public List<Field> getall() throws ServerException {
