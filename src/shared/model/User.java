@@ -18,7 +18,7 @@ public class User {
   private int indexedRecords;
 
 /*
- * Class constructor
+ * Class constructor 
  */
   public User() {
 	  this.id = -1;

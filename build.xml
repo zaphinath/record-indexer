@@ -120,14 +120,21 @@
 	</target>
 	
 	<target name="server-tests" depends="compile" description="run automated server tests">
-		<java classname="server.ServerUnitTests" fork="yes">
+		<!--<java classname="server.ServerUnitTests" fork="yes">
 			<classpath>
 				<path refid="all-classpath"/>
 			</classpath>
 			<assertions>
 				<enable/>
 			</assertions>
-		</java>
+		</java>-->
+    <junit haltonfailure="true" printsummary="true">
+      <classpath>
+				<path refid="all-classpath"/>
+      </classpath>
+      <test name="shared.model.UserTest" />
+      <test name="shared.model.ProjectTest" />
+    </junit>
 	</target>
 	
 	

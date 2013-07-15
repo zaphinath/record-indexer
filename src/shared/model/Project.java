@@ -14,8 +14,31 @@ public class Project {
 	private int firstYCoord;
 	private int recordHeight;
 	
+	/**
+	 * Default Class Constructor
+	 */
 	public Project() {
-		
+		this.id = -1;
+		this.title = null;
+		this.recordsPerImage = -1;
+		this.firstYCoord = -1;
+		this.recordHeight = -1;
+	}
+	
+	/**
+	 * Constructor with params
+	 * @param id
+	 * @param title
+	 * @param recordsPerImage
+	 * @param firstYCoord
+	 * @param recordHeight
+	 */
+	public Project(int id, String title, int recordsPerImage, int firstYCoord, int recordHeight) {
+		this.id = id;
+		this.title = title;
+		this.recordsPerImage = recordsPerImage;
+		this.firstYCoord = firstYCoord;
+		this.recordHeight = recordHeight;
 	}
 
 	/**
