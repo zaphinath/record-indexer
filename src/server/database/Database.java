@@ -22,7 +22,8 @@ public class Database {
 	private FieldDB field;
 	private ProjectDB project;
 	
-  private String dbName = "database"+File.separator+"indexer_server.db";
+	private String dbFile = "indexer_server.db";
+  private String dbName = "database"+File.separator+dbFile;
   private String connectionURL = "jdbc:sqlite:"+dbName;
   
   private final static String driver = "org.sqlite.JDBC";
@@ -42,10 +43,20 @@ public class Database {
    * @throws ServerException
  * @throws ClassNotFoundException 
    */
-  public static void initialize() throws ServerException, ClassNotFoundException, SQLException {
-  	logger.entering("server.database.Database","initialize");
+  public static void initialize() throws ServerException, ClassNotFoundException {
+  	//logger.entering("server.database.Database","initialize");
   	Class.forName(driver);
-    logger.exiting("server.database.Database", "initialize");
+    //logger.exiting("server.database.Database", "initialize");
+  }
+  
+  /**
+   * This sets the database file if it needs to be different
+   * I.E. Use this when running unit tests to use a clean database 
+   * that gets copied by ant
+   * @param db
+   */
+  public void setDbFile(String db) {
+  	this.dbFile = db;
   }
   
   /**
@@ -79,17 +90,8 @@ public class Database {
   public ProjectDB getProjectDB() {
   	return this.project;
   }
-  /**
-   * This will close the database connection opened in the constructor
-   * This should be called evertyime a DbConn object is initialized 
-   */
-  public void close() {
-    try {
-      connection.close();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  } 
+  
+
   /**
    * Starts a database transaction without auto-commit 
    * @throws ServerException
@@ -99,8 +101,9 @@ public class Database {
 		//logger.entering("server.database.Database", "startTransaction");
 		
 		// TODO: Open a connection to the database and start a transaction
-		try {
+		try { 
 			connection = DriverManager.getConnection(connectionURL);
+			System.out.println(this.connectionURL);
 			connection.setAutoCommit(false);
 		} catch (SQLException e) { e.printStackTrace(); }
 		//logger.fine("TODO: Open a connection to the database and start a transaction");

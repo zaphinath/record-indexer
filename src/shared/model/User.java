@@ -36,8 +36,8 @@ public class User {
    * @param id
    * @param username
    * @param password
-   * @param lastName
    * @param firstName
+   * @param lastName
    * @param Email
    * @param indexedRecords
    */
