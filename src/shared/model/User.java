@@ -21,9 +21,44 @@ public class User {
  * Class constructor
  */
   public User() {
-
+	  this.id = -1;
+	  this.username = null;
+	  this.password = null;
+	  this.nameFirst = null;
+	  this.nameLast = null;
+	  this.email = null;
+	  this.openImage = null;
+	  this.indexedRecords = -1;
+  }
+  
+  /**
+   * Class Constructor with params
+   * @param id
+   * @param username
+   * @param password
+   * @param lastName
+   * @param firstName
+   * @param Email
+   * @param indexedRecords
+   */
+  public User(int id, String username, String password, String lastName, String firstName, String email, int indexedRecords) {
+	  this.id = id;
+	  this.username = username;
+	  this.password = password;
+	  this.nameLast = lastName;
+	  this.nameFirst = firstName;
+	  this.email = email;
+	  this.indexedRecords = indexedRecords;
   }
 
+  /**
+   * This sets the id
+   * @param id The ID
+   */
+  public void setID(int id) {
+	  this.id = id;
+  }
+  
   /**
    * This sets the username
    * @param user username
