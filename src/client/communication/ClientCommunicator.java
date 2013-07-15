@@ -3,6 +3,9 @@
  */
 package client.communication;
 
+import shared.communication.*;
+import client.ClientException;
+
 /**
  * @author zaphinath
  *
@@ -11,33 +14,33 @@ public class ClientCommunicator {
 	
 	/**
 	 * Validates the users login credentials 
-	 * @param username
-	 * @param password
-	 * @return true if the user exists in the database
+	 * @param params The validate user params will contain the username and password
+	 * @return ValidateUser_Result
+	 * @throws ClientException if it fails for any reason other than non authentication
 	 */
-	public boolean validateUser(String username, String password) {
-			return true;
+	public ValidateUser_Result validateUser(ValidateUser_Params params) throws ClientException{
+			doPost("/ValidateUser", params);
+			return null;
 	}
 	
 	/**
 	 * Returns information about available Projects
-	 * @param password
-	 * @param username
+	 * @param params A GetProject_Params object
+	 * @return GetProjects_Result 
+	 * 
+	 * @throws ClientException if it fails for any reason
 	 */
-	public void getProjects(String password, String username) {
-		
+	public GetProjects_Result getProjects(GetProjects_Params params) throws ClientException {
+		return null;
 	}
 	
 	/**
 	 * Returns a sample image for the project
-	 * @param username
-	 * @param password
-	 * @param projectID
-	 * @return The image URL else false if it fails for any reason
+	 * @param params GetSampleImage_Params 
+	 * @return GetSampleImage_Result The image URL else false if it fails for any reason
 	 */
-	public String getSampleImage(String username, String password, int projectID) {
-		String build = null;
-		return build;
+	public GetSampleImage_Result getSampleImage(GetSampleImage_Params params) throws ClientException {
+		return null;
 	}
 	
 	/**
@@ -46,39 +49,36 @@ public class ClientCommunicator {
 	 * Server should not return batches that are already assigned to another user.
 	 * If the user already has a batch assigned to them, this operation should fail 
 	 * (i.e., a user is not allowed to have multiple batches assigned to them at the same time)
-	 * @param username
-	 * @param password
-	 * @param projectID
-	 * @return String of batch information
+	 * @param params
+	 * @return DownloadBatch_Result Result of batch information
+	 * 
+	 * @throws ClientException
 	 */
-	public String downloadBatch(String username, String password, int projectID) {
+	public DownloadBatch_Result downloadBatch(DownloadBatch_Params params) throws ClientException{
 		return null;
-		
 	}
 	
 	/**
 	 * Submits the indexed record field values for a batch to the Server
 	 * Server unassigns user from submitted batch
 	 * Server increments total number of records indexed by the user
-	 * @param username
-	 * @param password
-	 * @param batch
-	 * @param recordValues
-	 * @return true if operation succeeds else false fails for any reason
+	 * @param params SubmitBatch_Params "String username, String password, int batch, String recordValues"
+	 * @return SubmitBatch_Result True if operation succeeds else false fails for any reason
+	 * @throws ClientException if fails for any reason
 	 */
-	public boolean submitBatch(String username, String password, int batch, String recordValues) {
-		return true;
+	public SubmitBatch_Result submitBatch(SubmitBatch_Params params) throws ClientException{
+		return null;
 	}
 	
 	/**
 	 * Returns information about all of the fields for the specified project
 	 * If no project is specified, returns information about all of the fields for all projects in the system
-	 * @param username
-	 * @param password
-	 * @param projectID
-	 * @return string of fields
+	 * @param params GetFields_Params "String username, String password, int projectID"
+	 * @return GetFields_Result 
+	 * 
+	 * @throws ClientException
 	 */
-	public String getFields(String username, String password, int projectID) {
+	public GetFields_Result getFields(GetFields_Params params) throws ClientException {
 		return null;
 	}
 	
@@ -101,15 +101,36 @@ public class ClientCommunicator {
 	 * Intuitively, Search works by OR-ing the requirements together. 
 	 * For example, if the user searches fields 1, 7 for values "a", "b", "c", 
 	 * the result contains all matches for which the field is 1 OR 7 and the value is "a" OR "b" OR "c".
-	 * @param username
-	 * @param password
-	 * @param fields
-	 * @param searchValues
-	 * @return string of search results
+	 * @param params Search_Params "String username, String password, String fields, String searchValues"
+	 * @return Search_Result search results
+	 * 
+	 * @throws ClientException
 	 */
-	public String search(String username, String password, String fields, String searchValues) {
+	public Search_Result search(Search_Params params) throws ClientException {
 		return null;
 	}
 	
+	/**
+	 * Make HTTP GET request to the specified URL
+	 * and return the object returned by the server
+	 * @param urlPath
+	 * @return HTTP Get Object
+	 * @throws ClientException
+	 */
+	private Object doGet(String urlPath) throws ClientException {
+		return null;
+	}
+	
+	/**
+	 * Make HTTP POST request to the specified URL
+	 * passing in the specified postData object
+	 * @param urlPath
+	 * @param postData
+	 * @throws ClientException
+	 */
+	private void doPost(String urlPath, Object postData) throws ClientException {
+		
+		
+	}
 	
 }
