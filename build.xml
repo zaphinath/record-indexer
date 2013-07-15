@@ -22,6 +22,7 @@
 	<property name="db-file" location="${database}/indexer_server.db"/>
 	<!-- Database file containing empty tables. -->
 	<property name="empty-db-file" location="${database}/indexer_server_empty.db"/>
+	<property name="test-db-file" location="${database}/indexer_server_test.db"/>
 	<!-- File containing the report output by Checkstyle -->
 	<property name="checkstyle-report-file" location="checkstyle-report.txt"/>
   <property name="doc" location="doc/" />
@@ -120,6 +121,7 @@
 	</target>
 	
 	<target name="server-tests" depends="compile" description="run automated server tests">
+		<copy file="${empty-db-file}" tofile="${test-db-file}" overwrite="true"/>
 		<!--<java classname="server.ServerUnitTests" fork="yes">
 			<classpath>
 				<path refid="all-classpath"/>

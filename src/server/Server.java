@@ -2,6 +2,7 @@ package server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.sql.SQLException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -64,7 +65,7 @@ public class Server {
 		return;
 	}
 	
-	private void run() {
+	private void run() throws ClassNotFoundException, SQLException {
 		
 		logger.info("Initializing Database");
 		
@@ -164,8 +165,10 @@ public class Server {
 	/**
 	 * Starts the server
 	 * @param args
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		new Server().run();
 	}
 	

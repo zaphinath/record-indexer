@@ -2,7 +2,7 @@
 drop table if exists users;
 drop table if exists projects;
 drop table if exists fields;
-drop table if exists images;
+drop table if exists batches;
 drop table if exists records;
 drop table if exists record_values;
 

@@ -33,7 +33,7 @@ public class UserTest {
 	@Before
 	public void setUp() throws Exception {
 		userDefault = new User();
-		userParams = new User(id, username, password, lastName, firstName, email, indexedRecords);
+		userParams = new User(id, username, password, firstName, lastName, email, indexedRecords);
 	}
 
 	/**

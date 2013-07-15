@@ -41,7 +41,7 @@ public class User {
    * @param Email
    * @param indexedRecords
    */
-  public User(int id, String username, String password, String lastName, String firstName, String email, int indexedRecords) {
+  public User(int id, String username, String password, String firstName, String lastName, String email, int indexedRecords) {
 	  this.id = id;
 	  this.username = username;
 	  this.password = password;

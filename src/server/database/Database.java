@@ -24,17 +24,14 @@ public class Database {
 	
   private String dbName = "database"+File.separator+"indexer_server.db";
   private String connectionURL = "jdbc:sqlite:"+dbName;
+  
+  private final static String driver = "org.sqlite.JDBC";
 
   private Connection connection = null;
   /**
    * Class constructor
    */
   public Database() {
-  	 try {
-       connection = DriverManager.getConnection(connectionURL);
-     } catch (SQLException e) {
-       System.out.println("Could Not Connect");
-     }
     user = new UserDB(this);
     field = new FieldDB(this);
     project = new ProjectDB(this);
@@ -43,15 +40,16 @@ public class Database {
   /**
    * Loads the SQLLite database driver
    * @throws ServerException
+ * @throws ClassNotFoundException 
    */
-  public static void initialize() throws ServerException {
+  public static void initialize() throws ServerException, ClassNotFoundException, SQLException {
   	logger.entering("server.database.Database","initialize");
-   //TODO Load the SQLLite database driver
+  	Class.forName(driver);
     logger.exiting("server.database.Database", "initialize");
   }
   
   /**
-   * 
+   * Gets the database connection
    * @return this.connection
    */
   public Connection getConnection(){
@@ -93,6 +91,7 @@ public class Database {
     }
   } 
   /**
+   * Starts a database transaction without auto-commit 
    * @throws ServerException
    */
 	public void startTransaction() throws ServerException {
@@ -100,20 +99,36 @@ public class Database {
 		//logger.entering("server.database.Database", "startTransaction");
 		
 		// TODO: Open a connection to the database and start a transaction
+		try {
+			connection = DriverManager.getConnection(connectionURL);
+			connection.setAutoCommit(false);
+		} catch (SQLException e) { e.printStackTrace(); }
 		//logger.fine("TODO: Open a connection to the database and start a transaction");
 		
 		//logger.exiting("server.database.Database", "startTransaction");
 	}
 	
 	/**
-	 * 
+	 * Ends a database transaction
 	 * @param commit
+	 * @throws SQLException 
 	 */
-	public void endTransaction(boolean commit) {
+	public void endTransaction(boolean commit) throws SQLException {
 		
 		//logger.entering("server.database.Database", "endTransaction");
 		
 		// TODO: Commit or rollback the transaction and close the connection
+		try {
+			if (commit == true) {
+				connection.commit();
+			} else {
+				connection.rollback();
+			}
+		} 
+		catch (SQLException e) { e.printStackTrace(); }
+		finally { connection.close();}
+		
+		connection = null;
 		//logger.fine("TODO: Commit or rollback the transaction and close the connection");
 		
 		//logger.exiting("server.database.Database", "endTransaction");

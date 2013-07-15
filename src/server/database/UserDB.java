@@ -45,10 +45,11 @@ public class UserDB {
    * 
    * @throws ServerException
    */
-  public void add(User user) throws ServerException, SQLException  {
+  public User add(User user) throws ServerException, SQLException  {
 	  PreparedStatement stmt = null;
 	  Statement keyStmt = null;
 	  ResultSet keyRS = null;
+	  User returnUser = null;
 	  try {
 	    String sql = "INSERT INTO users (username, password, name_first, name_last, email, indexed) VALUES(?, ?, ?, ?, ?, ?)";
 	    stmt = db.getConnection().prepareStatement(sql);
@@ -58,7 +59,14 @@ public class UserDB {
 	    stmt.setString(4, user.getLastName());
 	    stmt.setString(5, user.getEmail());
 	    stmt.setInt(6, user.getIndexedRecords());
-	    if (stmt.executeUpdate() == 1) {
+	    if (stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS) == 1) {
+	    	ResultSet rs = stmt.getGeneratedKeys();
+	    	int userId = -1;
+	    	while(rs.next()) {
+	    		userId = rs.getInt(1);
+	    		
+	    	}
+	    	returnUser = new User(userId, user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getIndexedRecords());
 	    } else {
 	      System.out.println("Insert user failed");
 	    }
@@ -69,6 +77,7 @@ public class UserDB {
 	    if (keyRS != null) keyRS.close();
 	    if (keyStmt != null) keyStmt.close();
 	  }
+	  return returnUser;
   }
 
   /**
@@ -76,9 +85,33 @@ public class UserDB {
    * @param user The User to be updated
    *
    * @throws ServerException
+ * @throws SQLException 
    */
-  public void update(User user) throws ServerException {
-
+  public void update(User user) throws ServerException, SQLException {
+	  PreparedStatement stmt = null;
+	  Statement keyStmt = null;
+	  ResultSet keyRS = null;
+	  try {
+		  String sql = "UPDATE users set username = ?, password = ?, name_first = ?, name_last = ?, email = ?, indexed = ? where id = ?";
+		  stmt = db.getConnection().prepareStatement(sql);
+		  stmt.setString(1, user.getUsername());
+		  stmt.setString(2, user.getPassword());
+		  stmt.setString(3, user.getFirstName());
+		  stmt.setString(4, user.getLastName());
+		  stmt.setString(5, user.getEmail());
+		  stmt.setInt(6, user.getIndexedRecords());
+		  stmt.setInt(7, user.getID());
+		  if (stmt.executeUpdate(sql) == 1) {
+			  System.out.println("SUCCESS");
+		  } else {
+			  System.out.println("UPDATE failed");
+		  }
+	  } catch (SQLException e) { e.printStackTrace(); }
+	  finally {
+		  if (stmt != null) stmt.close();
+		  if (keyRS != null) keyRS.close();
+		  if (keyStmt != null) keyStmt.close();
+	  }
   }
   
   /**
