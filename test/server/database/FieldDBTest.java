@@ -16,7 +16,6 @@ import org.junit.Test;
 
 import server.ServerException;
 import shared.model.Field;
-import shared.model.Project;
 
 /**
  * @author Derek Carr
