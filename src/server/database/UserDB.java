@@ -85,7 +85,6 @@ public class UserDB {
 	    stmt.setString(5, user.getEmail());
 	    stmt.setInt(6, user.getIndexedRecords());
 	    if (stmt.executeUpdate() == 1) {
-	    	System.out.println("INSERT HERE:");
 	    	keyStmt = db.getConnection().createStatement();
 	    	keyRS = keyStmt.executeQuery("SELECT last_insert_rowid()");
 	    	keyRS.next();
@@ -95,7 +94,7 @@ public class UserDB {
 	      System.out.println("Insert user failed");
 	    }
 	  } catch (SQLException e) {
-	    e.printStackTrace();
+	    //e.printStackTrace();
 	  } finally {
 	    if (stmt != null) stmt.close();
 	    if (keyRS != null) keyRS.close();
@@ -116,7 +115,7 @@ public class UserDB {
 	  Statement keyStmt = null;
 	  ResultSet keyRS = null;
 	  try {
-		  String sql = "UPDATE users set username = ?, password = ?, name_first = ?, name_last = ?, email = ?, indexed_records = ? where id = ?";
+		  String sql = "UPDATE users SET username = ?, password = ?, name_first = ?, name_last = ?, email = ?, indexed_records = ? where id = ?";
 		  stmt = db.getConnection().prepareStatement(sql);
 		  stmt.setString(1, user.getUsername());
 		  stmt.setString(2, user.getPassword());
@@ -125,7 +124,7 @@ public class UserDB {
 		  stmt.setString(5, user.getEmail());
 		  stmt.setInt(6, user.getIndexedRecords());
 		  stmt.setInt(7, user.getID());
-		  if (stmt.executeUpdate(sql) == 1) {
+		  if (stmt.executeUpdate() == 1) {
 			  System.out.println("SUCCESS");
 		  } else {
 			  System.out.println("UPDATE failed");

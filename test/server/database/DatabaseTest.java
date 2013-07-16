@@ -29,10 +29,9 @@ public class DatabaseTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		Database db = new Database();
-		db.setDbFile("indexer_server_test.db");
+		Database db = new Database("indexer_server_test.db");
 		db.startTransaction();
-		
+		db.endTransaction(true);
 		
 	}
 
@@ -41,7 +40,7 @@ public class DatabaseTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		db.endTransaction(true);
+		
 	}
 
 	@Test
