@@ -21,6 +21,8 @@ public class Database {
 	private UserDB user;
 	private FieldDB field;
 	private ProjectDB project;
+	private BatchDB batch;
+	private RecordValueDB recordValue;
 	
 	private static String dbFile = "indexer_server.db";
   private static String dbName = "database"+File.separator+dbFile;
@@ -36,6 +38,8 @@ public class Database {
     user = new UserDB(this);
     field = new FieldDB(this);
     project = new ProjectDB(this);
+    batch = new BatchDB(this);
+    recordValue = new RecordValueDB(this);
   }
   
   /**
@@ -49,6 +53,8 @@ public class Database {
   	user = new UserDB(this);
     field = new FieldDB(this);
     project = new ProjectDB(this);
+    batch = new BatchDB(this);
+    recordValue = new RecordValueDB(this);
   }
  
   /**
@@ -95,7 +101,18 @@ public class Database {
   	return this.project;
   }
   
-
+  /**
+   * Gets this BatchDB object
+   * @return Batch
+   */
+  public BatchDB getBatchDB() {
+  	return this.batch;
+  }
+  
+  public RecordValueDB getRecordValueDB(){
+  	return this.recordValue;
+  }
+  
   /**
    * Starts a database transaction without auto-commit 
    * @throws ServerException

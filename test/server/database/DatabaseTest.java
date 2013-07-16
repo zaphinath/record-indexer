@@ -3,8 +3,6 @@
  */
 package server.database;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -46,7 +44,6 @@ public class DatabaseTest {
 	@Test
 	public void setUP() throws Exception {
 
-		
 	}
 
 }

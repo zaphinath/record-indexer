@@ -1,4 +1,6 @@
 build
+bin
 .classpath
 .project
+log.txt
 

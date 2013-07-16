@@ -19,7 +19,30 @@ public class Field {
    * Class Constructor 
    */
   public Field() {
-	  
+  	this.id = -1;
+  	title = null;
+  	xcoord = -1;
+  	width = -1;
+  	htmlHelp = null;
+	  knownData = null;
+  }
+  
+  /**
+   * Class constructor with params
+   * @param id
+   * @param title
+   * @param xcoord
+   * @param width
+   * @param htmlHelp
+   * @param knownData
+   */
+  public Field(int id, String title, int xcoord, int width, String htmlHelp, String knownData) {
+  	this.id = id;
+  	this.title = title;
+  	this.xcoord = xcoord;
+  	this.width = width;
+  	this.htmlHelp = htmlHelp;
+  	this.knownData = knownData;
   }
 
   /**

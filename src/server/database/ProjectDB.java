@@ -152,7 +152,7 @@ public class ProjectDB {
 			e.printStackTrace();
 		} finally {
 			if (stmt != null) stmt.close();
-	  if (rs != null) rs.close();
+			if (rs != null) rs.close();
 		}
 	}
 }
