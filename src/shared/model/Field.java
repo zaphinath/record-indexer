@@ -9,6 +9,7 @@ package shared.model;
 public class Field {
 
   private int id;
+  private int projectId;
   private String title;
   private int xcoord;
   private int width;
@@ -20,24 +21,27 @@ public class Field {
    */
   public Field() {
   	this.id = -1;
-  	title = null;
-  	xcoord = -1;
-  	width = -1;
-  	htmlHelp = null;
-	  knownData = null;
+  	this.projectId = -1;
+  	this.title = null;
+  	this.xcoord = -1;
+  	this.width = -1;
+  	this.htmlHelp = null;
+	  this.knownData = null;
   }
   
   /**
    * Class constructor with params
    * @param id
+   * @param projectId
    * @param title
    * @param xcoord
    * @param width
    * @param htmlHelp
    * @param knownData
    */
-  public Field(int id, String title, int xcoord, int width, String htmlHelp, String knownData) {
+  public Field(int id, int projectId, String title, int xcoord, int width, String htmlHelp, String knownData) {
   	this.id = id;
+  	this.projectId = projectId;
   	this.title = title;
   	this.xcoord = xcoord;
   	this.width = width;
@@ -51,6 +55,20 @@ public class Field {
    */
 	public int getId() {
 		return this.id;
+	}
+
+	/**
+	 * @return the projectId
+	 */
+	public int getProjectId() {
+		return projectId;
+	}
+
+	/**
+	 * @param projectId the projectId to set
+	 */
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
 	}
 
 	/**

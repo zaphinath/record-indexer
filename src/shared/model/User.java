@@ -38,7 +38,7 @@ public class User {
    * @param password
    * @param firstName
    * @param lastName
-   * @param Email
+   * @param email
    * @param indexedRecords
    */
   public User(int id, String username, String password, String firstName, String lastName, String email, int indexedRecords) {

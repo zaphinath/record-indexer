@@ -6,8 +6,6 @@ package server.database;
 import static org.junit.Assert.*;
 import shared.model.Project;
 import server.ServerException;
-import server.database.*;
-
 import java.sql.SQLException;
 import java.util.List;
 
