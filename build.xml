@@ -140,6 +140,7 @@
       <test name="server.database.UserDBTest" />
       <test name="server.database.ProjectDBTest" />
       <test name="server.database.FieldDBTest" />
+      <test name="server.database.BatchDBTest" />
     </junit>
 	</target>
 	
