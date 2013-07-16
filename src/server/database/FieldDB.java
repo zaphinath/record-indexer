@@ -9,8 +9,7 @@ import java.util.List;
 
 import server.ServerException;
 import shared.model.Field;
-import shared.model.Project;
-import shared.model.RecordValue;
+
 
 /**
  * @author zaphinath
@@ -34,7 +33,7 @@ public class FieldDB {
 	 * @throws ServerException
 	 * @throws SQLException 
 	 */
-	public List<Field> getall() throws ServerException, SQLException {
+	public List<Field> getAll() throws ServerException, SQLException {
 		ArrayList<Field> projectList = new ArrayList<Field>();
 		PreparedStatement stmt = null;
     ResultSet rs = null;
@@ -46,12 +45,12 @@ public class FieldDB {
     	while (rs.next()) {
     		int id = rs.getInt(1);
     		int projectId = rs.getInt(2);
-    		String value = rs.getString(3);
+    		String title = rs.getString(3);
     		int xCoord = rs.getInt(4);
     		int width = rs.getInt(5);
     		String helpHtml = rs.getString(6);
     		String knownData = rs.getString(7);
-    		Field recordField = new Field(id, projectId, value, xCoord, width, helpHtml, knownData);
+    		Field recordField = new Field(id, projectId, title, xCoord, width, helpHtml, knownData);
     		projectList.add(recordField);
     	}
     } catch (SQLException e) {
@@ -110,31 +109,31 @@ public class FieldDB {
 	 * @throws SQLException 
 	 */
 	public void update(Field field) throws ServerException, SQLException {
-		 PreparedStatement stmt = null;
-		  Statement keyStmt = null;
-		  ResultSet keyRS = null;
-		  try {
-			  String sql = "UPDATE fields SET project_id = ? title = ?, xcoord = ?, "+
-			  						 "width = ?, help_html = ?, known_data = ? where id = ?";
-			  stmt = db.getConnection().prepareStatement(sql);
-			  stmt.setInt(1, field.getProjectId());
-			  stmt.setString(2, field.getTitle());
-			  stmt.setInt(3, field.getXcoord());
-			  stmt.setInt(4, field.getWidth());
-			  stmt.setString(5, field.getHtmlHelp());
-			  stmt.setString(6, field.getKnownData());
-			  stmt.setInt(7, field.getId());
-			  if (stmt.executeUpdate() == 1) {
-				  System.out.println("SUCCESS");
-			  } else {
-				  System.out.println("UPDATE failed");
-			  }
-		  } catch (SQLException e) { e.printStackTrace(); }
-		  finally {
-			  if (stmt != null) stmt.close();
-			  if (keyRS != null) keyRS.close();
-			  if (keyStmt != null) keyStmt.close();
+	 	PreparedStatement stmt = null;
+	  Statement keyStmt = null;
+	  ResultSet keyRS = null;
+	  try {
+		  String sql = "UPDATE fields SET project_id = ?, title = ?, xcoord = ?, "+
+		  						 "width = ?, help_html = ?, known_data = ? where id = ?";
+		  stmt = db.getConnection().prepareStatement(sql);
+		  stmt.setInt(1, field.getProjectId());
+		  stmt.setString(2, field.getTitle());
+		  stmt.setInt(3, field.getXcoord());
+		  stmt.setInt(4, field.getWidth());
+		  stmt.setString(5, field.getHtmlHelp());
+		  stmt.setString(6, field.getKnownData());
+		  stmt.setInt(7, field.getId());
+		  if (stmt.executeUpdate() == 1) {
+			  System.out.println("SUCCESS");
+		  } else {
+			  System.out.println("UPDATE failed");
 		  }
+	  } catch (SQLException e) { e.printStackTrace(); }
+	  finally {
+		  if (stmt != null) stmt.close();
+		  if (keyRS != null) keyRS.close();
+		  if (keyStmt != null) keyStmt.close();
+	  }
 	}
 	
 	/**

@@ -139,6 +139,7 @@
       <test name="shared.model.FieldTest" />
       <test name="server.database.UserDBTest" />
       <test name="server.database.ProjectDBTest" />
+      <test name="server.database.FieldDBTest" />
     </junit>
 	</target>
 	
