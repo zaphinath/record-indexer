@@ -136,6 +136,7 @@
       </classpath>
       <test name="shared.model.UserTest" />
       <test name="shared.model.ProjectTest" />
+      <test name="shared.model.FieldTest" />
       <test name="server.database.UserDBTest" />
       <test name="server.database.ProjectDBTest" />
     </junit>

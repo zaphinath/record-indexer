@@ -3,7 +3,6 @@ package server.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 import java.io.File;
 
 import server.ServerException;
@@ -16,7 +15,7 @@ import server.ServerException;
  */
 
 public class Database {
-  private static Logger logger;
+  //private static Logger logger;
 	
 	private UserDB user;
 	private FieldDB field;
