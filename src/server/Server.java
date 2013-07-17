@@ -22,7 +22,7 @@ import com.sun.net.httpserver.HttpServer;
  */
 public class Server {
 
-	private static final int SERVER_PORT_NUMBER = 8080;
+	private static int PORT = 8080;
 	private static final int MAX_WAITING_CONNECTIONS = 10;
 	
 	private static Logger logger;
@@ -85,7 +85,7 @@ public class Server {
 		logger.info("Initializing HTTP Server");
 		
 		try {
-			server = HttpServer.create(new InetSocketAddress(SERVER_PORT_NUMBER),
+			server = HttpServer.create(new InetSocketAddress(PORT),
 											MAX_WAITING_CONNECTIONS);
 		} 
 		catch (IOException e) {
@@ -100,21 +100,21 @@ public class Server {
 
 		server.setExecutor(null); // use the default executor
 		
-		server.createContext("/GetAllContacts", getAllContactsHandler);
-		server.createContext("/AddContact", addContactHandler);
-		server.createContext("/UpdateContact", updateContactHandler);
-		server.createContext("/DeleteContact", deleteContactHandler);
+		server.createContext("/ValidateUser", validateUserHandler);
+		server.createContext("/GetProjects", getProjectsHandler);
+		server.createContext("/GetSampleProject", getSampleBatchProjectHandler);
+		server.createContext("/DownloadBatch", deleteContactHandler);
 		
 		logger.info("Starting HTTP Server");
 
 		server.start();
 	}
 	
-	private HttpHandler getAllContactsHandler = new HttpHandler() {
+	private HttpHandler validateUserHandler = new HttpHandler() {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			// Process GetAllContacts request
+			// Process ValidateUser request
 
 			// Database db = new Database();
 			// db.startTransaction();
@@ -123,11 +123,11 @@ public class Server {
 		}
 	};
 
-	private HttpHandler addContactHandler = new HttpHandler() {
+	private HttpHandler getProjectsHandler = new HttpHandler() {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			// Process AddContact request
+			// Process GetProjects request
 
 			// Database db = new Database();
 			// db.startTransaction();
@@ -136,11 +136,11 @@ public class Server {
 		}
 	};
 
-	private HttpHandler updateContactHandler = new HttpHandler() {
+	private HttpHandler getSampleBatchProjectHandler = new HttpHandler() {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			// Process UpdateContact request
+			// Process GetSampleBatchProject request
 
 			// Database db = new Database();
 			// db.startTransaction();
@@ -169,6 +169,9 @@ public class Server {
 	 * @throws ClassNotFoundException 
 	 */
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		if (args.length > 0) {
+			PORT = Integer.parseInt(args[0]);
+		}
 		new Server().run();
 	}
 	
