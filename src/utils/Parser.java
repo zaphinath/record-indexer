@@ -17,6 +17,7 @@ import server.database.UserDB;
 import shared.model.Batch;
 import shared.model.Field;
 import shared.model.Project;
+import shared.model.RecordValue;
 import shared.model.User;
 
 
@@ -36,7 +37,6 @@ public class Parser{
    */
   public Parser() {
   	db = new Database();
-  	fieldIds = new ArrayList<Integer>();
   	try {
 			db.initialize();
 		} catch (ClassNotFoundException e) {
@@ -84,20 +84,12 @@ public class Parser{
           db.endTransaction(true);
         }
       }
-
-      NodeList pj = doc.getElementsByTagName("projects");
-      NodeList ps = pj.item(0).getChildNodes();
-      System.out.println("LENGTH: " + ps.getLength());
-      for (int z = 0; z < ps.getLength(); z++) {
-      	System.out.println(ps.item(z).getNodeName());
-      	if (ps.item(z).getNodeName().equalsIgnoreCase("project"))
-      		System.out.println("FOOBURGER");
-      }
       
       NodeList projects = doc.getElementsByTagName("project");
-      fieldIds.clear();
       for (int i = 0; i < users.getLength(); i++) {
+      	fieldIds = new ArrayList<Integer>();
         Node uNode = projects.item(i);
+        Element test = (Element) uNode;
         if (uNode.getNodeType() == Node.ELEMENT_NODE) {
           Element uElement = (Element) uNode;
           Element title = (Element) uElement.getElementsByTagName("title").item(0);
@@ -115,21 +107,28 @@ public class Parser{
           int projectId = project.getId();
         	
           
-          NodeList fields = doc.getElementsByTagName("field");
+          NodeList fields = uElement.getElementsByTagName("field");
         	for (int j = 0; j < fields.getLength(); j++) {
-        		Node fNode = projects.item(i);
+        		Node fNode = fields.item(j);
             if (fNode.getNodeType() == Node.ELEMENT_NODE) {
               Element fElement = (Element) fNode;
               Element titleF = (Element) fElement.getElementsByTagName("title").item(0);
               Element xcoord = (Element) fElement.getElementsByTagName("xcoord").item(0);
               Element width = (Element) fElement.getElementsByTagName("width").item(0);
               Element helpHtml = (Element) fElement.getElementsByTagName("helphtml").item(0);
-              Element knownData = (Element) fElement.getElementsByTagName("knowndata").item(0);
+              Element knownData;
+              String kData;
+              if (fElement.getElementsByTagName("knowndata").item(0) != null) {
+              	knownData = (Element) fElement.getElementsByTagName("knowndata").item(0);
+              	kData = knownData.getTextContent();
+              } else {
+              	kData = null;
+              }
               Field field = new Field(-1, projectId, titleF.getTextContent(),
               		Integer.parseInt(xcoord.getTextContent()), 
               		Integer.parseInt(width.getTextContent()),
               		helpHtml.getTextContent(),
-              		knownData.getTextContent());
+              		kData);
               db.startTransaction();
               field = db.getFieldDB().add(field);
               db.endTransaction(true);
@@ -137,11 +136,11 @@ public class Parser{
               fieldIds.add(fieldId);
             }
           }
+        	//System.out.println(fieldIds.toString());
         	
-        	NodeList images = doc.getElementsByTagName("image");
-        	System.out.println(images.getLength());
+        	NodeList images = uElement.getElementsByTagName("image");
         	for (int k = 0; k < images.getLength(); k++) {
-        		Node iNode = images.item(i);
+        		Node iNode = images.item(k);
             if (iNode.getNodeType() == Node.ELEMENT_NODE) {
               Element iElement = (Element) iNode;
               Element imageFile = (Element) iElement.getElementsByTagName("file").item(0);
@@ -151,6 +150,25 @@ public class Parser{
               db.endTransaction(true);
               int batchId = batch.getId();
               
+              NodeList values = iElement.getElementsByTagName("value");
+              int count = 0;
+              for (int l = 0; l < values.getLength(); l++) {
+              	if (count > fieldIds.size()-1) count = 0;
+              	//System.out.println(values.item(l).getTextContent());
+              	Node valNode = values.item(l);
+              	if (valNode.getNodeType() == Node.ELEMENT_NODE) {
+              		Element val = (Element) valNode;
+              		//Element val = (Element) x.getElementsByTagName("value");
+              		//System.out.println("COUNT: " + count);
+              		RecordValue recordValue = new RecordValue(-1, batchId,
+              				fieldIds.get(count), val.getTextContent());
+              		db.startTransaction();
+              		recordValue = db.getRecordValueDB().addRecordValue(recordValue);
+              		db.endTransaction(true);
+              		count++;
+              		
+              	}
+              }
             }
         	}
         }
