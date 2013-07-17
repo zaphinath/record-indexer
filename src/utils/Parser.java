@@ -10,6 +10,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
+import server.ServerException;
 import server.database.Database;
 import server.database.UserDB;
 import shared.model.User;
@@ -23,11 +24,19 @@ import shared.model.User;
 
 public class Parser{
 
+	private Database db;
+	
   /** 
    * Constructor
    */
   public Parser() {
-
+  	db = new Database();
+  	try {
+			db.initialize();
+		} catch (ClassNotFoundException | ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
   }
   /**
    * This takes a record-indexer.xml and parses the values out of it
@@ -61,12 +70,9 @@ public class Parser{
           user.setFirstName(firstName);
           user.setLastName(lastName);
           user.setEmail(email);
-          //user.setIndexedRecords(indexedRecords);
-          
-          UserDB ub  = new UserDB(db);
-          ub.add(user);
-          //DbConn con = new DbConn();
-          //con.insertUser(username, password, firstName, lastName, email, indexedRecords);
+          db.startTransaction();
+          db.getUserDB().add(user);
+          db.endTransaction(true);
         }
       }
 
