@@ -1,6 +1,10 @@
 package utils;
 
+
 import java.io.File;
+import java.io.FileWriter;
+
+import org.apache.commons.io.*;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,7 +17,6 @@ import org.w3c.dom.Element;
 
 import server.ServerException;
 import server.database.Database;
-import server.database.UserDB;
 import shared.model.Batch;
 import shared.model.Field;
 import shared.model.Project;
@@ -36,13 +39,14 @@ public class Parser{
    * Constructor
    */
   public Parser() {
-  	db = new Database();
+  	
   	try {
-			db.initialize();
+			Database.initialize();
+			db = new Database();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
   	} catch (ServerException e) {
-			// TODO Auto-generated catch block
+			//Auto-generated catch block
 			e.printStackTrace();
 		}
   }
@@ -52,6 +56,7 @@ public class Parser{
    * @param xml
    */
   public void parse(File xml) {
+  	String parent = getParentPath(xml);
     try {
     	Database db = new Database();
       DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -89,7 +94,6 @@ public class Parser{
       for (int i = 0; i < users.getLength(); i++) {
       	fieldIds = new ArrayList<Integer>();
         Node uNode = projects.item(i);
-        Element test = (Element) uNode;
         if (uNode.getNodeType() == Node.ELEMENT_NODE) {
           Element uElement = (Element) uNode;
           Element title = (Element) uElement.getElementsByTagName("title").item(0);
@@ -121,6 +125,11 @@ public class Parser{
               if (fElement.getElementsByTagName("knowndata").item(0) != null) {
               	knownData = (Element) fElement.getElementsByTagName("knowndata").item(0);
               	kData = knownData.getTextContent();
+              	//Copy known data
+              	String kdSrc = parent + kData;
+              	String idest = "./files/" + kData;
+              	FileWriter kdw = new FileWriter(idest);
+              	IOUtils.copy(IOUtils.toInputStream(kdSrc), kdw);
               } else {
               	kData = null;
               }
@@ -134,6 +143,11 @@ public class Parser{
               db.endTransaction(true);
               int fieldId = field.getId();
               fieldIds.add(fieldId);
+              //Copy fieldHelp
+              String fieldSrc = parent + field.getHtmlHelp();
+              String fieldDest = "./files/" + field.getHtmlHelp();
+              FileWriter fhw = new FileWriter(fieldDest);
+              IOUtils.copy(IOUtils.toInputStream(fieldSrc), fhw);
             }
           }
         	//System.out.println(fieldIds.toString());
@@ -149,6 +163,11 @@ public class Parser{
               batch = db.getBatchDB().addBatch(batch);
               db.endTransaction(true);
               int batchId = batch.getId();
+              //Copy image files to dest
+              String isrc = parent + batch.getFile();
+              String idest = "./files/" + batch.getFile();
+              FileWriter iw = new FileWriter(idest);
+              IOUtils.copy(IOUtils.toInputStream(isrc), iw);
               
               NodeList values = iElement.getElementsByTagName("value");
               int count = 0;
@@ -180,5 +199,13 @@ public class Parser{
     }
   
   }
+  private String getParentPath(File file) {
+  	String path = null;
+  	file = file.getParentFile();
+		path = file.getAbsolutePath();
+  	System.out.println(path);
+  	return path;
+  }
+  
 
 }

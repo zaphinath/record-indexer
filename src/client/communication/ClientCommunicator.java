@@ -31,7 +31,7 @@ public class ClientCommunicator {
 	 * @throws ClientException if it fails for any reason
 	 */
 	public GetProjects_Result getProjects(GetProjects_Params params) throws ClientException {
-		return null;
+		return (GetProjects_Result) doGet("/GetProjects");
 	}
 	
 	/**

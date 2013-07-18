@@ -4,4 +4,8 @@ bin
 .project
 .settings
 log.txt
+files/images/*.png
+files/knowndata/*.txt
+files/fieldhelp/*.html
+
 
