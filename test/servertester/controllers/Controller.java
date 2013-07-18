@@ -7,6 +7,7 @@ import client.communication.ClientCommunicator;
 
 import servertester.views.*;
 import shared.communication.ValidateUser_Params;
+import shared.communication.ValidateUser_Result;
 
 public class Controller implements IController {
 
@@ -109,8 +110,10 @@ public class Controller implements IController {
 		vvp.setUsername(tmp[0]);
 		vvp.setPassword(tmp[1]);
 		try {
-			cc.validateUser(vvp);
+			ValidateUser_Result rr = cc.validateUser(vvp);
+			getView().setResponse(rr.toString());
 		} catch (ClientException e) {
+			getView().setResponse("FAILED\n");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
