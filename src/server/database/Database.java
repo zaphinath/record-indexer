@@ -46,9 +46,9 @@ public class Database {
    * @param database the database file you wish to use instead of the default
    */
   public Database(String database) {
-  	this.dbFile = database;
-  	this.dbName = "database"+File.separator+dbFile;
-  	this.connectionURL = "jdbc:sqlite:"+dbName;
+  	dbFile = database;
+  	dbName = "database"+File.separator+dbFile;
+  	connectionURL = "jdbc:sqlite:"+dbName;
   	user = new UserDB(this);
     field = new FieldDB(this);
     project = new ProjectDB(this);

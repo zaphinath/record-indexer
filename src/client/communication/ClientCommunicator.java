@@ -3,6 +3,13 @@
  */
 package client.communication;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import shared.communication.*;
 import client.ClientException;
 
@@ -12,6 +19,16 @@ import client.ClientException;
  */
 public class ClientCommunicator {
 	
+	private static String SERVER_HOST = "localhost";
+	private static int SERVER_PORT = 39640;
+	private static String URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
+	private static String HTTP_POST = "POST";
+	
+	private XStream  xmlStream;
+	
+	public ClientCommunicator () {
+		xmlStream = new XStream(new DomDriver());
+	}
 	/**
 	 * Validates the users login credentials 
 	 * @param params The validate user params will contain the username and password
@@ -19,8 +36,7 @@ public class ClientCommunicator {
 	 * @throws ClientException if it fails for any reason other than non authentication
 	 */
 	public ValidateUser_Result validateUser(ValidateUser_Params params) throws ClientException{
-			doPost("/ValidateUser", params);
-			return null;
+		return (ValidateUser_Result) doPost("/ValidateUser", params);
 	}
 	
 	/**
@@ -128,8 +144,27 @@ public class ClientCommunicator {
 	 * @param postData
 	 * @throws ClientException
 	 */
-	private void doPost(String urlPath, Object postData) throws ClientException {
-		
+	private Object doPost(String urlPath, Object postData) throws ClientException {
+		try {
+			URL url = new URL(URL_PREFIX + urlPath);
+			System.out.println(url.toString());
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			connection.setRequestMethod(HTTP_POST);
+			connection.setDoOutput(true);
+			connection.connect();
+			xmlStream.toXML(postData, connection.getOutputStream());
+			connection.getOutputStream().close();
+			System.out.println("HERE");
+			//System.out.println("MADE HERE "+connection.getResponseCode());
+			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+				Object result = xmlStream.fromXML(connection.getInputStream());
+				return result;
+			} else {
+				throw new ClientException();//(String format("doPost failed % (htoop cod %d)", urlPath, connection.getResponseCode()));
+			}
+		} catch (IOException e) {
+			throw new ClientException();
+		}
 		
 	}
 	

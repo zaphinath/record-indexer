@@ -1,6 +1,7 @@
 package server;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.logging.ConsoleHandler;
@@ -11,10 +12,14 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import server.database.Database;
+import shared.communication.ValidateUser_Params;
+import shared.communication.ValidateUser_Result;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * @author Derek Carr
@@ -22,12 +27,14 @@ import com.sun.net.httpserver.HttpServer;
  */
 public class Server {
 
-	private static int PORT = 8080;
+	private static int PORT = 39640;
 	private static final int MAX_WAITING_CONNECTIONS = 10;
 	
 	private static Logger logger;
 	
 	private HttpServer server;
+	private XStream  xmlStream;
+
 	
 	static {
 		try {
@@ -62,6 +69,7 @@ public class Server {
 	}
 	
 	private Server() {
+		xmlStream = new XStream(new DomDriver());
 		return;
 	}
 	
@@ -118,12 +126,20 @@ public class Server {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
+			Database db = new Database();
+			ValidateUser_Params param = (ValidateUser_Params) xmlStream.fromXML(exchange.getRequestBody());
+			System.out.println(param.getUsername());
+			System.out.println(param.getPassword());
 			// Process ValidateUser request
-
+			
 			// Database db = new Database();
 			// db.startTransaction();
 			// ...
 			// db.endTransaction();
+			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+			ValidateUser_Result vvr = new ValidateUser_Result();
+			xmlStream.toXML(vvr, exchange.getResponseBody());
+			exchange.close();
 		}
 	};
 
