@@ -103,7 +103,11 @@ public class Server {
 		server.createContext("/ValidateUser", validateUserHandler);
 		server.createContext("/GetProjects", getProjectsHandler);
 		server.createContext("/GetSampleProject", getSampleBatchProjectHandler);
-		server.createContext("/DownloadBatch", deleteContactHandler);
+		server.createContext("/DownloadBatch", downloadBatchHandler);
+		server.createContext("/SubmitBatch", submitBatchHandler);
+		server.createContext("/GetFields", getFieldsHandler);
+		server.createContext("/Search", searchHandler);
+		server.createContext("/DownloadFile", downloadFileHandler);
 		
 		logger.info("Starting HTTP Server");
 
@@ -149,7 +153,59 @@ public class Server {
 		}
 	};
 
-	private HttpHandler deleteContactHandler = new HttpHandler() {
+	private HttpHandler downloadBatchHandler = new HttpHandler() {
+
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			// Process DeleteContact request
+
+			// Database db = new Database();
+			// db.startTransaction();
+			// ...
+			// db.endTransaction();
+		}
+	};
+	
+	private HttpHandler submitBatchHandler = new HttpHandler() {
+
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			// Process DeleteContact request
+
+			// Database db = new Database();
+			// db.startTransaction();
+			// ...
+			// db.endTransaction();
+		}
+	};
+	
+	private HttpHandler getFieldsHandler = new HttpHandler() {
+
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			// Process DeleteContact request
+
+			// Database db = new Database();
+			// db.startTransaction();
+			// ...
+			// db.endTransaction();
+		}
+	};
+	
+	private HttpHandler searchHandler = new HttpHandler() {
+
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			// Process DeleteContact request
+
+			// Database db = new Database();
+			// db.startTransaction();
+			// ...
+			// db.endTransaction();
+		}
+	};
+	
+	private HttpHandler downloadFileHandler = new HttpHandler() {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
