@@ -28,7 +28,7 @@
   <property name="doc" location="doc/" />
 
 	<!-- Default values for command-line properties.  Values specified on the command-line will override these. -->
-	<property name="file" value=""/>
+	<property name="file" value="Records/Records.xml"/>
 	<property name="host" value="localhost"/>
 	<property name="port" value="39640"/>
 
@@ -120,7 +120,7 @@
 		</java>
 	</target>
 	
-	<target name="server-tests" depends="compile" description="run automated server tests">
+	<target name="server-tests" depends="compile, import" description="run automated server tests">
 		<copy file="${empty-db-file}" tofile="${test-db-file}" overwrite="true"/>
 		<!--<java classname="server.ServerUnitTests" fork="yes">
 			<classpath>
@@ -141,6 +141,8 @@
       <test name="server.database.ProjectDBTest" />
       <test name="server.database.FieldDBTest" />
       <test name="server.database.BatchDBTest" />
+      <test name="server.database.UserDBTest" />
+      <test name="client.communication.ClientCommunicatorTest" />
     </junit>
 	</target>
 	
