@@ -184,6 +184,7 @@ public class Server {
 			}
 			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 			GetSampleImage_Result gsir = serverHandler.getSampleImage(param);
+			xmlStream.toXML(gsir, exchange.getResponseBody());
 			exchange.close();
 		}
 	};
@@ -223,7 +224,7 @@ public class Server {
 				return;
 			}
 			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-			SubmitBatch_Params sbr = serverHandler.submitBatch(param);
+			SubmitBatch_Result sbr = serverHandler.submitBatch(param);
 			exchange.close();
 		}
 	};
@@ -232,12 +233,19 @@ public class Server {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			// Process DeleteContact request
-
-			// Database db = new Database();
-			// db.startTransaction();
-			// ...
-			// db.endTransaction();
+			GetFields_Params param = (GetFields_Params) xmlStream.fromXML(exchange.getRequestBody());
+			ServerHandler serverHandler;
+			try {
+				serverHandler = new ServerHandler(param);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, -1);
+				return;
+			}
+			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+			GetFields_Result gfr = serverHandler.submitBatch(param);
+			e
 		}
 	};
 	

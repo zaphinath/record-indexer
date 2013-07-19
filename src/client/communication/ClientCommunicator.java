@@ -72,7 +72,7 @@ public class ClientCommunicator {
 	 * @throws ClientException
 	 */
 	public DownloadBatch_Result downloadBatch(DownloadBatch_Params params) throws ClientException{
-		return null;
+		return (DownloadBatch_Result) doPost("/DownloadBatch", params);
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class ClientCommunicator {
 	 * @throws ClientException if fails for any reason
 	 */
 	public SubmitBatch_Result submitBatch(SubmitBatch_Params params) throws ClientException{
-		return null;
+		return (SubmitBatch_Result) doPost("/SubmitBatch", params); 
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class ClientCommunicator {
 	 * @throws ClientException
 	 */
 	public GetFields_Result getFields(GetFields_Params params) throws ClientException {
-		return null;
+		return (GetFields_Result) doPost("/GetFields", params);
 	}
 	
 	/**
@@ -124,7 +124,7 @@ public class ClientCommunicator {
 	 * @throws ClientException
 	 */
 	public Search_Result search(Search_Params params) throws ClientException {
-		return null;
+		return (Search_Result) doPost("/Search", params);
 	}
 	
 	private void downloadFiles(String str) {
