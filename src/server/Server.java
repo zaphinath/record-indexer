@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -14,9 +12,13 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import server.database.Database;
+import server.handler.ServerHandler;
+import shared.communication.GetProjects_Params;
+import shared.communication.GetProjects_Result;
+import shared.communication.GetSampleImage_Params;
+import shared.communication.GetSampleImage_Result;
 import shared.communication.ValidateUser_Params;
 import shared.communication.ValidateUser_Result;
-import shared.model.User;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -129,37 +131,21 @@ public class Server {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			List<User> users;
-			Database db = new Database();
 			ValidateUser_Params param = (ValidateUser_Params) xmlStream.fromXML(exchange.getRequestBody());
-			System.out.println(param.getUsername());
-			System.out.println(param.getPassword());
-			// Process ValidateUser request
+			ServerHandler serverHandler;
 			try {
-				db.startTransaction();
-				users = db.getUserDB().getAll();
-				db.endTransaction(true);
-			} catch (ServerException | SQLException e) {
+				//vHandler.makeQuery(param);
+				serverHandler = new ServerHandler(param);
+
+			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
-				try {db.endTransaction(false);} catch (SQLException e1) {}
 				exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, -1);
 				return;
 			}
-
 			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-			ValidateUser_Result vvr = new ValidateUser_Result();
-			for (int i = 0; i < users.size(); i++) {
-				User tmp = users.get(i);
-				if (tmp.getUsername().equals(param.getPassword())) {
-					if (tmp.getPassword().equals(param.getPassword())) {
-						vvr.setBool("TRUE\n");
-						vvr.setUsername(tmp.getUsername()+"\n");
-						vvr.setPassword(tmp.getPassword()+"\n");
-						vvr.setIndexedRecords(tmp.getIndexedRecords()+"\n");
-					}
-				}
-			}
+			ValidateUser_Result vvr = serverHandler.validateUser();
+			
 			xmlStream.toXML(vvr, exchange.getResponseBody());
 			exchange.close();
 		}
@@ -169,12 +155,21 @@ public class Server {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			// Process GetProjects request
-
-			// Database db = new Database();
-			// db.startTransaction();
-			// ...
-			// db.endTransaction();
+			GetProjects_Params param = (GetProjects_Params) xmlStream.fromXML(exchange.getRequestBody());
+			ServerHandler serverHandler;
+			try {
+				serverHandler = new ServerHandler(param);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, -1);
+				return;
+			}
+			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+			GetProjects_Result gpr = serverHandler.getProjects(param);
+			
+			xmlStream.toXML(gpr, exchange.getResponseBody());
+			exchange.close();
 		}
 	};
 
@@ -182,12 +177,19 @@ public class Server {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			// Process GetSampleBatchProject request
-
-			// Database db = new Database();
-			// db.startTransaction();
-			// ...
-			// db.endTransaction();
+			GetSampleImage_Params param = (GetSampleImage_Params) xmlStream.fromXML(exchange.getRequestBody());
+			ServerHandler serverHandler;
+			try {
+				serverHandler = new ServerHandler(param);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, -1);
+				return;
+			}
+			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+			GetSampleImage_Result gsir = serverHandler.getSampleImage(param);
+			exchange.close();
 		}
 	};
 

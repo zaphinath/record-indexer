@@ -23,6 +23,10 @@ public class GetSampleImage_Params extends ValidateUser_Params {
 		this.projectID = projectID;
 	}
 	
+	public GetSampleImage_Params(String username, String password) {
+		super();
+	}
+	
 	/**
 	 * Class Constructor
 	 */

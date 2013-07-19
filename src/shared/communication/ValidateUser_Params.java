@@ -56,4 +56,9 @@ public class ValidateUser_Params {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	@Override 
+	public String toString() {
+		return this.username + "\n" + this.password + "\n";
+	}
 }

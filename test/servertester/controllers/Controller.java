@@ -4,10 +4,8 @@ import java.util.*;
 
 import client.ClientException;
 import client.communication.ClientCommunicator;
-
 import servertester.views.*;
-import shared.communication.ValidateUser_Params;
-import shared.communication.ValidateUser_Result;
+import shared.communication.*;
 
 public class Controller implements IController {
 
@@ -111,6 +109,7 @@ public class Controller implements IController {
 		vvp.setPassword(tmp[1]);
 		try {
 			ValidateUser_Result rr = cc.validateUser(vvp);
+			getView().setRequest(vvp.toString());
 			getView().setResponse(rr.toString());
 		} catch (ClientException e) {
 			getView().setResponse("FAILED\n");
@@ -120,10 +119,39 @@ public class Controller implements IController {
 	}
 	
 	private void getProjects() {
+		String[] tmp = getView().getParameterValues();
+		ClientCommunicator cc = new ClientCommunicator();
+		GetProjects_Params gpp = new GetProjects_Params();
+		gpp.setUsername(tmp[0]);
+		gpp.setPassword(tmp[1]);
+		try {
+			GetProjects_Result gpr = cc.getProjects(gpp);
+			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n");
+			getView().setResponse(gpr.toString());
+		} catch (ClientException e) {
+			getView().setResponse("FAILED\n");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void getSampleImage() {
+		String[] tmp = getView().getParameterValues();
+		ClientCommunicator cc = new ClientCommunicator();
+		GetSampleImage_Params gpp = new GetSampleImage_Params();
+		gpp.setUsername(tmp[0]);
+		gpp.setPassword(tmp[1]);
+		try {
+			GetSampleImage_Result gpr = cc.getSampleImage(gpp);
+			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n");
+			getView().setResponse(gpr.toString());
+		} catch (ClientException e) {
+			getView().setResponse("FAILED\n");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+
 	
 	private void downloadBatch() {
 	}

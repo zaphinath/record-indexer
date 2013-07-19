@@ -9,49 +9,49 @@ package shared.communication;
  */
 public class ValidateUser_Result {
 	private String bool;
-	private String username;
-	private String password;
+	private String firstName;
+	private String lastName;
 	private String indexedRecords;
 	
 
 
 	public ValidateUser_Result() {
 		this.bool = "FALSE\n";
-		//this.username = null;
-		//this.password = null;
+		//this.firstName = null;
+		//this.lastName = null;
 		//this.indexedRecords = null;
 	}
 	
 	
 	/**
-	 * @return the username
+	 * @return the firstName
 	 */
-	public String getUsername() {
-		return username;
+	public String getFirstName() {
+		return firstName;
 	}
 
 
 	/**
-	 * @param username the username to set
+	 * @param firstName the firstName to set
 	 */
-	public void setUsername(String username) {
-		this.username = username;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 
 	/**
-	 * @return the password
+	 * @return the lastName
 	 */
-	public String getPassword() {
-		return password;
+	public String getLastName() {
+		return lastName;
 	}
 
 
 	/**
-	 * @param password the password to set
+	 * @param lastName the lastName to set
 	 */
-	public void setPassword(String password) {
-		this.password = password;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 
@@ -89,10 +89,10 @@ public class ValidateUser_Result {
 
 	@Override
 	public String toString() {
-		if (username != null) {
+		if (firstName != null) {
 			return bool +
-					username +
-					password +
+					firstName +
+					lastName +
 					indexedRecords;
 		} else {
 			return bool;

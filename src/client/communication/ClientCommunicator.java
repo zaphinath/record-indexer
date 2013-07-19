@@ -47,7 +47,7 @@ public class ClientCommunicator {
 	 * @throws ClientException if it fails for any reason
 	 */
 	public GetProjects_Result getProjects(GetProjects_Params params) throws ClientException {
-		return (GetProjects_Result) doGet("/GetProjects");
+		return (GetProjects_Result) doPost("/GetProjects", params);
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class ClientCommunicator {
 	 * @return GetSampleImage_Result The image URL else false if it fails for any reason
 	 */
 	public GetSampleImage_Result getSampleImage(GetSampleImage_Params params) throws ClientException {
-		return null;
+		return (GetSampleImage_Result) doPost("/GetSampleImage", params);
 	}
 	
 	/**
@@ -133,9 +133,9 @@ public class ClientCommunicator {
 	 * @return HTTP Get Object
 	 * @throws ClientException
 	 */
-	private Object doGet(String urlPath) throws ClientException {
+	/*private Object doGet(String urlPath) throws ClientException {
 		return null;
-	}
+	}*/
 	
 	/**
 	 * Make HTTP POST request to the specified URL
@@ -147,15 +147,12 @@ public class ClientCommunicator {
 	private Object doPost(String urlPath, Object postData) throws ClientException {
 		try {
 			URL url = new URL(URL_PREFIX + urlPath);
-			System.out.println(url.toString());
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 			connection.setRequestMethod(HTTP_POST);
 			connection.setDoOutput(true);
 			connection.connect();
 			xmlStream.toXML(postData, connection.getOutputStream());
 			connection.getOutputStream().close();
-			System.out.println("HERE");
-			//System.out.println("MADE HERE "+connection.getResponseCode());
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				Object result = xmlStream.fromXML(connection.getInputStream());
 				return result;

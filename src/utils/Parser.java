@@ -32,7 +32,7 @@ import shared.model.User;
 
 public class Parser{
 
-	private Database db;
+//	private Database db;
 	private ArrayList<Integer> fieldIds;
 	
   /** 
@@ -42,7 +42,7 @@ public class Parser{
   	
   	try {
 			Database.initialize();
-			db = new Database();
+			Database db = new Database();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
   	} catch (ServerException e) {
