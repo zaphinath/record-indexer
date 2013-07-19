@@ -5,6 +5,7 @@ package client.communication;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import com.thoughtworks.xstream.XStream;
@@ -124,6 +125,17 @@ public class ClientCommunicator {
 	 */
 	public Search_Result search(Search_Params params) throws ClientException {
 		return null;
+	}
+	
+	private void downloadFiles(String str) {
+		String[] parts = str.split("\\n");
+		for (String item : parts) {
+			try {
+				URL url = new URL(item);
+			} catch (MalformedURLException e) {
+				System.out.println("Malformed URL: " + e.getMessage());
+			}
+		}
 	}
 	
 	/**

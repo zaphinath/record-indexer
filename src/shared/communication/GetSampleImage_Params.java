@@ -3,6 +3,8 @@
  */
 package shared.communication;
 
+import java.net.URL;
+
 /**
  * @author zaphinath
  *
@@ -11,6 +13,7 @@ public class GetSampleImage_Params extends ValidateUser_Params {
 
 	private int projectID;
 	private String urlPrefix;
+
 	
 	/**
 	 * Class Constructor with parameters 

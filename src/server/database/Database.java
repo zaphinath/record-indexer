@@ -116,7 +116,7 @@ public class Database {
    * Starts a database transaction without auto-commit 
    * @throws ServerException
    */
-	public void startTransaction() throws ServerException {
+	public void startTransaction() {
 		
 		//logger.entering("server.database.Database", "startTransaction");
 		
@@ -135,7 +135,7 @@ public class Database {
 	 * @param commit
 	 * @throws SQLException 
 	 */
-	public void endTransaction(boolean commit) throws SQLException {
+	public void endTransaction(boolean commit) {
 		
 		//logger.entering("server.database.Database", "endTransaction");
 		
@@ -148,7 +148,7 @@ public class Database {
 			}
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
-		finally { connection.close();}
+		finally { try {connection.close();} catch (SQLException e) {}}
 		
 		connection = null;
 		//logger.fine("TODO: Commit or rollback the transaction and close the connection");
