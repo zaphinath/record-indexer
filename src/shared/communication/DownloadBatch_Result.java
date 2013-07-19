@@ -3,6 +3,7 @@
  */
 package shared.communication;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class DownloadBatch_Result {
 	private int recordHeight;
 	private int numRecords;
 	private int numFields;
+	private String urlPrefix;
 	
 	List<Field> fields;
 	List<Fields> newFields;
@@ -148,11 +150,26 @@ public class DownloadBatch_Result {
 	}
 
 	/**
+	 * @return the urlPrefix
+	 */
+	public String getUrlPrefix() {
+		return urlPrefix;
+	}
+
+	/**
+	 * @param urlPrefix the urlPrefix to set
+	 */
+	public void setUrlPrefix(String urlPrefix) {
+		this.urlPrefix = urlPrefix;
+	}
+
+	/**
 	 * This should only be fields that match the project
 	 * and batchid's
 	 * @param fields the fields to set
+	 * @throws MalformedURLException 
 	 */
-	public void setFields(List<Field> fields) {
+	public void setFields(List<Field> fields) throws MalformedURLException {
 		this.fields = fields;
 		this.newFields = new ArrayList<Fields>();
 		this.numFields = fields.size();
@@ -160,6 +177,14 @@ public class DownloadBatch_Result {
 			newFields.get(i).fieldId = fields.get(i).getId();
 		//TODO: field_num	newFields.get(i).fieldNum = fields.get(i).g
 			newFields.get(i).fieldTitle = fields.get(i).getTitle();
+			newFields.get(i).helpUrl = new URL(urlPrefix + fields.get(i).getHtmlHelp());
+			newFields.get(i).xCoord = fields.get(i).getXcoord();
+			newFields.get(i).pixelWidth = fields.get(i).getWidth();
+			if (fields.get(i).getKnownData() != null) {
+				newFields.get(i).knownValues = new URL(urlPrefix + fields.get(i).getKnownData());
+			} else {
+				newFields.get(i).knownValues = null;
+			}
 		}
 		
 	}
@@ -173,9 +198,17 @@ public class DownloadBatch_Result {
 								 recordHeight + "\n" +
 								 numRecords + "\n" +
 								 numFields + "\n";
-		//TODO: Need to loop through all fields according to spec
+		//Need to loop through all fields according to spec
 		for (int i = 0; i < numFields; i++) {
-			
+			tmp = newFields.get(i).fieldId + "\n" +
+						newFields.get(i).fieldNum + "\n" +
+						newFields.get(i).fieldTitle + "\n" +
+						newFields.get(i).helpUrl.toString() + "\n" +
+						newFields.get(i).xCoord + "\n" +
+						newFields.get(i).pixelWidth + "\n";
+			if (newFields.get(i).knownValues != null) {
+				tmp = newFields.get(i).knownValues + "\n";
+			}
 		}
 		return tmp;
 	}
