@@ -10,6 +10,7 @@ package shared.communication;
 public class GetSampleImage_Params extends ValidateUser_Params {
 
 	private int projectID;
+	private String urlPrefix;
 	
 	/**
 	 * Class Constructor with parameters 
@@ -46,6 +47,20 @@ public class GetSampleImage_Params extends ValidateUser_Params {
 	 */
 	public void setProjectID(int projectID) {
 		this.projectID = projectID;
+	}
+
+	/**
+	 * @return the urlPrefix
+	 */
+	public String getUrlPrefix() {
+		return urlPrefix;
+	}
+
+	/**
+	 * @param urlPrefix the urlPrefix to set
+	 */
+	public void setUrlPrefix(String urlPrefix) {
+		this.urlPrefix = urlPrefix;
 	}
 	
 	

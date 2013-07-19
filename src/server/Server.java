@@ -13,12 +13,7 @@ import java.util.logging.SimpleFormatter;
 
 import server.database.Database;
 import server.handler.ServerHandler;
-import shared.communication.GetProjects_Params;
-import shared.communication.GetProjects_Result;
-import shared.communication.GetSampleImage_Params;
-import shared.communication.GetSampleImage_Result;
-import shared.communication.ValidateUser_Params;
-import shared.communication.ValidateUser_Result;
+import shared.communication.*;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -197,12 +192,19 @@ public class Server {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			// Process DeleteContact request
-
-			// Database db = new Database();
-			// db.startTransaction();
-			// ...
-			// db.endTransaction();
+			DownloadBatch_Params param = (DownloadBatch_Params) xmlStream.fromXML(exchange.getRequestBody());
+			ServerHandler serverHandler;
+			try {
+				serverHandler = new ServerHandler(param);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, -1);
+				return;
+			}
+			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+			DownloadBatch_Result dbr = serverHandler.downloadBatch(param);
+			exchange.close();
 		}
 	};
 	
@@ -210,12 +212,19 @@ public class Server {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			// Process DeleteContact request
-
-			// Database db = new Database();
-			// db.startTransaction();
-			// ...
-			// db.endTransaction();
+			SubmitBatch_Params param = (SubmitBatch_Params) xmlStream.fromXML(exchange.getRequestBody());
+			ServerHandler serverHandler;
+			try {
+				serverHandler = new ServerHandler(param);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, -1);
+				return;
+			}
+			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+			SubmitBatch_Params sbr = serverHandler.submitBatch(param);
+			exchange.close();
 		}
 	};
 	
