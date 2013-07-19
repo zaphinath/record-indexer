@@ -127,6 +127,31 @@ public class ClientCommunicator {
 		return (Search_Result) doPost("/Search", params);
 	}
 	
+	/**
+	 * @return the sERVER_HOST
+	 */
+	public static String getSERVER_HOST() {
+		return SERVER_HOST;
+	}
+	/**
+	 * @param sERVER_HOST the sERVER_HOST to set
+	 */
+	public static void setSERVER_HOST(String sERVER_HOST) {
+		SERVER_HOST = sERVER_HOST;
+	}
+	/**
+	 * @return the sERVER_PORT
+	 */
+	public static int getSERVER_PORT() {
+		return SERVER_PORT;
+	}
+	/**
+	 * @param sERVER_PORT the sERVER_PORT to set
+	 */
+	public static void setSERVER_PORT(int sERVER_PORT) {
+		SERVER_PORT = sERVER_PORT;
+	}
+	
 	private void downloadFiles(String str) {
 		String[] parts = str.split("\\n");
 		for (String item : parts) {
@@ -173,8 +198,9 @@ public class ClientCommunicator {
 			}
 		} catch (IOException e) {
 			throw new ClientException();
-		}
-		
+		}		
 	}
+	
+	
 	
 }

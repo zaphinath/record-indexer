@@ -36,7 +36,6 @@ public class DownloadBatch_Result {
 		public int xCoord;
 		public int pixelWidth;
 		public URL knownValues;
-
 		
 	}
 	

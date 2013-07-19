@@ -3,7 +3,6 @@
  */
 package shared.communication;
 
-import java.net.URL;
 
 /**
  * @author zaphinath
