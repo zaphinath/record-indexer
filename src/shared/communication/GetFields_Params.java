@@ -9,7 +9,7 @@ package shared.communication;
  */
 public class GetFields_Params extends ValidateUser_Params {
 
-	private int projectID;
+	private String projectID;
 	
 	/**
 	 * Class Constructor with parameters
@@ -17,7 +17,7 @@ public class GetFields_Params extends ValidateUser_Params {
 	 * @param password
 	 * @param projectID
 	 */
-	public GetFields_Params(String username, String password, int projectID) {
+	public GetFields_Params(String username, String password, String projectID) {
 		super.setUsername(username);
 		super.setPassword(password);
 		this.projectID = projectID;
@@ -34,13 +34,13 @@ public class GetFields_Params extends ValidateUser_Params {
 	 * @return the projectID
 	 */
 	public int getProjectID() {
-		return projectID;
+		return Integer.parseInt(projectID);
 	}
 
 	/**
 	 * @param projectID the projectID to set
 	 */
-	public void setProjectID(int projectID) {
+	public void setProjectID(String projectID) {
 		this.projectID = projectID;
 	}
 	

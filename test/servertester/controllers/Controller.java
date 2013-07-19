@@ -154,15 +154,77 @@ public class Controller implements IController {
 
 	
 	private void downloadBatch() {
+		String[] tmp = getView().getParameterValues();
+		ClientCommunicator cc = new ClientCommunicator();
+		DownloadBatch_Params dbp = new DownloadBatch_Params();
+		dbp.setUsername(tmp[0]);
+		dbp.setPassword(tmp[1]);
+		dbp.setProjectID(Integer.parseInt(tmp[2]));
+		try {
+			DownloadBatch_Result dbr = cc.downloadBatch(dbp);
+			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n" + tmp[2] + "\n");
+			getView().setResponse(dbr.toString());
+		} catch (ClientException e) {
+			getView().setResponse("FAILED\n");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void getFields() {
+		String[] tmp = getView().getParameterValues();
+		ClientCommunicator cc = new ClientCommunicator();
+		GetFields_Params gfp = new GetFields_Params();
+		gfp.setUsername(tmp[0]);
+		gfp.setPassword(tmp[1]);
+		gfp.setProjectID(tmp[2]);
+		try {
+			GetFields_Result gfr = cc.getFields(gfp);
+			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n" + tmp[2] + "\n");
+			getView().setResponse(gfr.toString());
+		} catch (ClientException e) {
+			getView().setResponse("FAILED\n");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void submitBatch() {
+		String[] tmp = getView().getParameterValues();
+		ClientCommunicator cc = new ClientCommunicator();
+		SubmitBatch_Params sbp = new SubmitBatch_Params();
+		sbp.setUsername(tmp[0]);
+		sbp.setPassword(tmp[1]);
+		sbp.setBatchID(Integer.parseInt(tmp[2]));
+		sbp.setRecordValues(tmp[3]);
+		try {
+			SubmitBatch_Result sbr = cc.submitBatch(sbp);
+			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n" + tmp[2] + "\n" + tmp[3] + "\n");
+			getView().setResponse(sbr.toString());
+		} catch (ClientException e) {
+			getView().setResponse("FAILED\n");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void search() {
+		String[] tmp = getView().getParameterValues();
+		ClientCommunicator cc = new ClientCommunicator();
+		Search_Params sp = new Search_Params();
+		sp.setUsername(tmp[0]);
+		sp.setPassword(tmp[1]);
+		sp.setFields(tmp[2]);
+		sp.setSearchValues(tmp[3]);
+		try {
+			Search_Result sr = cc.search(sp);
+			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n" + tmp[2] + "\n" + tmp[3] + "\n");
+			getView().setResponse(sr.toString());
+		} catch (ClientException e) {
+			getView().setResponse("FAILED\n");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
