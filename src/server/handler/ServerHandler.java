@@ -242,6 +242,14 @@ public class ServerHandler {
 		// TODO Auto-generated method stub
 		GetFields_Result gfr = new GetFields_Result();
 		
+		db = new Database();
+		try {
+			db.startTransaction();
+			
+			db.endTransaction(true);
+		} catch (Exception e) {
+			db.endTransaction(false);
+		}
 		if (isValidUser) {
 			
 		}
