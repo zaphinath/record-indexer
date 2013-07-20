@@ -25,22 +25,10 @@ public class DownloadBatch_Result {
 	private int numFields;
 	private String urlPrefix;
 	
-//	List<Field> fields;
-//	List<Fields> newFields;
-	
-	/*private class Fields {
-		public int fieldId;
-		public int fieldNum;
-		public String fieldTitle;
-		public URL helpUrl;
-		public int xCoord;
-		public int pixelWidth;
-		public URL knownValues;
-		
-	}*/
+	private List<Field> fields;
 	
 	public DownloadBatch_Result() {
-		
+		fields = new ArrayList<Field>();
 	}
 
 	/**
@@ -156,30 +144,19 @@ public class DownloadBatch_Result {
 	}
 
 	/**
-	 * This should only be fields that match the project
-	 * and batchid's
-	 * @param fields the fields to set
-	 * @throws MalformedURLException 
+	 * @return the fields
 	 */
-/*	public void setFields(List<Field> fields) throws MalformedURLException {
+	public List<Field> getFields() {
+		return fields;
+	}
+
+	/**
+	 * @param fields the fields to set
+	 */
+	public void setFields(List<Field> fields) {
 		this.fields = fields;
-		this.newFields = new ArrayList<Fields>();
-		this.numFields = fields.size();
-		for (int i = 0; i < numFields; i++) {
-			newFields.get(i).fieldId = fields.get(i).getId();
-		//TODO: field_num	newFields.get(i).fieldNum = fields.get(i).g
-			newFields.get(i).fieldTitle = fields.get(i).getTitle();
-			newFields.get(i).helpUrl = new URL(urlPrefix + fields.get(i).getHtmlHelp());
-			newFields.get(i).xCoord = fields.get(i).getXcoord();
-			newFields.get(i).pixelWidth = fields.get(i).getWidth();
-			if (fields.get(i).getKnownData() != null) {
-				newFields.get(i).knownValues = new URL(urlPrefix + fields.get(i).getKnownData());
-			} else {
-				newFields.get(i).knownValues = null;
-			}
-		}
-		
-	}*/
+	}
+
 
 	@Override 
 	public String toString() {
@@ -192,17 +169,19 @@ public class DownloadBatch_Result {
 								 numRecords + "\n" +
 								 numFields + "\n";
 		//Need to loop through all fields according to spec
-		/*for (int i = 0; i < numFields; i++) {
-			tmp = newFields.get(i).fieldId + "\n" +
-						newFields.get(i).fieldNum + "\n" +
-						newFields.get(i).fieldTitle + "\n" +
-						newFields.get(i).helpUrl.toString() + "\n" +
-						newFields.get(i).xCoord + "\n" +
-						newFields.get(i).pixelWidth + "\n";
-			if (newFields.get(i).knownValues != null) {
-				tmp = newFields.get(i).knownValues + "\n";
+		if ( fields != null) {
+			for (int i = 0; i < numFields; i++) {
+				tmp = tmp + fields.get(i).getId() + "\n" +
+							fields.get(i).getId() + "\n" +
+							fields.get(i).getTitle() + "\n" +
+							urlPrefix + "files" + fields.get(i).getHtmlHelp() + "\n" +
+							fields.get(i).getXcoord() + "\n" +
+							fields.get(i).getWidth() + "\n";
+				if (fields.get(i).getKnownData() != null) {
+					tmp = tmp + urlPrefix + "files" + fields.get(i).getKnownData() + "\n";
+				}
 			}
-		}*/
+		}
 		return tmp;
 	}
 

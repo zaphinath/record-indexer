@@ -6,6 +6,7 @@ package server.handler;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import server.ServerException;
@@ -151,33 +152,71 @@ public class ServerHandler {
 		
 		List<Batch> batches = null;
 		List<Field> fields = null;
+		List<Project> projects = null;
+		URL imageUrl = null;
 		db = new Database();
 		try {
 			db.startTransaction();
 			batches = db.getBatchDB().getAll();
 			fields = db.getFieldDB().getAll();
+			projects = db.getProjectDB().getAll();
 			db.endTransaction(true);
 		} catch (ServerException | SQLException e) {
 			e.printStackTrace();
 		}
 		if (isValidUser) {
-			/*if (!hasOpenBatch(batches, accessUser.getID())) {
-				List<Field> limitedFields = null;
+			if (!hasOpenBatch(batches, accessUser.getID())) {
+				List<Field> limitedFields = new ArrayList<Field>();
+				List<Batch> limitedBatches = new ArrayList<Batch>();
+				Project project = null;
+
+				// limit variables
 				for (int i = 0; i < fields.size(); i++) {
 					if (fields.get(i).getProjectId() == param.getProjectID()) {
 						limitedFields.add(fields.get(i));
 					}
 				}
+				for (int i = 0; i < batches.size(); i++) {
+					if (batches.get(i).getAccessUserId() == 0 && batches.get(i).getProjectId() == param.getProjectID()) {
+						limitedBatches.add(batches.get(i));
+					}
+				}
+				for (int i = 0; i < projects.size(); i++) {
+					if (projects.get(i).getId() == param.getProjectID()) {
+						project = projects.get(i);
+					}
+				}
+				Batch selBatch = limitedBatches.get(0);
+				
 				try {
-					//dbr.setFields(limitedFields);
-					dbr.setFirstYCoord(0);
-					dbr.setImageUrl(new URL(param.getUrlPrefix()));
+					imageUrl = new URL(param.getUrlPrefix() + "files" + selBatch.getFile());
+					dbr.setBatchId(selBatch.getId());
+					dbr.setProjectId(param.getProjectID());
+					dbr.setImageUrl(imageUrl);
+					dbr.setFirstYCoord(project.getFirstYCoord());
+					dbr.setRecordHeight(project.getRecordHeight());
+					dbr.setNumRecords(project.getRecordsPerImage());
+					dbr.setNumFields(limitedFields.size());
+					dbr.setUrlPrefix(param.getUrlPrefix());
+					for (int i = 0; i < limitedFields.size(); i++) {
+						dbr.getFields().add(limitedFields.get(i));
+					}					
+					
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				selBatch.setAccessUser(accessUser.getID());
+				try {
+					db.startTransaction();
+					db.getBatchDB().updateBatch(selBatch);
+					db.endTransaction(true);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					db.endTransaction(false);
+				}
 				
-			}*/
+			}
 			
 		}
 		return dbr;
