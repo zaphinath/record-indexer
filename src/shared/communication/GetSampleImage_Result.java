@@ -29,7 +29,11 @@ public class GetSampleImage_Result {
 
 	@Override
 	public String toString() {
-		return imageUrl.toString() + "\n";
+		if (imageUrl != null) {
+			return imageUrl.toString() + "\n";
+		} else {
+			return "FAILED\n";
+		}
 	}
 
 }

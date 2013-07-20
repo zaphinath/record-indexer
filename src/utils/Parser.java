@@ -32,7 +32,7 @@ import shared.model.User;
 
 public class Parser{
 
-//	private Database db;
+private Database db;
 	private ArrayList<Integer> fieldIds;
 	
   /** 
@@ -42,7 +42,7 @@ public class Parser{
   	
   	try {
 			Database.initialize();
-			Database db = new Database();
+			db = new Database();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
   	} catch (ServerException e) {
@@ -158,7 +158,7 @@ public class Parser{
             if (iNode.getNodeType() == Node.ELEMENT_NODE) {
               Element iElement = (Element) iNode;
               Element imageFile = (Element) iElement.getElementsByTagName("file").item(0);
-              Batch batch = new Batch(-1, projectId, imageFile.getTextContent());
+              Batch batch = new Batch(-1, projectId, imageFile.getTextContent(), 0);
               db.startTransaction();
               batch = db.getBatchDB().addBatch(batch);
               db.endTransaction(true);

@@ -25,10 +25,10 @@ public class DownloadBatch_Result {
 	private int numFields;
 	private String urlPrefix;
 	
-	List<Field> fields;
-	List<Fields> newFields;
+//	List<Field> fields;
+//	List<Fields> newFields;
 	
-	private class Fields {
+	/*private class Fields {
 		public int fieldId;
 		public int fieldNum;
 		public String fieldTitle;
@@ -37,7 +37,7 @@ public class DownloadBatch_Result {
 		public int pixelWidth;
 		public URL knownValues;
 		
-	}
+	}*/
 	
 	public DownloadBatch_Result() {
 		
@@ -142,13 +142,6 @@ public class DownloadBatch_Result {
 	}
 
 	/**
-	 * @return the fields
-	 */
-	public List<Field> getFields() {
-		return fields;
-	}
-
-	/**
 	 * @return the urlPrefix
 	 */
 	public String getUrlPrefix() {
@@ -168,7 +161,7 @@ public class DownloadBatch_Result {
 	 * @param fields the fields to set
 	 * @throws MalformedURLException 
 	 */
-	public void setFields(List<Field> fields) throws MalformedURLException {
+/*	public void setFields(List<Field> fields) throws MalformedURLException {
 		this.fields = fields;
 		this.newFields = new ArrayList<Fields>();
 		this.numFields = fields.size();
@@ -186,10 +179,11 @@ public class DownloadBatch_Result {
 			}
 		}
 		
-	}
+	}*/
 
 	@Override 
 	public String toString() {
+		//String tmp = "FOO FIGHT";
 		String tmp = batchId + "\n" +
 								 projectId + "\n" +
 								 imageUrl + "\n" +
@@ -198,7 +192,7 @@ public class DownloadBatch_Result {
 								 numRecords + "\n" +
 								 numFields + "\n";
 		//Need to loop through all fields according to spec
-		for (int i = 0; i < numFields; i++) {
+		/*for (int i = 0; i < numFields; i++) {
 			tmp = newFields.get(i).fieldId + "\n" +
 						newFields.get(i).fieldNum + "\n" +
 						newFields.get(i).fieldTitle + "\n" +
@@ -208,7 +202,7 @@ public class DownloadBatch_Result {
 			if (newFields.get(i).knownValues != null) {
 				tmp = newFields.get(i).knownValues + "\n";
 			}
-		}
+		}*/
 		return tmp;
 	}
 

@@ -48,7 +48,8 @@ public class BatchDB {
 	    		int id = rs.getInt(1);
 	    		int projectId = rs.getInt(2);
 	    		String file = rs.getString(3);
-	    		Batch batch = new Batch(id, projectId, file);
+	    		int accessUserId = rs.getInt(4);
+	    		Batch batch = new Batch(id, projectId, file, accessUserId);
 	    		projectList.add(batch);
 	    	}
 	    } catch (SQLException e) {
@@ -81,7 +82,7 @@ public class BatchDB {
 		    	keyRS = keyStmt.executeQuery("SELECT last_insert_rowid()");
 		    	keyRS.next();
 		    	int batchId = keyRS.getInt(1);
-		    	returnBatch = new Batch(batchId, batch.getProjectId(), batch.getFile());
+		    	returnBatch = new Batch(batchId, batch.getProjectId(), batch.getFile(), batch.getAccessUserId());
 		    } else {
 		      System.out.println("Insert batch failed");
 		    }
@@ -105,11 +106,12 @@ public class BatchDB {
 		  Statement keyStmt = null;
 		  ResultSet keyRS = null;
 		  try {
-			  String sql = "UPDATE batches SET project_id = ?, image_file = ? where id = ?";
+			  String sql = "UPDATE batches SET project_id = ?, image_file = ?, activeUserId = ? where id = ?";
 			  stmt = db.getConnection().prepareStatement(sql);
 			  stmt.setInt(1, batch.getProjectId());
 			  stmt.setString(2, batch.getFile());
-			  stmt.setInt(3, batch.getId());
+			  stmt.setInt(3, batch.getAccessUserId());
+			  stmt.setInt(4, batch.getId());
 			  if (stmt.executeUpdate() == 1) {
 				  System.out.println("SUCCESS");
 			  } else {

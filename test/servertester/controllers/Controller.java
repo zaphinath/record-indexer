@@ -139,11 +139,14 @@ public class Controller implements IController {
 		String[] tmp = getView().getParameterValues();
 		ClientCommunicator cc = new ClientCommunicator();
 		GetSampleImage_Params gpp = new GetSampleImage_Params();
+		String URLPrefix = "http://" + getView().getHost() + ":" + getView().getPort() + "/files/";
 		gpp.setUsername(tmp[0]);
 		gpp.setPassword(tmp[1]);
+		gpp.setProjectID(Integer.parseInt(tmp[2]));
+		gpp.setUrlPrefix(URLPrefix);
 		try {
 			GetSampleImage_Result gpr = cc.getSampleImage(gpp);
-			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n");
+			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n" + tmp[2] + "\n");
 			getView().setResponse(gpr.toString());
 		} catch (ClientException e) {
 			getView().setResponse("FAILED\n");
@@ -157,9 +160,11 @@ public class Controller implements IController {
 		String[] tmp = getView().getParameterValues();
 		ClientCommunicator cc = new ClientCommunicator();
 		DownloadBatch_Params dbp = new DownloadBatch_Params();
+		String URLPrefix = "http://" + getView().getHost() + ":" + getView().getPort() + "/files/";
 		dbp.setUsername(tmp[0]);
 		dbp.setPassword(tmp[1]);
 		dbp.setProjectID(Integer.parseInt(tmp[2]));
+		dbp.setUrlPrefix(URLPrefix);
 		try {
 			DownloadBatch_Result dbr = cc.downloadBatch(dbp);
 			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n" + tmp[2] + "\n");

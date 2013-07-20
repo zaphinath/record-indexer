@@ -12,6 +12,7 @@ public class Batch {
 	private int id;
 	private int projectId;
 	private String file;
+	private int accessUserId;
 	
 	/**
 	 * Class Constructor
@@ -20,6 +21,7 @@ public class Batch {
 		this.id = -1;
 		this.projectId = -1;
 		this.file = null;
+		this.accessUserId = 0;
 	}
 	
 	/**
@@ -28,10 +30,11 @@ public class Batch {
 	 * @param projectId
 	 * @param file
 	 */
-	public Batch(int id, int projectId, String file) {
+	public Batch(int id, int projectId, String file, int accessUserId) {
 		this.id = id;
 		this.projectId = projectId;
 		this.file = file;
+		this.accessUserId = accessUserId;
 	}
 
 	/**
@@ -75,6 +78,21 @@ public class Batch {
 	public void setFile(String file) {
 		this.file = file;
 	}
+
+	/**
+	 * @return the accessUser
+	 */
+	public int getAccessUserId() {
+		return accessUserId;
+	}
+
+	/**
+	 * @param accessUser the accessUser to set
+	 */
+	public void setAccessUser(int accessUserId) {
+		this.accessUserId = accessUserId;
+	}
+	
 	
 
 }

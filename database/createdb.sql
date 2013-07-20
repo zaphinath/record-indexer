@@ -14,8 +14,7 @@ create table users
   name_first varchar(255) not null,
   name_last varchar(255) not null,
   email varchar(255) not null,
-  indexed_records integer,
-  current_image_id integer default 0
+  indexed_records integer
 );
 
 create table projects
@@ -42,7 +41,8 @@ create table batches
 (
   id integer not null primary key autoincrement,
   project_id integer not null,
-  image_file varchar(255)
+  image_file varchar(255),
+  activeUserId integer default 0
 );
 
 create table record_values

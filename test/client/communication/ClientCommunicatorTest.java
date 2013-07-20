@@ -5,6 +5,8 @@ package client.communication;
 
 import static org.junit.Assert.*;
 
+import java.net.URL;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -12,7 +14,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import client.ClientException;
-
 import shared.communication.*;
 
 /**
@@ -57,11 +58,12 @@ public class ClientCommunicatorTest {
 	public void testValidateUser() throws ClientException {
 		String[] users = {"test1", "test2", "sheila", "foo"};
 		String[] passs = {"test1", "test2", "parker", "fighters"};
-		String[] expected = {"TRUE\nTest\nOne\n\0n", "TRUE\nTest\nTwo\0\n", "TRUE\nSheila\nParker\n0\n", "FAILED\n" };
+		String[] expected = {"TRUE\nTest\nOne\n0\n", "TRUE\nTest\nTwo\n0\n", "TRUE\nSheila\nParker\n0\n", "FALSE\n" };
 		for (int i = 0; i < users.length; i++) {
 			ValidateUser_Params params = new ValidateUser_Params(users[i], passs[i]);
 			ValidateUser_Result rs = cc.validateUser(params);
-			
+			//System.out.println(expected[i]);
+			//System.out.println(rs.toString());
 			assertEquals(expected[i], rs.toString());
 		}		
 	}
@@ -70,14 +72,15 @@ public class ClientCommunicatorTest {
 	public void testGetProjects() throws ClientException {
 		String[] users = {"test1", "test2", "sheila", "foo"};
 		String[] passs = {"test1", "test2", "parker", "fighters"};
-		String[] expected = {"1\n1890 Census\n","\3nDraft Records\n", "2\n1900 Census\n"};
+		String[] expected = {"1\n1890 Census\n","3\nDraft Records\n", "2\n1900 Census\n"};
 		for (int i = 0; i < users.length; i++) {
 			GetProjects_Params params = new GetProjects_Params(users[i], passs[i]);
 			GetProjects_Result pr = cc.getProjects(params);
 			if (i < 3) {
-				assertTrue(pr.toString().contains(expected[1]));
-				assertTrue(pr.toString().contains(expected[2]));
-				assertTrue(pr.toString().contains(expected[3]));
+				//System.out.println(pr.toString());
+				assertTrue(expected[0],pr.toString().contains(expected[0]));
+				assertTrue(expected[1],pr.toString().contains(expected[1]));
+				assertTrue(expected[2],pr.toString().contains(expected[2]));
 			} else {
 				assertEquals(pr.toString(), "FAILED\n");
 			}
@@ -85,7 +88,25 @@ public class ClientCommunicatorTest {
 	}
 
 	@Test
-	public void getSampleImage() {
+	public void getSampleImage() throws ClientException {
+		String[] users = {"test1", "test2", "sheila", "foo"};
+		String[] passs = {"test1", "test2", "parker", "fighters"};
+		int projectId = 1;
+		for (int i = 0; i < users.length; i++) {
+			GetSampleImage_Params params = new GetSampleImage_Params(users[i], passs[i], projectId);
+			params.setUrlPrefix("http://localhost");
+			GetSampleImage_Result ir = cc.getSampleImage(params);
+
+//			System.out.println(projectIds[i]);
+			assertEquals(params.getUsername(), users[i]);
+			assertEquals(params.getPassword(), passs[i]);
+			assertEquals(params.getProjectID(), projectId);
+			if (i < 3) {
+				assertNotNull("NULL", ir.getImageUrl());
+			} else {
+				assertEquals(ir.toString(), "FAILED\n");
+			}
+		}
 		
 	}
 }

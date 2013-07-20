@@ -110,6 +110,7 @@ public class Server {
 		
 		server.createContext("/ValidateUser", validateUserHandler);
 		server.createContext("/GetProjects", getProjectsHandler);
+		server.createContext("/GetSampleImage", getSampleImageHandler);
 		server.createContext("/GetSampleProject", getSampleBatchProjectHandler);
 		server.createContext("/DownloadBatch", downloadBatchHandler);
 		server.createContext("/SubmitBatch", submitBatchHandler);
@@ -164,6 +165,28 @@ public class Server {
 			GetProjects_Result gpr = serverHandler.getProjects(param);
 			
 			xmlStream.toXML(gpr, exchange.getResponseBody());
+			exchange.close();
+		}
+	};
+	
+	private HttpHandler getSampleImageHandler = new HttpHandler() {
+
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			GetSampleImage_Params param = (GetSampleImage_Params) xmlStream.fromXML(exchange.getRequestBody());
+			ServerHandler serverHandler;
+			try {
+				serverHandler = new ServerHandler(param);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, -1);
+				return;
+			}
+			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+			GetSampleImage_Result sir = serverHandler.getSampleImage(param);
+			
+			xmlStream.toXML(sir, exchange.getResponseBody());
 			exchange.close();
 		}
 	};
@@ -246,7 +269,7 @@ public class Server {
 				return;
 			}
 			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-			GetFields_Result gfr = serverHandler.submitBatch(param);
+			GetFields_Result gfr = serverHandler.getFields(param);
 			xmlStream.toXML(gfr, exchange.getResponseBody());
 			exchange.close();
 		}
@@ -267,7 +290,7 @@ public class Server {
 				return;
 			}
 			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-			Search_Result sr = serverHandler.submitBatch(param);
+			Search_Result sr = serverHandler.search(param);
 			xmlStream.toXML(sr, exchange.getResponseBody());
 			exchange.close();
 		}
