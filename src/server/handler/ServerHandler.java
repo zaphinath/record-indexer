@@ -241,7 +241,11 @@ public class ServerHandler {
 	public GetFields_Result getFields(GetFields_Params param) {
 		// TODO Auto-generated method stub
 		GetFields_Result gfr = new GetFields_Result();
-		return null;
+		
+		if (isValidUser) {
+			
+		}
+		return gfr;
 	}
 
 
