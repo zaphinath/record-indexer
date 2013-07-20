@@ -3,6 +3,7 @@
  */
 package shared.communication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import shared.model.Field;
@@ -15,6 +16,10 @@ public class GetFields_Result {
 	
 	private List<Field> fields;
 
+	
+	public GetFields_Result() {
+		fields = new ArrayList<Field>();
+	}
 	/**
 	 * @return the fields
 	 */
@@ -32,7 +37,7 @@ public class GetFields_Result {
 	@Override
 	public String toString() {
 		String tmp = "FAILED\n";
-		if (fields != null) {
+		if (!fields.isEmpty()) {
 			tmp = "";
 			for (int i = 0; i < fields.size(); i++) {
 				tmp = tmp + fields.get(i).getProjectId() + "\n" +

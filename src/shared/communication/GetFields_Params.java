@@ -27,7 +27,7 @@ public class GetFields_Params extends ValidateUser_Params {
 	 * Class Constructor
 	 */
 	public GetFields_Params() {
-		
+		this.projectID = null;
 	}
 
 	/**
@@ -35,6 +35,10 @@ public class GetFields_Params extends ValidateUser_Params {
 	 */
 	public int getProjectID() {
 		return Integer.parseInt(projectID);
+	}
+	
+	public String getStringProjectID() {
+		return this.projectID;
 	}
 
 	/**

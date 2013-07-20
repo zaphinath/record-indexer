@@ -182,7 +182,9 @@ public class Controller implements IController {
 		GetFields_Params gfp = new GetFields_Params();
 		gfp.setUsername(tmp[0]);
 		gfp.setPassword(tmp[1]);
-		gfp.setProjectID(tmp[2]);
+		if (tmp[2].length() > 0) {
+			gfp.setProjectID(tmp[2]);
+		} 
 		try {
 			GetFields_Result gfr = cc.getFields(gfp);
 			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n" + tmp[2] + "\n");

@@ -238,20 +238,31 @@ public class ServerHandler {
 	 * @param param
 	 * @return
 	 */
+	@SuppressWarnings("null")
 	public GetFields_Result getFields(GetFields_Params param) {
 		// TODO Auto-generated method stub
 		GetFields_Result gfr = new GetFields_Result();
-		
+		List<Field> fields = null;
 		db = new Database();
 		try {
 			db.startTransaction();
-			
+			fields = db.getFieldDB().getAll();
 			db.endTransaction(true);
 		} catch (Exception e) {
 			db.endTransaction(false);
 		}
 		if (isValidUser) {
-			
+			if (param.getStringProjectID() == null) {
+				for (int i = 0; i < fields.size(); i++) {
+					gfr.getFields().add(fields.get(i));
+				}
+			} else {
+				for (int i = 0; i < fields.size(); i++) {
+					if (fields.get(i).getProjectId() == param.getProjectID()) {
+						gfr.getFields().add(fields.get(i));
+					}
+				}
+			}
 		}
 		return gfr;
 	}
