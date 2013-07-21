@@ -103,10 +103,43 @@ public class ClientCommunicatorTest {
 			assertEquals(params.getProjectID(), projectId);
 			if (i < 3) {
 				assertNotNull("NULL", ir.getImageUrl());
+				assertTrue("http://", ir.toString().contains("http://"));
 			} else {
 				assertEquals(ir.toString(), "FAILED\n");
 			}
+		}		
+	}
+	
+	@Test
+	public void testDownloadBatch() throws ClientException {
+		String[] users = {"test1", "test2", "sheila", "foo"};
+		String[] passs = {"test1", "test2", "parker", "fighters"};
+		String[] projectFirstY = {"199", "204", "195" };
+		String[] recordHeights = {"60", "62", "65" };
+		int projectId = 1;
+		for (int i = 0; i < users.length; i++) {
+			DownloadBatch_Params params = new DownloadBatch_Params();
+			params.setUsername(users[i]);
+			params.setPassword(passs[i]);
+			params.setProjectID(projectId);
+			System.out.println(params.getProjectID() + " " + params.getUsername() + " " + params.getPassword());
+			params.setUrlPrefix("http://localhost");
+			DownloadBatch_Result dbr = new DownloadBatch_Result();
+			dbr = cc.downloadBatch(params);
+			if (i < 2) {
+				String[] results = dbr.toString().split("\\r?\\n");
+				assertEquals(Integer.toString(projectId), results[1]);
+				assertEquals(projectFirstY[i], results[3]);
+				assertEquals(recordHeights[i], results[4]);
+				// Try to checkout another batch with one assigned
+				dbr = cc.downloadBatch(params);
+				assertEquals("FAILED\n", dbr.toString());
+				System.out.println("Pass");
+			} else {
+				assertEquals(dbr.toString(), "FAILED\n");
+			}
+			projectId++;
 		}
-		
+
 	}
 }

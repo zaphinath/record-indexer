@@ -217,6 +217,7 @@ public class Server {
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
 			DownloadBatch_Params param = (DownloadBatch_Params) xmlStream.fromXML(exchange.getRequestBody());
+//			System.out.println(param.getProjectID() + " " + param.getUsername() + " " + param.getPassword() + " " + param.getUrlPrefix());
 			ServerHandler serverHandler;
 			try {
 				serverHandler = new ServerHandler(param);

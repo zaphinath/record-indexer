@@ -171,7 +171,6 @@ public class ServerHandler {
 			if (!hasOpenBatch(batches, accessUser.getID())) {
 				List<Field> limitedFields = new ArrayList<Field>();
 				List<Batch> limitedBatches = new ArrayList<Batch>();
-				List<RecordValue> limitedRecordValues = new ArrayList<RecordValue>();
 				Project project = null;
 
 				// limit variables
@@ -183,6 +182,7 @@ public class ServerHandler {
 				for (int i = 0; i < batches.size(); i++) {
 					if (batches.get(i).getAccessUserId() == 0 && batches.get(i).getProjectId() == param.getProjectID()) {
 						boolean hasValues = false;
+//						System.out.println("user id = 0 && project id is same");
 						for (int j = 0; j < recordValues.size(); j++) {
 							if (recordValues.get(j).getBatchId() == batches.get(i).getId()) {
 								hasValues = true;
@@ -198,36 +198,40 @@ public class ServerHandler {
 						project = projects.get(i);
 					}
 				}
-				Batch selBatch = limitedBatches.get(0);
-				
-				try {
-					imageUrl = new URL(param.getUrlPrefix() + "files" + selBatch.getFile());
-					dbr.setBatchId(selBatch.getId());
-					dbr.setProjectId(param.getProjectID());
-					dbr.setImageUrl(imageUrl);
-					dbr.setFirstYCoord(project.getFirstYCoord());
-					dbr.setRecordHeight(project.getRecordHeight());
-					dbr.setNumRecords(project.getRecordsPerImage());
-					dbr.setNumFields(limitedFields.size());
-					dbr.setUrlPrefix(param.getUrlPrefix());
-					for (int i = 0; i < limitedFields.size(); i++) {
-						dbr.getFields().add(limitedFields.get(i));
-					}					
+				// if there are no records available to index for project
+				if (limitedBatches.size() > 0) {
+					Batch selBatch = limitedBatches.get(0);
 					
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					try {
+						imageUrl = new URL(param.getUrlPrefix() + "files" + selBatch.getFile());
+						dbr.setBatchId(selBatch.getId());
+						dbr.setProjectId(param.getProjectID());
+						//dbr.setImageUrl(imageUrl);
+						dbr.setFirstYCoord(project.getFirstYCoord());
+						dbr.setRecordHeight(project.getRecordHeight());
+						dbr.setNumRecords(project.getRecordsPerImage());
+						dbr.setNumFields(limitedFields.size());
+						dbr.setUrlPrefix(param.getUrlPrefix());
+						for (int i = 0; i < limitedFields.size(); i++) {
+							dbr.getFields().add(limitedFields.get(i));
+						}					
+						
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					selBatch.setAccessUser(accessUser.getID());
+					try {
+						db.startTransaction();
+						db.getBatchDB().updateBatch(selBatch);
+						db.endTransaction(true);
+					} catch (SQLException e) {
+						e.printStackTrace();
+						db.endTransaction(false);
+					}
+				} else {
+					dbr.setBatchId(0);
 				}
-				selBatch.setAccessUser(accessUser.getID());
-				try {
-					db.startTransaction();
-					db.getBatchDB().updateBatch(selBatch);
-					db.endTransaction(true);
-				} catch (SQLException e) {
-					e.printStackTrace();
-					db.endTransaction(false);
-				}
-				
 			}
 			
 		}
@@ -286,7 +290,7 @@ public class ServerHandler {
 		// TODO Auto-generated method stub
 		SubmitBatch_Result sbr = new SubmitBatch_Result();
 		List<Batch> batches = null;
-		List<RecordValue> recordValues = null;
+	//	List<RecordValue> recordValues = null;
 		List<Field> fields = null;
 		List<Project> projects = null;
 		String[] values = param.getRecordValues().split(",");
@@ -295,7 +299,7 @@ public class ServerHandler {
 			try {
 				db.startTransaction();
 				batches = db.getBatchDB().getAll();
-				recordValues = db.getRecordValueDB().getAll();
+	//			recordValues = db.getRecordValueDB().getAll();
 				fields = db.getFieldDB().getAll();
 				projects = db.getProjectDB().getAll();
 				db.endTransaction(true);
@@ -314,6 +318,7 @@ public class ServerHandler {
 					project = projects.get(i);
 				}
 			}
+			System.out.println("DB: " +project.getId());
 			batch.setAccessUser(0);
 			for (int i = 0; i < fields.size(); i++) {
 				if (fields.get(i).getProjectId() != batch.getProjectId()) {

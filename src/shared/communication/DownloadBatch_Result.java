@@ -56,6 +56,7 @@ public class DownloadBatch_Result {
 	 * @param projectId the projectId to set
 	 */
 	public void setProjectId(int projectId) {
+		System.out.println(projectId);
 		this.projectId = projectId;
 	}
 
@@ -160,30 +161,33 @@ public class DownloadBatch_Result {
 
 	@Override 
 	public String toString() {
-		String tmp = batchId + "\n" +
-								 projectId + "\n" +
-								 imageUrl + "\n" +
-								 firstYCoord + "\n" + 
-								 recordHeight + "\n" +
-								 numRecords + "\n" +
-								 numFields + "\n";
-		//Need to loop through all fields according to spec
-		if ( fields != null) {
-			int fieldNum = 1;
-			for (int i = 0; i < numFields; i++) {
-				if (fieldNum > numFields) {
-					fieldNum = 1;
+		String tmp = "FAILED\n";
+		if (batchId != 0) {
+			tmp = batchId + "\n" +
+					 projectId + "\n" +
+					 imageUrl + "\n" +
+					 firstYCoord + "\n" + 
+					 recordHeight + "\n" +
+					 numRecords + "\n" +
+					 numFields + "\n";
+			//Need to loop through all fields according to spec
+			if ( fields != null) {
+				int fieldNum = 1;
+				for (int i = 0; i < numFields; i++) {
+					if (fieldNum > numFields) {
+						fieldNum = 1;
+					}
+					tmp = tmp + fields.get(i).getId() + "\n" +
+								fieldNum + "\n" +
+								fields.get(i).getTitle() + "\n" +
+								urlPrefix + "files" + fields.get(i).getHtmlHelp() + "\n" +
+								fields.get(i).getXcoord() + "\n" +
+								fields.get(i).getWidth() + "\n";
+					if (fields.get(i).getKnownData() != null) {
+						tmp = tmp + urlPrefix + "files" + fields.get(i).getKnownData() + "\n";
+					}
+					fieldNum++;
 				}
-				tmp = tmp + fields.get(i).getId() + "\n" +
-							fieldNum + "\n" +
-							fields.get(i).getTitle() + "\n" +
-							urlPrefix + "files" + fields.get(i).getHtmlHelp() + "\n" +
-							fields.get(i).getXcoord() + "\n" +
-							fields.get(i).getWidth() + "\n";
-				if (fields.get(i).getKnownData() != null) {
-					tmp = tmp + urlPrefix + "files" + fields.get(i).getKnownData() + "\n";
-				}
-				fieldNum++;
 			}
 		}
 		return tmp;
