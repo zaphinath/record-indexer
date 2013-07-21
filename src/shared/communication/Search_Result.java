@@ -131,6 +131,19 @@ public class Search_Result {
 		this.recordNumber = recordNumber;
 	}
 	
-	
+	@Override 
+	public String toString() {
+		String tmp = "FAILED\n";
+		//If there are results
+		if (this.list.size() > 0) {
+			for (int i = 0; i < list.size(); i ++) {
+				tmp = tmp + list.get(i).getBatchId() + "\n" +
+							list.get(i).getImageUrl().toString() + "\n" +
+							list.get(i).getRecordNumber() + "\n" +
+							list.get(i).getFieldId() + "\n";
+			}
+		} 
+		return tmp;
+	}
 
 }

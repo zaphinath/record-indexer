@@ -249,17 +249,20 @@ public class ServerHandler {
 		Search_Result sr = new Search_Result();
 		List<Batch> batches = null;
 		List<RecordValue> recordValues = null;
+		int[] fieldIds = param.getFieldIds().split(",");
+		String[] values = param.getSearchValues().split(",");
 		
-		db = new Database();
-		try {
-			db.startTransaction();
-			batches = db.getBatchDB().getAll();
-			recordValues = db.getRecordValueDB().getAll();
-			db.endTransaction(true);
-		} catch (Exception e) {
-			db.endTransaction(false);
+		if (isValidUser) {
+			db = new Database();
+			try {
+				db.startTransaction();
+				batches = db.getBatchDB().getAll();
+				recordValues = db.getRecordValueDB().getAll();
+				db.endTransaction(true);
+			} catch (Exception e) {
+				db.endTransaction(false);
+			}
 		}
-		
 		return sr;
 	}
 

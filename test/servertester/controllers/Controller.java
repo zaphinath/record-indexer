@@ -221,7 +221,7 @@ public class Controller implements IController {
 		Search_Params sp = new Search_Params();
 		sp.setUsername(tmp[0]);
 		sp.setPassword(tmp[1]);
-		sp.setFields(tmp[2]);
+		sp.setFieldIds(tmp[2]);
 		sp.setSearchValues(tmp[3]);
 		try {
 			Search_Result sr = cc.search(sp);

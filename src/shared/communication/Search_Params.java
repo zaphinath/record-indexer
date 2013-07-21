@@ -9,20 +9,20 @@ package shared.communication;
  */
 public class Search_Params extends ValidateUser_Params {
 
-	String fields;
+	String fieldIds;
 	String searchValues;
 	
 	/**
 	 * Class Constructor with params
 	 * @param username
 	 * @param password
-	 * @param fields
+	 * @param fieldIds
 	 * @param searchValues
 	 */
-	public Search_Params(String username, String password, String fields, String searchValues) {
+	public Search_Params(String username, String password, String fieldIds, String searchValues) {
 		super.setUsername(username);
 		super.setPassword(password);
-		this.fields = fields;
+		this.fieldIds = fieldIds;
 		this.searchValues = searchValues;
 	}
 	
@@ -36,15 +36,15 @@ public class Search_Params extends ValidateUser_Params {
 	/**
 	 * @return the fields
 	 */
-	public String getFields() {
-		return fields;
+	public String getFieldIds() {
+		return fieldIds;
 	}
 
 	/**
 	 * @param fields the fields to set
 	 */
-	public void setFields(String fields) {
-		this.fields = fields;
+	public void setFieldIds(String fieldIds) {
+		this.fieldIds = fieldIds;
 	}
 
 	/**
