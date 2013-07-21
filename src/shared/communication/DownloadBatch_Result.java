@@ -160,7 +160,6 @@ public class DownloadBatch_Result {
 
 	@Override 
 	public String toString() {
-		//String tmp = "FOO FIGHT";
 		String tmp = batchId + "\n" +
 								 projectId + "\n" +
 								 imageUrl + "\n" +
@@ -170,9 +169,13 @@ public class DownloadBatch_Result {
 								 numFields + "\n";
 		//Need to loop through all fields according to spec
 		if ( fields != null) {
+			int fieldNum = 1;
 			for (int i = 0; i < numFields; i++) {
+				if (fieldNum > numFields) {
+					fieldNum = 1;
+				}
 				tmp = tmp + fields.get(i).getId() + "\n" +
-							fields.get(i).getId() + "\n" +
+							fieldNum + "\n" +
 							fields.get(i).getTitle() + "\n" +
 							urlPrefix + "files" + fields.get(i).getHtmlHelp() + "\n" +
 							fields.get(i).getXcoord() + "\n" +
@@ -180,6 +183,7 @@ public class DownloadBatch_Result {
 				if (fields.get(i).getKnownData() != null) {
 					tmp = tmp + urlPrefix + "files" + fields.get(i).getKnownData() + "\n";
 				}
+				fieldNum++;
 			}
 		}
 		return tmp;

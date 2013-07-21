@@ -15,6 +15,7 @@ import shared.communication.*;
 import shared.model.Batch;
 import shared.model.Field;
 import shared.model.Project;
+import shared.model.RecordValue;
 import shared.model.User;
 
 /**
@@ -153,6 +154,7 @@ public class ServerHandler {
 		List<Batch> batches = null;
 		List<Field> fields = null;
 		List<Project> projects = null;
+		List<RecordValue> recordValues = null;
 		URL imageUrl = null;
 		db = new Database();
 		try {
@@ -160,6 +162,7 @@ public class ServerHandler {
 			batches = db.getBatchDB().getAll();
 			fields = db.getFieldDB().getAll();
 			projects = db.getProjectDB().getAll();
+			recordValues = db.getRecordValueDB().getAll();
 			db.endTransaction(true);
 		} catch (ServerException | SQLException e) {
 			e.printStackTrace();
@@ -168,6 +171,7 @@ public class ServerHandler {
 			if (!hasOpenBatch(batches, accessUser.getID())) {
 				List<Field> limitedFields = new ArrayList<Field>();
 				List<Batch> limitedBatches = new ArrayList<Batch>();
+				List<RecordValue> limitedRecordValues = new ArrayList<RecordValue>();
 				Project project = null;
 
 				// limit variables
@@ -178,7 +182,15 @@ public class ServerHandler {
 				}
 				for (int i = 0; i < batches.size(); i++) {
 					if (batches.get(i).getAccessUserId() == 0 && batches.get(i).getProjectId() == param.getProjectID()) {
-						limitedBatches.add(batches.get(i));
+						boolean hasValues = false;
+						for (int j = 0; j < recordValues.size(); j++) {
+							if (recordValues.get(j).getBatchId() == batches.get(i).getId()) {
+								hasValues = true;
+							}
+						}
+						if (hasValues == false){
+							limitedBatches.add(batches.get(i));
+						}	
 					}
 				}
 				for (int i = 0; i < projects.size(); i++) {
@@ -238,9 +250,7 @@ public class ServerHandler {
 	 * @param param
 	 * @return
 	 */
-	@SuppressWarnings("null")
 	public GetFields_Result getFields(GetFields_Params param) {
-		// TODO Auto-generated method stub
 		GetFields_Result gfr = new GetFields_Result();
 		List<Field> fields = null;
 		db = new Database();
@@ -274,7 +284,65 @@ public class ServerHandler {
 	 */
 	public SubmitBatch_Result submitBatch(SubmitBatch_Params param) {
 		// TODO Auto-generated method stub
-		return null;
+		SubmitBatch_Result sbr = new SubmitBatch_Result();
+		List<Batch> batches = null;
+		List<RecordValue> recordValues = null;
+		List<Field> fields = null;
+		List<Project> projects = null;
+		String[] values = param.getRecordValues().split(",");
+		if (isValidUser) {
+			db = new Database();
+			try {
+				db.startTransaction();
+				batches = db.getBatchDB().getAll();
+				recordValues = db.getRecordValueDB().getAll();
+				fields = db.getFieldDB().getAll();
+				projects = db.getProjectDB().getAll();
+				db.endTransaction(true);
+			} catch (Exception e) {
+				db.endTransaction(false);
+			}
+			Batch batch = new Batch();
+			Project project = new Project();
+			for (int i = 0; i < batches.size(); i++) {
+				if (batches.get(i).getId() == param.getBatchID()) {
+					batch = batches.get(i);
+				}
+			}
+			for (int i = 0; i < projects.size(); i++) {
+				if (projects.get(i).getId() == batch.getProjectId()) {
+					project = projects.get(i);
+				}
+			}
+			batch.setAccessUser(0);
+			for (int i = 0; i < fields.size(); i++) {
+				if (fields.get(i).getProjectId() != batch.getProjectId()) {
+					fields.remove(i);
+				}
+			}
+			//update database
+			try {
+				db.startTransaction();
+				int count = 1;
+				for (int i = 0; i < values.length; i++) {
+					if (count > fields.size()) {
+						count = 1;
+					}
+					RecordValue tmp = new RecordValue(-1, batch.getId(), fields.get(count).getId(), values[i]);
+					db.getRecordValueDB().addRecordValue(tmp);
+					count++;
+				}
+				accessUser.setIndexedRecords(accessUser.getIndexedRecords() + project.getRecordsPerImage());
+				db.getUserDB().update(accessUser);
+				db.getBatchDB().updateBatch(batch);
+				db.endTransaction(true);
+				sbr.setSubmitted(true);
+			} catch (Exception e) {
+				db.endTransaction(false);
+				e.printStackTrace();
+			}
+		}
+		return sbr;
 	}
 	
 	/**
