@@ -3,6 +3,7 @@
  */
 package shared.communication;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -12,8 +13,12 @@ import java.util.List;
 public class Search_Result {
 	
 	private int projectId;
-	private int fieldId;
 	private String fieldTitle;
+	
+	private int batchId;
+	private URL imageUrl;
+	private int recordNumber;
+	private int fieldId;
 	
 	private List<Search_Result> list;
 	
@@ -82,6 +87,48 @@ public class Search_Result {
 	 */
 	public void setList(List<Search_Result> list) {
 		this.list = list;
+	}
+
+	/**
+	 * @return the batchId
+	 */
+	public int getBatchId() {
+		return batchId;
+	}
+
+	/**
+	 * @param batchId the batchId to set
+	 */
+	public void setBatchId(int batchId) {
+		this.batchId = batchId;
+	}
+
+	/**
+	 * @return the imageUrl
+	 */
+	public URL getImageUrl() {
+		return imageUrl;
+	}
+
+	/**
+	 * @param imageUrl the imageUrl to set
+	 */
+	public void setImageUrl(URL imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	/**
+	 * @return the recordNumber
+	 */
+	public int getRecordNumber() {
+		return recordNumber;
+	}
+
+	/**
+	 * @param recordNumber the recordNumber to set
+	 */
+	public void setRecordNumber(int recordNumber) {
+		this.recordNumber = recordNumber;
 	}
 	
 	

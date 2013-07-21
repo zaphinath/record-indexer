@@ -62,8 +62,6 @@ public class ClientCommunicatorTest {
 		for (int i = 0; i < users.length; i++) {
 			ValidateUser_Params params = new ValidateUser_Params(users[i], passs[i]);
 			ValidateUser_Result rs = cc.validateUser(params);
-			//System.out.println(expected[i]);
-			//System.out.println(rs.toString());
 			assertEquals(expected[i], rs.toString());
 		}		
 	}
@@ -110,6 +108,10 @@ public class ClientCommunicatorTest {
 		}		
 	}
 	
+	/** 
+	 * This depends on successful import - clean slate
+	 * @throws ClientException
+	 */
 	@Test
 	public void testDownloadBatch() throws ClientException {
 		String[] users = {"test1", "test2", "sheila", "foo"};
@@ -122,7 +124,6 @@ public class ClientCommunicatorTest {
 			params.setUsername(users[i]);
 			params.setPassword(passs[i]);
 			params.setProjectID(projectId);
-			System.out.println(params.getProjectID() + " " + params.getUsername() + " " + params.getPassword());
 			params.setUrlPrefix("http://localhost");
 			DownloadBatch_Result dbr = new DownloadBatch_Result();
 			dbr = cc.downloadBatch(params);
@@ -134,12 +135,46 @@ public class ClientCommunicatorTest {
 				// Try to checkout another batch with one assigned
 				dbr = cc.downloadBatch(params);
 				assertEquals("FAILED\n", dbr.toString());
-				System.out.println("Pass");
+//				System.out.println("Pass");
 			} else {
 				assertEquals(dbr.toString(), "FAILED\n");
 			}
 			projectId++;
 		}
-
+	}
+	
+	/**
+	 * This depends on testDownloadBatch completing successfully
+	 * @throws ClientException 
+	 */
+	@Test
+	public void testSubmitBatch() throws ClientException {
+		String[] users = {"test1", "test2", "sheila", "foo"};
+		String[] passs = {"test1", "test2", "parker", "fighters"};
+		int[] batchIds = { 1, 21, 0, 0 };
+		String[] values = {" ", " ", " ", " " };
+		
+		for (int i = 0; i < users.length; i++) {
+			SubmitBatch_Params params = new SubmitBatch_Params(users[i], passs[i], batchIds[i], values[i]);
+			SubmitBatch_Result sbr = new SubmitBatch_Result();
+			sbr = cc.submitBatch(params);
+			System.out.println("SB " + sbr.toString());
+			if ( i < 2) {
+				assertEquals("TRUE\n", sbr.toString());
+				//TODO: get results to make sure they were inserted;
+			} else {
+				assertEquals(sbr.toString(), "FAILED\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetFields() {
+		
+	}
+	
+	@Test
+	public void testSearch() {
+		
 	}
 }

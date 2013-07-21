@@ -246,7 +246,20 @@ public class ServerHandler {
 	 */
 	public Search_Result search(Search_Params param) {
 		// TODO Auto-generated method stub
-		return null;
+		Search_Result sr = new Search_Result();
+		List<Batch> batches = null;
+		List<RecordValue> recordValues = null;
+		
+		db = new Database();
+		try {
+			db.startTransaction();
+			batches = db.getBatchDB().getAll();
+			recordValues = db.getRecordValueDB().getAll();
+			db.endTransaction(true);
+		} catch (Exception e) {
+			db.endTransaction(false);
+		}
+		return sr;
 	}
 
 
@@ -313,38 +326,41 @@ public class ServerHandler {
 					batch = batches.get(i);
 				}
 			}
-			for (int i = 0; i < projects.size(); i++) {
-				if (projects.get(i).getId() == batch.getProjectId()) {
-					project = projects.get(i);
-				}
-			}
-			System.out.println("DB: " +project.getId());
-			batch.setAccessUser(0);
-			for (int i = 0; i < fields.size(); i++) {
-				if (fields.get(i).getProjectId() != batch.getProjectId()) {
-					fields.remove(i);
-				}
-			}
-			//update database
-			try {
-				db.startTransaction();
-				int count = 1;
-				for (int i = 0; i < values.length; i++) {
-					if (count > fields.size()) {
-						count = 1;
+			if (batch.getAccessUserId() == this.accessUser.getID()) {
+				for (int i = 0; i < projects.size(); i++) {
+					if (projects.get(i).getId() == batch.getProjectId()) {
+						project = projects.get(i);
 					}
-					RecordValue tmp = new RecordValue(-1, batch.getId(), fields.get(count).getId(), values[i]);
-					db.getRecordValueDB().addRecordValue(tmp);
-					count++;
 				}
-				accessUser.setIndexedRecords(accessUser.getIndexedRecords() + project.getRecordsPerImage());
-				db.getUserDB().update(accessUser);
-				db.getBatchDB().updateBatch(batch);
-				db.endTransaction(true);
-				sbr.setSubmitted(true);
-			} catch (Exception e) {
-				db.endTransaction(false);
-				e.printStackTrace();
+				batch.setAccessUser(0);
+				for (int i = 0; i < fields.size(); i++) {
+					if (fields.get(i).getProjectId() != batch.getProjectId()) {
+						fields.remove(i);
+					}
+				}
+				//update database
+				try {
+					db.startTransaction();
+					int count = 1;
+					for (int i = 0; i < values.length; i++) {
+						if (count > fields.size()) {
+							count = 1;
+						}
+						RecordValue tmp = new RecordValue(-1, batch.getId(), fields.get(count).getId(), values[i]);
+						db.getRecordValueDB().addRecordValue(tmp);
+						count++;
+					}
+					accessUser.setIndexedRecords(accessUser.getIndexedRecords() + project.getRecordsPerImage());
+					db.getUserDB().update(accessUser);
+					db.getBatchDB().updateBatch(batch);
+					db.endTransaction(true);
+					sbr.setSubmitted(true);
+				} catch (Exception e) {
+					db.endTransaction(false);
+					e.printStackTrace();
+				}
+			} else {
+				sbr.setSubmitted(false);
 			}
 		}
 		return sbr;
