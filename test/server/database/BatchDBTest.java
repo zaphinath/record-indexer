@@ -73,6 +73,29 @@ public class BatchDBTest {
 		db = null;
 		batchDb = null;
 	}
+	
+	@Test 
+	public void testGetBatch() throws SQLException, ServerException {
+		batchDb.addBatch(new Batch(1, 2, "SuperStrings.png", 0));
+		batchDb.addBatch(new Batch(2, 1, "TheIncredibleBulk1880.jpg", 0));
+		
+		List<Batch> list = batchDb.getAll();
+		assertEquals(2, list.size());
+				
+		Batch batch1 = batchDb.getBatch(1);
+		Batch batch2 = batchDb.getBatch(2);
+		
+		assertEquals(batch1.getId(),1);
+		assertEquals(batch2.getId(),2);
+		
+		
+		assertEquals(batch1.getProjectId(), 2);
+		assertEquals(batch2.getProjectId(), 1);
+		
+		assertEquals(batch1.getFile(), "SuperStrings.png");
+		assertEquals(batch2.getFile(), "TheIncredibleBulk1880.jpg");
+		
+	}
 
 	@Test
 	public void testAddBatch() throws SQLException, ServerException {

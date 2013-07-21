@@ -61,6 +61,32 @@ public class BatchDB {
 			return projectList;
 		}
 		
+		public Batch getBatch(int id) throws SQLException {
+			Batch batch = new Batch();
+			PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    try {
+	    	String sql = "SELECT * FROM batches where id = ?";
+	    	stmt = db.getConnection().prepareStatement(sql);
+	    	stmt.setInt(1, id);
+	    	
+	    	rs = stmt.executeQuery();
+	    	while (rs.next()) {
+	    		int bid = rs.getInt(1);
+	    		int projectId = rs.getInt(2);
+	    		String file = rs.getString(3);
+	    		int accessUserId = rs.getInt(4);
+	    		batch = new Batch(bid, projectId, file, accessUserId);
+	    	}
+	    } catch (SQLException e) {
+	    	
+	    } finally {
+	    	if (rs != null) rs.close();
+	    	if (stmt != null) stmt.close();
+	    }
+			return batch;
+		}
+		
 		/**
 		 * Adds a Batch object to the database 
 		 * @param batch

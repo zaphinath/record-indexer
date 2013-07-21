@@ -7,6 +7,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import server.ServerException;
@@ -243,24 +245,80 @@ public class ServerHandler {
 	/**
 	 * @param param
 	 * @return
+	 * @throws MalformedURLException 
 	 */
-	public Search_Result search(Search_Params param) {
+	public Search_Result search(Search_Params param) throws MalformedURLException {
 		// TODO Auto-generated method stub
 		Search_Result sr = new Search_Result();
 		List<Batch> batches = null;
 		List<RecordValue> recordValues = null;
-		int[] fieldIds = param.getFieldIds().split(",");
+		List<RecordValue> limitedValues = new ArrayList<RecordValue>();
+		String[] fieldIds = param.getFieldIds().split(",");
 		String[] values = param.getSearchValues().split(",");
 		
-		if (isValidUser) {
-			db = new Database();
-			try {
-				db.startTransaction();
-				batches = db.getBatchDB().getAll();
-				recordValues = db.getRecordValueDB().getAll();
-				db.endTransaction(true);
-			} catch (Exception e) {
-				db.endTransaction(false);
+		if (fieldIds.length > 0 && values.length > 0) {
+			if (isValidUser) {
+				db = new Database();
+				try {
+					db.startTransaction();
+					batches = db.getBatchDB().getAll();
+					recordValues = db.getRecordValueDB().getAll();
+					db.endTransaction(true);
+				} catch (Exception e) {
+					db.endTransaction(false);
+				}
+				// Limit the values to search
+				for (int i = 0; i < recordValues.size(); i++) {
+					for (int j = 0; j < fieldIds.length; j++) {
+						if (recordValues.get(i).getFieldId() == Integer.parseInt(fieldIds[j])) {
+							limitedValues.add(recordValues.get(i));
+						}		
+					}
+				}
+				// Search each record value and put them in a hashmap
+				HashMap<Integer, ArrayList<RecordValue>> map = new HashMap<Integer, ArrayList<RecordValue>>();
+				for (int i = 0; i < limitedValues.size(); i++) {
+					for (int j = 0; j < values.length; j++) {
+						if (limitedValues.get(i).getValue().toLowerCase().contains(values[j].toLowerCase())) {
+							if(map.containsKey(limitedValues.get(i).getFieldId())) {
+								map.get(limitedValues.get(i).getFieldId()).add(limitedValues.get(i));
+							} else {
+								map.put(limitedValues.get(i).getFieldId(), new ArrayList<RecordValue>());
+								map.get(limitedValues.get(i).getFieldId()).add(limitedValues.get(i));
+
+							}
+							
+						}
+					}
+				}
+				System.out.println("SRSAFTER" + map.size());
+
+				// Iterate Map and build result structure
+				if (map.size() > 0) {
+					Iterator<Integer> itr = map.keySet().iterator();
+					while(itr.hasNext()) {
+	
+						int fieldId = itr.next();
+						ArrayList<RecordValue> altmp = map.get(fieldId);
+						for (int i = 0; i < altmp.size(); i++) {
+							Batch batch = null;
+							RecordValue rvTmp = altmp.get(i);
+							try {
+								db.startTransaction();
+								batch = db.getBatchDB().getBatch(rvTmp.getBatchId());
+								db.endTransaction(true);
+							} catch (Exception e) {
+								db.endTransaction(false);
+							}
+							Search_Result tmp = new Search_Result();	
+							tmp.setBatchId(batch.getId());
+							tmp.setImageUrl(new URL(param.getUrlPrefix()+batch.getFile()));
+							tmp.setRecordNumber(1);
+							tmp.setFieldId(fieldId);
+							sr.getList().add(tmp);
+						}
+					}
+				}
 			}
 		}
 		return sr;

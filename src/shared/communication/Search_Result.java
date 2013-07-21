@@ -4,6 +4,7 @@
 package shared.communication;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class Search_Result {
 		this.projectId = -1;
 		this.fieldId = -1;
 		this.fieldTitle = null;
-		this.list = null;
+		this.list = new ArrayList<Search_Result>();
 	}
 	
 	public Search_Result(List<Search_Result> list) {
@@ -136,6 +137,7 @@ public class Search_Result {
 		String tmp = "FAILED\n";
 		//If there are results
 		if (this.list.size() > 0) {
+			tmp = "";
 			for (int i = 0; i < list.size(); i ++) {
 				tmp = tmp + list.get(i).getBatchId() + "\n" +
 							list.get(i).getImageUrl().toString() + "\n" +

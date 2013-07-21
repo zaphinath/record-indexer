@@ -219,10 +219,12 @@ public class Controller implements IController {
 		String[] tmp = getView().getParameterValues();
 		ClientCommunicator cc = new ClientCommunicator();
 		Search_Params sp = new Search_Params();
+		String URLPrefix = "http://" + getView().getHost() + ":" + getView().getPort() + "/files/";
 		sp.setUsername(tmp[0]);
 		sp.setPassword(tmp[1]);
 		sp.setFieldIds(tmp[2]);
 		sp.setSearchValues(tmp[3]);
+		sp.setUrlPrefix(URLPrefix);
 		try {
 			Search_Result sr = cc.search(sp);
 			getView().setRequest(tmp[0] + "\n" + tmp[1] + "\n" + tmp[2] + "\n" + tmp[3] + "\n");

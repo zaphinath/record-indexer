@@ -11,6 +11,7 @@ public class Search_Params extends ValidateUser_Params {
 
 	String fieldIds;
 	String searchValues;
+	String urlPrefix;
 	
 	/**
 	 * Class Constructor with params
@@ -59,6 +60,20 @@ public class Search_Params extends ValidateUser_Params {
 	 */
 	public void setSearchValues(String searchValues) {
 		this.searchValues = searchValues;
+	}
+
+	/**
+	 * @return the urlPrefix
+	 */
+	public String getUrlPrefix() {
+		return urlPrefix;
+	}
+
+	/**
+	 * @param urlPrefix the urlPrefix to set
+	 */
+	public void setUrlPrefix(String urlPrefix) {
+		this.urlPrefix = urlPrefix;
 	}
 	
 	
