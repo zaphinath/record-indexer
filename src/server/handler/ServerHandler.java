@@ -259,6 +259,7 @@ public class ServerHandler {
 		} catch (Exception e) {
 			db.endTransaction(false);
 		}
+		
 		return sr;
 	}
 
