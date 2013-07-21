@@ -291,7 +291,6 @@ public class ServerHandler {
 						}
 					}
 				}
-				System.out.println("SRSAFTER" + map.size());
 
 				// Iterate Map and build result structure
 				if (map.size() > 0) {
@@ -313,7 +312,7 @@ public class ServerHandler {
 							Search_Result tmp = new Search_Result();	
 							tmp.setBatchId(batch.getId());
 							tmp.setImageUrl(new URL(param.getUrlPrefix()+batch.getFile()));
-							tmp.setRecordNumber(1);
+							tmp.setRecordNumber(rvTmp.getRecordNumber());
 							tmp.setFieldId(fieldId);
 							sr.getList().add(tmp);
 						}
@@ -408,7 +407,7 @@ public class ServerHandler {
 						if (count > fields.size()) {
 							count = 1;
 						}
-						RecordValue tmp = new RecordValue(-1, batch.getId(), fields.get(count).getId(), values[i]);
+						RecordValue tmp = new RecordValue(-1, batch.getId(), fields.get(count).getId(), values[i],i);
 						db.getRecordValueDB().addRecordValue(tmp);
 						count++;
 					}

@@ -171,21 +171,23 @@ private Database db;
               
               NodeList values = iElement.getElementsByTagName("value");
               int count = 0;
+              int countRecNum = 1;
+              int recordNumber = values.getLength()/fieldIds.size();
               for (int l = 0; l < values.getLength(); l++) {
               	if (count > fieldIds.size()-1) count = 0;
-              	//System.out.println(values.item(l).getTextContent());
+              	if (countRecNum > recordNumber) countRecNum = 1;
               	Node valNode = values.item(l);
               	if (valNode.getNodeType() == Node.ELEMENT_NODE) {
               		Element val = (Element) valNode;
               		//Element val = (Element) x.getElementsByTagName("value");
               		//System.out.println("COUNT: " + count);
               		RecordValue recordValue = new RecordValue(-1, batchId,
-              				fieldIds.get(count), val.getTextContent());
+              				fieldIds.get(count), val.getTextContent(), countRecNum);
               		db.startTransaction();
               		recordValue = db.getRecordValueDB().addRecordValue(recordValue);
               		db.endTransaction(true);
               		count++;
-              		
+              		countRecNum++;
               	}
               }
             }

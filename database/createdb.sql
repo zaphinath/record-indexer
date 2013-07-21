@@ -50,5 +50,6 @@ create table record_values
   id integer not null primary key autoincrement,
   batch_id integer not null,
   field_id integer not null,
-  value varchar(255)
+  value varchar(255),
+  record_number integer
 );

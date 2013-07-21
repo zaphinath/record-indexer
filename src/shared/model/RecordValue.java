@@ -13,6 +13,7 @@ public class RecordValue {
 	private int batchId;
 	private int fieldId;
 	private String value;
+	private int recordNumber;
 	
 	/**
 	 * Class Constructor
@@ -31,11 +32,12 @@ public class RecordValue {
 	 * @param fieldId
 	 * @param value
 	 */
-	public RecordValue(int id, int batchId, int fieldId, String value) {
+	public RecordValue(int id, int batchId, int fieldId, String value, int recordNumber) {
 		this.id = id;
 		this.batchId = batchId;
 		this.fieldId = fieldId;
 		this.value = value;
+		this.recordNumber = recordNumber;
 	}
 
 	/**
@@ -92,6 +94,20 @@ public class RecordValue {
 	 */
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	/**
+	 * @return the recordNumber
+	 */
+	public int getRecordNumber() {
+		return recordNumber;
+	}
+
+	/**
+	 * @param recordNumber the recordNumber to set
+	 */
+	public void setRecordNumber(int recordNumber) {
+		this.recordNumber = recordNumber;
 	}
 
 	

@@ -49,7 +49,8 @@ public class RecordValueDB {
     		int batchId = rs.getInt(2);
     		int fieldId = rs.getInt(3);
     		String value = rs.getString(4);
-    		RecordValue recordValue = new RecordValue(id, batchId, fieldId, value);
+    		int recordNumber = rs.getInt(5);
+    		RecordValue recordValue = new RecordValue(id, batchId, fieldId, value, recordNumber);
     		projectList.add(recordValue);
     	}
     } catch (SQLException e) {
@@ -73,17 +74,19 @@ public class RecordValueDB {
 	  ResultSet keyRS = null;
 	  RecordValue returnRecordValue = null;
 	  try {
-	    String sql = "INSERT INTO record_values (batch_id, field_id, value) VALUES(?, ?, ?)";
+	    String sql = "INSERT INTO record_values (batch_id, field_id, value, record_number) VALUES(?, ?, ?, ?)";
 	    stmt = db.getConnection().prepareStatement(sql);
 	    stmt.setInt(1, recordValue.getBatchId());
 	    stmt.setInt(2, recordValue.getFieldId());
 	    stmt.setString(3, recordValue.getValue());
+	    stmt.setInt(4, recordValue.getRecordNumber());
 	    if (stmt.executeUpdate() == 1) {
 	    	keyStmt = db.getConnection().createStatement();
 	    	keyRS = keyStmt.executeQuery("SELECT last_insert_rowid()");
 	    	keyRS.next();
 	    	int recordValueId = keyRS.getInt(1);
-	    	returnRecordValue = new RecordValue(recordValueId, recordValue.getBatchId(), recordValue.getFieldId(), recordValue.getValue());
+	    	returnRecordValue = new RecordValue(recordValueId, recordValue.getBatchId(), recordValue.getFieldId(), 
+	    			recordValue.getValue(), recordValue.getRecordNumber());
 	    } else {
 	      System.out.println("Insert batch failed");
 	    }
@@ -107,12 +110,13 @@ public class RecordValueDB {
 	  Statement keyStmt = null;
 	  ResultSet keyRS = null;
 	  try {
-		  String sql = "UPDATE record_values SET batch_id = ?, field_id = ?, value = ? where id = ?";
+		  String sql = "UPDATE record_values SET batch_id = ?, field_id = ?, value = ?, record_number = ? where id = ?";
 		  stmt = db.getConnection().prepareStatement(sql);
 		  stmt.setInt(1, recordValue.getBatchId());
 		  stmt.setInt(2, recordValue.getFieldId());
 		  stmt.setString(3, recordValue.getValue());
-		  stmt.setInt(4, recordValue.getId());
+		  stmt.setInt(4, recordValue.getRecordNumber());
+		  stmt.setInt(5, recordValue.getId());
 		  if (stmt.executeUpdate() == 1) {
 			  System.out.println("SUCCESS");
 		  } else {

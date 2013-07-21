@@ -78,8 +78,8 @@ public class RecordValueDBTest {
 		List<RecordValue> list = recordValueDb.getAll();
 		assertEquals(0, list.size());
 		
-		RecordValue rc1 = new RecordValue(-1, 1, 1, "Aunt Grettle");
-		RecordValue rc2 = new RecordValue(-1, 2, 2, "Uncle Stinky");
+		RecordValue rc1 = new RecordValue(-1, 1, 1, "Aunt Grettle",1);
+		RecordValue rc2 = new RecordValue(-1, 2, 2, "Uncle Stinky",2);
 		
 		rc1 = recordValueDb.addRecordValue(rc1);
 		rc2 = recordValueDb.addRecordValue(rc2);
@@ -101,8 +101,8 @@ public class RecordValueDBTest {
 		List<RecordValue> list = recordValueDb.getAll();
 		assertEquals(0, list.size());
 		
-		RecordValue rc1 = new RecordValue(-1, 1, 1, "Aunt Grettle");
-		RecordValue rc2 = new RecordValue(-1, 2, 2, "Uncle Stinky");
+		RecordValue rc1 = new RecordValue(-1, 1, 1, "Aunt Grettle",1);
+		RecordValue rc2 = new RecordValue(-1, 2, 2, "Uncle Stinky",2);
 		
 		rc1 = recordValueDb.addRecordValue(rc1);
 		rc2 = recordValueDb.addRecordValue(rc2);
@@ -138,8 +138,8 @@ public class RecordValueDBTest {
 		List<RecordValue> list = recordValueDb.getAll();
 		assertEquals(0, list.size());
 		
-		RecordValue rc1 = new RecordValue(-1, 1, 1, "Aunt Grettle");
-		RecordValue rc2 = new RecordValue(-1, 2, 2, "Uncle Stinky");
+		RecordValue rc1 = new RecordValue(-1, 1, 1, "Aunt Grettle",1);
+		RecordValue rc2 = new RecordValue(-1, 2, 2, "Uncle Stinky",2);
 		
 		rc1 = recordValueDb.addRecordValue(rc1);
 		rc2 = recordValueDb.addRecordValue(rc2);
