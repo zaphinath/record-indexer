@@ -7,5 +7,6 @@ log.txt
 files/images/*.png
 files/knowndata/*.txt
 files/fieldhelp/*.html
+log.txt*
 
 
