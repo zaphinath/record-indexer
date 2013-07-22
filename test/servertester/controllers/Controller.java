@@ -104,7 +104,6 @@ public class Controller implements IController {
 	private void validateUser() {
 		String[] tmp = getView().getParameterValues();
 		ClientCommunicator cc = new ClientCommunicator(getView().getHost(), Integer.parseInt(getView().getPort()));
-	
     ValidateUser_Params vvp = new ValidateUser_Params();
 		vvp.setUsername(tmp[0]);
 		vvp.setPassword(tmp[1]);
@@ -121,7 +120,7 @@ public class Controller implements IController {
 	
 	private void getProjects() {
 		String[] tmp = getView().getParameterValues();
-		ClientCommunicator cc = new ClientCommunicator();
+		ClientCommunicator cc = new ClientCommunicator(getView().getHost(), Integer.parseInt(getView().getPort()));
 		GetProjects_Params gpp = new GetProjects_Params();
 		gpp.setUsername(tmp[0]);
 		gpp.setPassword(tmp[1]);
@@ -138,7 +137,7 @@ public class Controller implements IController {
 	
 	private void getSampleImage() {
 		String[] tmp = getView().getParameterValues();
-		ClientCommunicator cc = new ClientCommunicator();
+		ClientCommunicator cc = new ClientCommunicator(getView().getHost(), Integer.parseInt(getView().getPort()));
 		GetSampleImage_Params gpp = new GetSampleImage_Params();
 		String URLPrefix = "http://" + getView().getHost() + ":" + getView().getPort() + "/files/";
 		gpp.setUsername(tmp[0]);
@@ -159,7 +158,7 @@ public class Controller implements IController {
 	
 	private void downloadBatch() {
 		String[] tmp = getView().getParameterValues();
-		ClientCommunicator cc = new ClientCommunicator();
+		ClientCommunicator cc = new ClientCommunicator(getView().getHost(), Integer.parseInt(getView().getPort()));
 		DownloadBatch_Params dbp = new DownloadBatch_Params();
 		String URLPrefix = "http://" + getView().getHost() + ":" + getView().getPort() + "/files/";
 		dbp.setUsername(tmp[0]);
@@ -179,7 +178,7 @@ public class Controller implements IController {
 	
 	private void getFields() {
 		String[] tmp = getView().getParameterValues();
-		ClientCommunicator cc = new ClientCommunicator();
+		ClientCommunicator cc = new ClientCommunicator(getView().getHost(), Integer.parseInt(getView().getPort()));
 		GetFields_Params gfp = new GetFields_Params();
 		gfp.setUsername(tmp[0]);
 		gfp.setPassword(tmp[1]);
@@ -199,7 +198,7 @@ public class Controller implements IController {
 	
 	private void submitBatch() {
 		String[] tmp = getView().getParameterValues();
-		ClientCommunicator cc = new ClientCommunicator();
+		ClientCommunicator cc = new ClientCommunicator(getView().getHost(), Integer.parseInt(getView().getPort()));
 		SubmitBatch_Params sbp = new SubmitBatch_Params();
 		sbp.setUsername(tmp[0]);
 		sbp.setPassword(tmp[1]);
@@ -218,7 +217,7 @@ public class Controller implements IController {
 	
 	private void search() {
 		String[] tmp = getView().getParameterValues();
-		ClientCommunicator cc = new ClientCommunicator();
+		ClientCommunicator cc = new ClientCommunicator(getView().getHost(), Integer.parseInt(getView().getPort()));
 		Search_Params sp = new Search_Params();
 		String URLPrefix = "http://" + getView().getHost() + ":" + getView().getPort() + "/files/";
 		sp.setUsername(tmp[0]);

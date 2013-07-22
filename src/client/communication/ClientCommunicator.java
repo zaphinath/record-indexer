@@ -24,21 +24,25 @@ import client.ClientException;
  */
 public class ClientCommunicator {
 	
-	private  String SERVER_HOST = "localhost";
-	private int SERVER_PORT = 39640;
-	private  String URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
+	private  String SERVER_HOST;// = "localhost";
+	private int SERVER_PORT;// = 39640;
+	private  String URL_PREFIX;// = "http://" + SERVER_HOST + ":" + SERVER_PORT;
 	private static String HTTP_POST = "POST";
 	private static String HTTP_GET = "GET";
 	
 	private XStream  xmlStream;
 	
 	public ClientCommunicator () {
+    this.SERVER_HOST = "localhost";
+    this.SERVER_PORT = 39640;
+    this.URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
 		xmlStream = new XStream(new DomDriver());
 	}
 	
 	public ClientCommunicator(String host, int port) {
 		this.SERVER_HOST = host;
 		this.SERVER_PORT = port;
+    this.URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
 		xmlStream = new XStream(new DomDriver());
 
 	}
