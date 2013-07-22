@@ -131,7 +131,7 @@ public class ServerHandler {
 				if (batches.get(i).getProjectId() == params.getProjectID()) {
 //					System.out.println("HERE at line 126");
 					try {
-						imageUrl = new URL(params.getUrlPrefix() + "/files" + batches.get(i).getFile());
+						imageUrl = new URL(params.getUrlPrefix()  + batches.get(i).getFile());
 					} catch (MalformedURLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

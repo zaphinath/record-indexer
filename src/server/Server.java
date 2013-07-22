@@ -1,8 +1,13 @@
 package server;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -116,7 +121,8 @@ public class Server {
 		server.createContext("/SubmitBatch", submitBatchHandler);
 		server.createContext("/GetFields", getFieldsHandler);
 		server.createContext("/Search", searchHandler);
-		server.createContext("/DownloadFile", downloadFileHandler);
+//		server.createContext("/DownloadFile", downloadFileHandler);
+		server.createContext("/files", downloadFileHandler);
 		
 		logger.info("Starting HTTP Server");
 
@@ -301,12 +307,36 @@ public class Server {
 
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			// Process DeleteContact request
-
-			// Database db = new Database();
-			// db.startTransaction();
-			// ...
-			// db.endTransaction();
+			String root = "./";
+			URI uri = exchange.getRequestURI();
+	    File file = new File(root + uri.getPath()).getCanonicalFile();
+	    /*if (!file.getPath().startsWith(root)) {
+	      // Suspected path traversal attack: reject with 403 error.
+	      String response = "403 (Forbidden)\n";
+	      exchange.sendResponseHeaders(403, response.length());
+	      OutputStream os = exchange.getResponseBody();
+	      os.write(response.getBytes());
+	      os.close();
+	    } else*/ if (!file.isFile()) {
+	      // Object does not exist or is not a file: reject with 404 error.
+	      String response = "404 (Not Found)\n";
+	      exchange.sendResponseHeaders(404, response.length());
+	      OutputStream os = exchange.getResponseBody();
+	      os.write(response.getBytes());
+	      os.close();
+	    } else {
+	      // Object exists and is a file: accept with response code 200.
+	    	byte [] bytearray  = new byte [(int)file.length()];
+	    	FileInputStream fis = new FileInputStream(file);
+	      BufferedInputStream bis = new BufferedInputStream(fis);
+	      bis.read(bytearray, 0, bytearray.length);
+	      // ok, we are ready to send the response.
+	      exchange.sendResponseHeaders(200, file.length());
+	      OutputStream os = exchange.getResponseBody();
+	      os.write(bytearray,0,bytearray.length);
+	      os.close();
+	      
+	    }
 		}
 	};
 	

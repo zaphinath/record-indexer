@@ -3,10 +3,14 @@
  */
 package client.communication;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -24,6 +28,7 @@ public class ClientCommunicator {
 	private static int SERVER_PORT = 39640;
 	private static String URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
 	private static String HTTP_POST = "POST";
+	private static String HTTP_GET = "GET";
 	
 	private XStream  xmlStream;
 	
@@ -57,7 +62,9 @@ public class ClientCommunicator {
 	 * @return GetSampleImage_Result The image URL else false if it fails for any reason
 	 */
 	public GetSampleImage_Result getSampleImage(GetSampleImage_Params params) throws ClientException {
-		return (GetSampleImage_Result) doPost("/GetSampleImage", params);
+		GetSampleImage_Result gsir = (GetSampleImage_Result) doPost("/GetSampleImage", params);
+		downloadUrls(gsir.toString());
+		return gsir;
 	}
 	
 	/**
@@ -72,7 +79,9 @@ public class ClientCommunicator {
 	 * @throws ClientException
 	 */
 	public DownloadBatch_Result downloadBatch(DownloadBatch_Params params) throws ClientException{
-		return (DownloadBatch_Result) doPost("/DownloadBatch", params);
+		DownloadBatch_Result dbr = (DownloadBatch_Result) doPost("/DownloadBatch", params);
+		downloadUrls(dbr.toString());
+		return dbr;
 	}
 	
 	/**
@@ -124,7 +133,9 @@ public class ClientCommunicator {
 	 * @throws ClientException
 	 */
 	public Search_Result search(Search_Params params) throws ClientException {
-		return (Search_Result) doPost("/Search", params);
+		Search_Result sr = (Search_Result) doPost("/Search", params);
+		downloadUrls(sr.toString());
+		return sr;
 	}
 	
 	/**
@@ -169,10 +180,26 @@ public class ClientCommunicator {
 	 * @param urlPath
 	 * @return HTTP Get Object
 	 * @throws ClientException
+	 * @throws IOException 
 	 */
-	/*private Object doGet(String urlPath) throws ClientException {
-		return null;
-	}*/
+	private void doGet(URL url) throws ClientException, IOException {
+		//URL url = new URL(URL_PREFIX + urlPath);
+//		System.out.println(url.toString());
+		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		connection.setRequestMethod(HTTP_GET);
+		connection.connect();
+		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+			InputStream responseBody = connection.getInputStream();
+			//FileOutputStream fout = new FileOutputStream("/users/fred/cs240/record-indexer" + urlPath);
+			FileOutputStream fout = new FileOutputStream("/Users/zaphinath/tmp" + url.getPath().replaceAll("/files", ""));
+			IOUtils.copy(responseBody, fout);
+		} else {
+			throw new ClientException();
+		}
+		
+		
+		//return null;
+	}
 	
 	/**
 	 * Make HTTP POST request to the specified URL
@@ -199,6 +226,18 @@ public class ClientCommunicator {
 		} catch (IOException e) {
 			throw new ClientException();
 		}		
+	}
+	
+	private void downloadUrls(String str) {
+		String[] tmp = str.split("\\r?\\n");
+		for (int i = 0; i < tmp.length; i++) {
+			try {
+				URL url = new URL(tmp[i]);
+				doGet(url);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	

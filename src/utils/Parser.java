@@ -2,9 +2,14 @@ package utils;
 
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.apache.commons.io.*;
+
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -126,10 +131,12 @@ private Database db;
               	knownData = (Element) fElement.getElementsByTagName("knowndata").item(0);
               	kData = knownData.getTextContent();
               	//Copy known data
-              	String kdSrc = parent + kData;
-              	String idest = "./files/" + kData;
-              	FileWriter kdw = new FileWriter(idest);
-              	IOUtils.copy(IOUtils.toInputStream(kdSrc), kdw);
+              	File kdSrc = new File(parent + "/" + kData);
+              	File idst = new File("./files/" + kData);
+              	
+              	FileInputStream kdIn = new FileInputStream(kdSrc);
+              	FileOutputStream kdOut = new FileOutputStream(idst);
+              	IOUtils.copy(kdIn, kdOut);
               } else {
               	kData = null;
               }
@@ -144,10 +151,13 @@ private Database db;
               int fieldId = field.getId();
               fieldIds.add(fieldId);
               //Copy fieldHelp
-              String fieldSrc = parent + field.getHtmlHelp();
+              String fieldSrc = parent + "/" + field.getHtmlHelp();
               String fieldDest = "./files/" + field.getHtmlHelp();
-              FileWriter fhw = new FileWriter(fieldDest);
-              IOUtils.copy(IOUtils.toInputStream(fieldSrc), fhw);
+              File fieldIn = new File(fieldSrc);
+              File fieldOut = new File(fieldDest);
+              FileInputStream fin = new FileInputStream(fieldIn);
+              FileOutputStream fout = new FileOutputStream(fieldOut);
+              IOUtils.copy(fin, fout);
             }
           }
         	//System.out.println(fieldIds.toString());
@@ -164,10 +174,13 @@ private Database db;
               db.endTransaction(true);
               int batchId = batch.getId();
               //Copy image files to dest
-              String isrc = parent + batch.getFile();
+              String isrc = parent + "/" +batch.getFile();
               String idest = "./files/" + batch.getFile();
-              FileWriter iw = new FileWriter(idest);
-              IOUtils.copy(IOUtils.toInputStream(isrc), iw);
+              File imageIn = new File(isrc);
+              File imageOut = new File (idest);
+              FileInputStream isIn = new FileInputStream(imageIn);
+              FileOutputStream isOut = new FileOutputStream(imageOut);
+              IOUtils.copy(isIn, isOut);
               
               NodeList values = iElement.getElementsByTagName("value");
               int count = 0;
@@ -180,7 +193,6 @@ private Database db;
               	if (valNode.getNodeType() == Node.ELEMENT_NODE) {
               		Element val = (Element) valNode;
               		//Element val = (Element) x.getElementsByTagName("value");
-              		//System.out.println("COUNT: " + count);
               		RecordValue recordValue = new RecordValue(-1, batchId,
               				fieldIds.get(count), val.getTextContent(), countRecNum);
               		db.startTransaction();
