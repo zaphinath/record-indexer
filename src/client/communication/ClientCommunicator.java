@@ -163,6 +163,10 @@ public class ClientCommunicator {
 		SERVER_PORT = sERVER_PORT;
 	}
 	
+	/**
+	 * 
+	 * @param str
+	 */
 	private void downloadFiles(String str) {
 		String[] parts = str.split("\\n");
 		for (String item : parts) {
@@ -235,7 +239,8 @@ public class ClientCommunicator {
 				URL url = new URL(tmp[i]);
 				doGet(url);
 			} catch (Exception e) {
-				e.printStackTrace();
+				continue;
+				//e.printStackTrace();
 			}
 		}
 	}

@@ -5,8 +5,6 @@ package client.communication;
 
 import static org.junit.Assert.*;
 
-import java.net.URL;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -158,7 +156,6 @@ public class ClientCommunicatorTest {
 			SubmitBatch_Params params = new SubmitBatch_Params(users[i], passs[i], batchIds[i], values[i]);
 			SubmitBatch_Result sbr = new SubmitBatch_Result();
 			sbr = cc.submitBatch(params);
-			System.out.println("SB " + sbr.toString());
 			if ( i < 2) {
 				assertEquals("TRUE\n", sbr.toString());
 				//TODO: get results to make sure they were inserted;
@@ -169,8 +166,20 @@ public class ClientCommunicatorTest {
 	}
 	
 	@Test
-	public void testGetFields() {
+	public void testGetFields() throws ClientException {
+		String[] users = {"test1", "test2", "sheila", "foo"};
+		String[] passs = {"test1", "test2", "parker", "fighters"};
+		String[] ids = {"1", "1", null, "3" };
 		
+		for (int i = 0; i < users.length; i++) {
+			GetFields_Params gfp = new GetFields_Params(users[i],passs[i], ids[i]);
+			GetFields_Result gfr = cc.getFields(gfp);
+			if (i < 3) {
+				assertTrue("1",gfr.toString().startsWith("1"));
+			} else {
+				assertEquals("FAILED\n", gfr.toString());
+			}
+		}
 	}
 	
 	@Test

@@ -20,7 +20,8 @@ public class GetFields_Params extends ValidateUser_Params {
 	public GetFields_Params(String username, String password, String projectID) {
 		super.setUsername(username);
 		super.setPassword(password);
-		this.projectID = projectID;
+		if (projectID == "" ) this.projectID = null;
+		else this.projectID = projectID;
 	}
 	
 	/**

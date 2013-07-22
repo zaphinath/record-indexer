@@ -1,5 +1,6 @@
 /**
- * 
+ * Every method in the api needs to validate the user, so in the initialization of the 
+ * object we validate the user at that time
  */
 package server.handler;
 
@@ -86,6 +87,10 @@ public class ServerHandler {
 
 
 
+	/**
+	 * 
+	 * @return
+	 */
 	public ValidateUser_Result validateUser() {
 		ValidateUser_Result vvr = new ValidateUser_Result();
 		if (isValidUser) {
@@ -97,6 +102,11 @@ public class ServerHandler {
 		return vvr;
 	}
 
+	/**
+	 * 
+	 * @param params
+	 * @return
+	 */
 	public GetProjects_Result getProjects(GetProjects_Params params) {
 		GetProjects_Result gpr = new GetProjects_Result();
 		List<Project> projects = null;
@@ -340,7 +350,7 @@ public class ServerHandler {
 			db.endTransaction(false);
 		}
 		if (isValidUser) {
-			if (param.getStringProjectID() == null) {
+			if (param.getStringProjectID() == null || param.getStringProjectID() == "") {
 				for (int i = 0; i < fields.size(); i++) {
 					gfr.getFields().add(fields.get(i));
 				}

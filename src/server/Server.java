@@ -335,7 +335,7 @@ public class Server {
 	      OutputStream os = exchange.getResponseBody();
 	      os.write(bytearray,0,bytearray.length);
 	      os.close();
-	      
+	      bis.close();
 	    }
 		}
 	};
