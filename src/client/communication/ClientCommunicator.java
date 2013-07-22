@@ -35,6 +35,13 @@ public class ClientCommunicator {
 	public ClientCommunicator () {
 		xmlStream = new XStream(new DomDriver());
 	}
+	
+	public ClientCommunicator(String host, int port) {
+		this.SERVER_HOST = host;
+		this.SERVER_PORT = port;
+		xmlStream = new XStream(new DomDriver());
+
+	}
 	/**
 	 * Validates the users login credentials 
 	 * @param params The validate user params will contain the username and password
