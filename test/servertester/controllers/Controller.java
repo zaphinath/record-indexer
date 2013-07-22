@@ -104,12 +104,14 @@ public class Controller implements IController {
 	private void validateUser() {
 		String[] tmp = getView().getParameterValues();
 		ClientCommunicator cc = new ClientCommunicator();
-		ValidateUser_Params vvp = new ValidateUser_Params();
+		cc.setSERVER_PORT(Integer.parseInt(getView().getPort()));
+		cc.setSERVER_HOST(getView().getHost());
+    ValidateUser_Params vvp = new ValidateUser_Params();
 		vvp.setUsername(tmp[0]);
 		vvp.setPassword(tmp[1]);
 		try {
 			ValidateUser_Result rr = cc.validateUser(vvp);
-			getView().setRequest(vvp.toString());
+			getView().setRequest(vvp.toString()+"\n"+cc.getSERVER_PORT);
 			getView().setResponse(rr.toString());
 		} catch (ClientException e) {
 			getView().setResponse("FAILED\n");

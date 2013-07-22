@@ -24,9 +24,9 @@ import client.ClientException;
  */
 public class ClientCommunicator {
 	
-	private static String SERVER_HOST = "localhost";
-	private static int SERVER_PORT = 39640;
-	private static String URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
+	private  String SERVER_HOST = "localhost";
+	private int SERVER_PORT = 39640;
+	private  String URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
 	private static String HTTP_POST = "POST";
 	private static String HTTP_GET = "GET";
 	
@@ -141,25 +141,25 @@ public class ClientCommunicator {
 	/**
 	 * @return the sERVER_HOST
 	 */
-	public static String getSERVER_HOST() {
+	public  String getSERVER_HOST() {
 		return SERVER_HOST;
 	}
 	/**
 	 * @param sERVER_HOST the sERVER_HOST to set
 	 */
-	public static void setSERVER_HOST(String sERVER_HOST) {
+	public  void setSERVER_HOST(String sERVER_HOST) {
 		SERVER_HOST = sERVER_HOST;
 	}
 	/**
 	 * @return the sERVER_PORT
 	 */
-	public static int getSERVER_PORT() {
+	public  int getSERVER_PORT() {
 		return SERVER_PORT;
 	}
 	/**
 	 * @param sERVER_PORT the sERVER_PORT to set
 	 */
-	public static void setSERVER_PORT(int sERVER_PORT) {
+	public  void setSERVER_PORT(int sERVER_PORT) {
 		SERVER_PORT = sERVER_PORT;
 	}
 	
@@ -196,7 +196,7 @@ public class ClientCommunicator {
 			InputStream responseBody = connection.getInputStream();
 			FileOutputStream fout = new FileOutputStream("/users/fred/cs240/record-indexer" + url.getPath().replaceAll("/files", ""));
 			//FileOutputStream fout = new FileOutputStream("/Users/zaphinath/tmp" + url.getPath().replaceAll("/files", ""));
-			IOUtils.copy(responseBody, fout);
+			//IOUtils.copy(responseBody, fout);
 		} else {
 			throw new ClientException();
 		}
@@ -215,6 +215,7 @@ public class ClientCommunicator {
 	private Object doPost(String urlPath, Object postData) throws ClientException {
 		try {
 			URL url = new URL(URL_PREFIX + urlPath);
+			System.out.println(url.toString());
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 			connection.setRequestMethod(HTTP_POST);
 			connection.setDoOutput(true);

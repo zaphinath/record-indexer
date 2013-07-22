@@ -350,6 +350,7 @@ public class Server {
 		if (args.length > 0) {
 			PORT = Integer.parseInt(args[0]);
 		}
+    System.out.println(PORT);
 		new Server().run();
 	}
 	

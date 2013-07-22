@@ -11,7 +11,7 @@
 	<!-- Directory containing Java libraries -->
 	<property name="lib" location="lib"/>
 	<!-- Directory where the Java compiler puts .class files -->
-	<property name="build" location="build"/>
+	<property name="build" location="bin"/>
 	<!-- Directory containing database files -->
 	<property name="database" location="database"/>
 	<!-- Directory containing demo files -->
