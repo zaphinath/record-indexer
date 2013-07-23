@@ -288,7 +288,6 @@ public class ServerHandler {
 						}		
 					}
 				}
-				System.out.println("limited fields size " + limitedValues.size());
 				// Search each record value and put them in a hashmap
 				HashMap<Integer, HashSet<RecordValue>> map = new HashMap<Integer, HashSet<RecordValue>>();
 				for (int i = 0; i < limitedValues.size(); i++) {
@@ -305,7 +304,6 @@ public class ServerHandler {
 						}
 					}
 				}
-				System.out.println("Hash map size()" + map.size());
 				// Iterate Map and build result structure
 				if (map.size() > 0) {
 					Iterator<Integer> itr = map.keySet().iterator();
@@ -314,11 +312,9 @@ public class ServerHandler {
 						int fieldId = itr.next();
 						HashSet<RecordValue> altmp = map.get(fieldId);
 						Iterator setItr = altmp.iterator();
-						System.out.println(altmp.size() + " hassize");
 						while (setItr.hasNext()) {
 							Batch batch = null;
 							RecordValue rvTmp = (RecordValue) setItr.next();
-							System.out.println(rvTmp.getFieldId() + "FIELD");
 							try {
 								db.startTransaction();
 								batch = db.getBatchDB().getBatch(rvTmp.getBatchId());
