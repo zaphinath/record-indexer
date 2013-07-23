@@ -9,6 +9,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -289,14 +290,14 @@ public class ServerHandler {
 				}
 				System.out.println("limited fields size " + limitedValues.size());
 				// Search each record value and put them in a hashmap
-				HashMap<Integer, ArrayList<RecordValue>> map = new HashMap<Integer, ArrayList<RecordValue>>();
+				HashMap<Integer, HashSet<RecordValue>> map = new HashMap<Integer, HashSet<RecordValue>>();
 				for (int i = 0; i < limitedValues.size(); i++) {
 					for (int j = 0; j < values.length; j++) {
 						if (limitedValues.get(i).getValue().toLowerCase().contains(values[j].toLowerCase())) {
 							if(map.containsKey(limitedValues.get(i).getFieldId())) {
 								map.get(limitedValues.get(i).getFieldId()).add(limitedValues.get(i));
 							} else {
-								map.put(limitedValues.get(i).getFieldId(), new ArrayList<RecordValue>());
+								map.put(limitedValues.get(i).getFieldId(), new HashSet<RecordValue>());
 								map.get(limitedValues.get(i).getFieldId()).add(limitedValues.get(i));
 
 							}
@@ -311,10 +312,13 @@ public class ServerHandler {
 					while(itr.hasNext()) {
 	
 						int fieldId = itr.next();
-						ArrayList<RecordValue> altmp = map.get(fieldId);
-						for (int i = 0; i < altmp.size(); i++) {
+						HashSet<RecordValue> altmp = map.get(fieldId);
+						Iterator setItr = altmp.iterator();
+						System.out.println(altmp.size() + " hassize");
+						while (setItr.hasNext()) {
 							Batch batch = null;
-							RecordValue rvTmp = altmp.get(i);
+							RecordValue rvTmp = (RecordValue) setItr.next();
+							System.out.println(rvTmp.getFieldId() + "FIELD");
 							try {
 								db.startTransaction();
 								batch = db.getBatchDB().getBatch(rvTmp.getBatchId());
