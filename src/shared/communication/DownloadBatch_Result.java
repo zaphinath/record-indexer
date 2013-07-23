@@ -161,6 +161,7 @@ public class DownloadBatch_Result {
 
 	@Override 
 	public String toString() {
+		System.out.println(batchId + "BatchID");
 		String tmp = "FAILED\n";
 		if (batchId != 0) {
 			tmp = batchId + "\n" +
@@ -180,11 +181,11 @@ public class DownloadBatch_Result {
 					tmp = tmp + fields.get(i).getId() + "\n" +
 								fieldNum + "\n" +
 								fields.get(i).getTitle() + "\n" +
-								urlPrefix + "files" + fields.get(i).getHtmlHelp() + "\n" +
+								urlPrefix + fields.get(i).getHtmlHelp() + "\n" +
 								fields.get(i).getXcoord() + "\n" +
 								fields.get(i).getWidth() + "\n";
 					if (fields.get(i).getKnownData() != null) {
-						tmp = tmp + urlPrefix + "files" + fields.get(i).getKnownData() + "\n";
+						tmp = tmp + urlPrefix  + fields.get(i).getKnownData() + "\n";
 					}
 					fieldNum++;
 				}

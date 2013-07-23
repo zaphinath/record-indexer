@@ -215,10 +215,10 @@ public class ServerHandler {
 					Batch selBatch = limitedBatches.get(0);
 					
 					try {
-						imageUrl = new URL(param.getUrlPrefix() + "files" + selBatch.getFile());
+						imageUrl = new URL(param.getUrlPrefix() + selBatch.getFile());
 						dbr.setBatchId(selBatch.getId());
 						dbr.setProjectId(param.getProjectID());
-						//dbr.setImageUrl(imageUrl);
+						dbr.setImageUrl(imageUrl);
 						dbr.setFirstYCoord(project.getFirstYCoord());
 						dbr.setRecordHeight(project.getRecordHeight());
 						dbr.setNumRecords(project.getRecordsPerImage());
@@ -267,7 +267,9 @@ public class ServerHandler {
 		String[] values = param.getSearchValues().split(",");
 		
 		if (fieldIds.length > 0 && values.length > 0) {
+			System.out.println("fields and values > 0");
 			if (isValidUser) {
+				System.out.println("Is valid user");
 				db = new Database();
 				try {
 					db.startTransaction();
@@ -285,6 +287,7 @@ public class ServerHandler {
 						}		
 					}
 				}
+				System.out.println("limited fields size " + limitedValues.size());
 				// Search each record value and put them in a hashmap
 				HashMap<Integer, ArrayList<RecordValue>> map = new HashMap<Integer, ArrayList<RecordValue>>();
 				for (int i = 0; i < limitedValues.size(); i++) {
@@ -301,7 +304,7 @@ public class ServerHandler {
 						}
 					}
 				}
-
+				System.out.println("Hash map size()" + map.size());
 				// Iterate Map and build result structure
 				if (map.size() > 0) {
 					Iterator<Integer> itr = map.keySet().iterator();
@@ -376,8 +379,9 @@ public class ServerHandler {
 		List<Batch> batches = null;
 	//	List<RecordValue> recordValues = null;
 		List<Field> fields = null;
+		List<Field> limitedFields = new ArrayList<Field>();
 		List<Project> projects = null;
-		String[] values = param.getRecordValues().split(",");
+		String[] values = param.getRecordValues().split(",|;");
 		if (isValidUser) {
 			db = new Database();
 			try {
@@ -405,19 +409,26 @@ public class ServerHandler {
 				}
 				batch.setAccessUser(0);
 				for (int i = 0; i < fields.size(); i++) {
-					if (fields.get(i).getProjectId() != batch.getProjectId()) {
-						fields.remove(i);
+					if (fields.get(i).getProjectId() == batch.getProjectId()) {
+						limitedFields.add(fields.get(i));
 					}
 				}
 				//update database
 				try {
 					db.startTransaction();
-					int count = 1;
+					int count = 0;
+					int count2 = 1;
 					for (int i = 0; i < values.length; i++) {
-						if (count > fields.size()) {
-							count = 1;
+						if (count == limitedFields.size()) {
+							count = 0;
+							count2++;
 						}
-						RecordValue tmp = new RecordValue(-1, batch.getId(), fields.get(count).getId(), values[i],i);
+						//System.out.println("count: " + count + " count2: "+ count2);
+						System.out.println("batch "+batch.getId());
+						System.out.println("fields" + limitedFields.get(count).getId());
+						System.out.println("values " +values[i]);
+						System.out.println("valuecount " + count2);
+						RecordValue tmp = new RecordValue(-1, batch.getId(), limitedFields.get(count).getId(), values[i],count2);
 						db.getRecordValueDB().addRecordValue(tmp);
 						count++;
 					}
