@@ -96,12 +96,15 @@ private Database db;
       for (int i = 0; i < users.getLength(); i++) {
       	fieldIds = new ArrayList<Integer>();
         Node uNode = projects.item(i);
+        int recordsPerImage = 0;
+        int numberFieldsPerProject = 0;
         if (uNode.getNodeType() == Node.ELEMENT_NODE) {
           Element uElement = (Element) uNode;
           Element title = (Element) uElement.getElementsByTagName("title").item(0);
           Element recPerImg = (Element) uElement.getElementsByTagName("recordsperimage").item(0);
           Element firstYCoord = (Element) uElement.getElementsByTagName("firstycoord").item(0);
           Element recHeight = (Element) uElement.getElementsByTagName("recordheight").item(0);
+          recordsPerImage = Integer.parseInt(recPerImg.getTextContent());
           Project project = new Project(-1, 
           		title.getTextContent(), 
           		Integer.parseInt(recPerImg.getTextContent()),
@@ -114,7 +117,8 @@ private Database db;
         	
           
           NodeList fields = uElement.getElementsByTagName("field");
-        	for (int j = 0; j < fields.getLength(); j++) {
+        	numberFieldsPerProject = fields.getLength();
+          	for (int j = 0; j < numberFieldsPerProject; j++) {
         		Node fNode = fields.item(j);
             if (fNode.getNodeType() == Node.ELEMENT_NODE) {
               Element fElement = (Element) fNode;
@@ -182,10 +186,11 @@ private Database db;
               NodeList values = iElement.getElementsByTagName("value");
               int count = 0;
               int countRecNum = 1;
-              int recordNumber = values.getLength()/fieldIds.size();
+              //int numFields = values.getLength()/fieldIds.size();
+              int tmpCount = 1;
               for (int l = 0; l < values.getLength(); l++) {
               	if (count > fieldIds.size()-1) count = 0;
-              	if (countRecNum > recordNumber) countRecNum = 1;
+              	if (countRecNum > recordsPerImage) countRecNum = 1;
               	Node valNode = values.item(l);
               	if (valNode.getNodeType() == Node.ELEMENT_NODE) {
               		Element val = (Element) valNode;
@@ -196,7 +201,11 @@ private Database db;
               		recordValue = db.getRecordValueDB().addRecordValue(recordValue);
               		db.endTransaction(true);
               		count++;
-              		countRecNum++;
+              		tmpCount++;
+              		if (tmpCount > numberFieldsPerProject) {
+              			tmpCount = 1;
+              			countRecNum++;
+              		}
               	}
               }
             }

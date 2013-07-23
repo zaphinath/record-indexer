@@ -150,7 +150,7 @@ public class ClientCommunicatorTest {
 		String[] users = {"test1", "test2", "sheila", "foo"};
 		String[] passs = {"test1", "test2", "parker", "fighters"};
 		int[] batchIds = { 1, 21, 0, 0 };
-		String[] values = {" ", " ", " ", " " };
+		String[] values = {"carr", "derek", "male", "22" };
 		
 		for (int i = 0; i < users.length; i++) {
 			SubmitBatch_Params params = new SubmitBatch_Params(users[i], passs[i], batchIds[i], values[i]);
