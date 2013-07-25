@@ -56,7 +56,7 @@ public class DownloadBatch_Result {
 	 * @param projectId the projectId to set
 	 */
 	public void setProjectId(int projectId) {
-		System.out.println(projectId);
+	//	System.out.println(projectId);
 		this.projectId = projectId;
 	}
 
@@ -161,7 +161,7 @@ public class DownloadBatch_Result {
 
 	@Override 
 	public String toString() {
-		System.out.println(batchId + "BatchID");
+//		System.out.println(batchId + "BatchID");
 		String tmp = "FAILED\n";
 		if (batchId != 0) {
 			tmp = batchId + "\n" +

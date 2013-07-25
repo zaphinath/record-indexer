@@ -268,9 +268,7 @@ public class ServerHandler {
 		String[] values = param.getSearchValues().split(",");
 		
 		if (fieldIds.length > 0 && values.length > 0) {
-			System.out.println("fields and values > 0");
 			if (isValidUser) {
-				System.out.println("Is valid user");
 				db = new Database();
 				try {
 					db.startTransaction();
@@ -423,11 +421,7 @@ public class ServerHandler {
 							count = 0;
 							count2++;
 						}
-						//System.out.println("count: " + count + " count2: "+ count2);
-						System.out.println("batch "+batch.getId());
-						System.out.println("fields" + limitedFields.get(count).getId());
-						System.out.println("values " +values[i]);
-						System.out.println("valuecount " + count2);
+
 						RecordValue tmp = new RecordValue(-1, batch.getId(), limitedFields.get(count).getId(), values[i],count2);
 						db.getRecordValueDB().addRecordValue(tmp);
 						count++;

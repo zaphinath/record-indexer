@@ -1,5 +1,7 @@
 /**
- * 
+ * Please NOTE!!!! 
+ * This is very tempermental and needs to be ran in the right order
+ * an <ant import> should also be ran before this test is run
  */
 package client.communication;
 
@@ -150,7 +152,7 @@ public class ClientCommunicatorTest {
 		String[] users = {"test1", "test2", "sheila", "foo"};
 		String[] passs = {"test1", "test2", "parker", "fighters"};
 		int[] batchIds = { 1, 21, 0, 0 };
-		String[] values = {"carr", "derek", "male", "22" };
+		String[] values = {"carr,derek,male,22,carr,jared,male,23", "nguyen,trang,female,22", "sparky,dog,neither,3", "foo,fighters"};
 		
 		for (int i = 0; i < users.length; i++) {
 			SubmitBatch_Params params = new SubmitBatch_Params(users[i], passs[i], batchIds[i], values[i]);
@@ -183,7 +185,38 @@ public class ClientCommunicatorTest {
 	}
 	
 	@Test
-	public void testSearch() {
+	public void testSearch() throws ClientException {
+		String[] users = {"test1", "test2", "sheila", "foo"};
+		String[] passs = {"test1", "test2", "parker", "fighters"};
+		String[] fieldIds = {"1,2,3,4","5", "8", "1,2,3,4,5,6,7"};
+		String[] values = {"carr,derek","nguyen", "sparky", "fugly"};
 		
+		for (int i = 0; i < users.length; i++) {
+			Search_Params params = new Search_Params(users[i], passs[i], fieldIds[i], values[i]);
+			params.setUrlPrefix("http://localhost/");
+			Search_Result result = cc.search(params);
+			if (i == 0) {
+				String[] comp = {"1", "http://localhost/images/1890_image0.png" , "2", "1", "1", "http://localhost/images/1890_image0.png", "1", "1", "1","http://localhost/images/1890_image0.png", "1", "2"};
+				String[] returns = result.toString().split("\\r?\\n");
+				for (int j = 0; j < returns.length; j++) {
+					//System.out.println(j);
+					//System.out.println(comp[j] + " " + returns[j]);
+					//depending on certain variables, this may return 1 || 2 at this value, because
+					//junit doesn't have a epsilon argument i am just skipping this iteration 
+					if (j == 2 || j == 6) continue;
+					assertEquals(returns[j], comp[j]);
+				}
+			} else if (i == 1) {
+				String[] comp = {"21", "http://localhost/images/1900_image0.png", "1","5"};
+				String[] returns = result.toString().split("\\r?\\n");
+				for (int j = 0; j < returns.length; j++) {
+					//System.out.println(j);
+					//System.out.println(comp[j] + " " + returns[j]);
+					assertEquals(returns[j], comp[j]);
+				}
+			}	else {
+				assertEquals("FAILED\n", result.toString());
+			}
+		}
 	}
 }

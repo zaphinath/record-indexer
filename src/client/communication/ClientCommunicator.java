@@ -226,7 +226,7 @@ public class ClientCommunicator {
 	private Object doPost(String urlPath, Object postData) throws ClientException {
 		try {
 			URL url = new URL(URL_PREFIX + urlPath);
-			System.out.println(url.toString());
+			//System.out.println(url.toString());
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 			connection.setRequestMethod(HTTP_POST);
 			connection.setDoOutput(true);
