@@ -82,7 +82,7 @@ public class UserValidation extends JFrame {
 				}
 				if (result.getBool().toLowerCase().contains("true")) {
 					indexer.setVisible(true);
-					
+					dis();
 				}
 				
 				
@@ -119,6 +119,10 @@ public class UserValidation extends JFrame {
 		this.getContentPane().add(btnExit);
 		
 		
+	}
+	
+	private void dis() {
+		this.dispose();
 	}
 
 	/**

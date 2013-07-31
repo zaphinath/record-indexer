@@ -65,6 +65,7 @@ public class Indexer extends JFrame {
 		mnFile.add(txtExit);
 		
 		JPanel menuButtons = new MenuButtons(session);
+		this.add(menuButtons);
 	}
 
 }

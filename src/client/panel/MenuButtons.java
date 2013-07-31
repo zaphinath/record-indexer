@@ -3,6 +3,9 @@
  */
 package client.panel;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -43,6 +46,32 @@ public class MenuButtons extends JPanel {
 		menuBar.add(toggleHighlights);
 		menuBar.add(save);
 		menuBar.add(submit);
+		
+		zoomIn.addActionListener(actionListener);
+		zoomOut.addActionListener(actionListener);
+		invertImage.addActionListener(actionListener);
+		toggleHighlights.addActionListener(actionListener);
+		save.addActionListener(actionListener);
+		submit.addActionListener(actionListener);
+		
 	}
+	
+	private ActionListener actionListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == zoomIn) {
+				
+			} else if (e.getSource() == zoomOut) {
+				
+			} else if (e.getSource() == invertImage) {
+				
+			} else if (e.getSource() == toggleHighlights) {
+				
+			} else if (e.getSource() == save) {
+				
+			} else if (e.getSource() == submit) {
+				
+			}
+		}
+	};
 
 }
