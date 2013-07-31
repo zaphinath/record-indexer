@@ -24,4 +24,9 @@ public class Session {
 	private File batchImage;
 	private int zoomLevel;
 	
+	private String firstName;
+	private String lastName;
+	private String username;
+	private String password;
+	
 }

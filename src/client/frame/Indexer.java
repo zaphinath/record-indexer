@@ -9,24 +9,37 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import client.Session;
 import client.panel.MenuButtons;
 
-import java.awt.BorderLayout;
-import javax.swing.JTextField;
 
 /**
  * @author zaphinath
  *
  */
+@SuppressWarnings("serial")
 public class Indexer extends JFrame {
 	private JMenuItem txtDownloadBatch;
 	private JMenuItem txtLogout;
 	private JMenuItem txtExit;
+	private Session session;
 	
 	/**
 	 * Class Constructor
 	 */
 	public Indexer() {
+		super();
+		this.session = new Session();
+		initialize();
+	}
+	
+	public Indexer(Session s) {
+		super();
+		this.session = s;
+		initialize();
+	}
+	
+	private void initialize() {
 		this.setSize(1200, 800);
 		setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,8 +64,7 @@ public class Indexer extends JFrame {
 		txtExit.setText("Exit");
 		mnFile.add(txtExit);
 		
-		JPanel menuButtons = new MenuButtons();
-		
+		JPanel menuButtons = new MenuButtons(session);
 	}
 
 }
