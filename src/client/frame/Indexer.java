@@ -6,6 +6,7 @@ package client.frame;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import client.panel.MenuButtons;
@@ -18,9 +19,9 @@ import javax.swing.JTextField;
  *
  */
 public class Indexer extends JFrame {
-	private JTextField txtDownloadBatch;
-	private JTextField txtLogout;
-	private JTextField txtExit;
+	private JMenuItem txtDownloadBatch;
+	private JMenuItem txtLogout;
+	private JMenuItem txtExit;
 	
 	/**
 	 * Class Constructor
@@ -36,20 +37,19 @@ public class Indexer extends JFrame {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
-		txtDownloadBatch = new JTextField();
+		txtDownloadBatch = new JMenuItem();
 		txtDownloadBatch.setText("Download Batch");
 		mnFile.add(txtDownloadBatch);
-		txtDownloadBatch.setColumns(10);
+		//txtDownloadBatch.setColumns(10);
 		
-		txtLogout = new JTextField();
+		txtLogout = new JMenuItem();
 		txtLogout.setText("Logout");
 		mnFile.add(txtLogout);
-		txtLogout.setColumns(10);
+		//txtLogout.setColumns(10);
 		
-		txtExit = new JTextField();
+		txtExit = new JMenuItem();
 		txtExit.setText("Exit");
 		mnFile.add(txtExit);
-		txtExit.setColumns(10);
 		
 		JPanel menuButtons = new MenuButtons();
 		
