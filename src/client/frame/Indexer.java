@@ -3,14 +3,23 @@
  */
 package client.frame;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
+import client.ClientException;
 import client.Session;
+import client.panel.ImagePanel;
 import client.panel.MenuButtons;
+import client.panel.TableEntry;
 
 
 /**
@@ -19,10 +28,18 @@ import client.panel.MenuButtons;
  */
 @SuppressWarnings("serial")
 public class Indexer extends JFrame {
-	private JMenuItem txtDownloadBatch;
-	private JMenuItem txtLogout;
-	private JMenuItem txtExit;
+	private JMenuItem downloadBatch;
+	private JMenuItem logout;
+	private JMenuItem exit;
 	private Session session;
+	
+	private JButton tableEntry;
+	private JButton formEntry;
+	private JButton fieldHelp;
+	private JButton imageNav;
+	
+	private UserValidation userLogin;
+	private DownloadBatch dBatch;
 	
 	/**
 	 * Class Constructor
@@ -50,22 +67,112 @@ public class Indexer extends JFrame {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
-		txtDownloadBatch = new JMenuItem();
-		txtDownloadBatch.setText("Download Batch");
-		mnFile.add(txtDownloadBatch);
-		//txtDownloadBatch.setColumns(10);
+		downloadBatch = new JMenuItem("Download Batch");
+		mnFile.add(downloadBatch);
+		downloadBatch.addActionListener(actionListener);
 		
-		txtLogout = new JMenuItem();
-		txtLogout.setText("Logout");
-		mnFile.add(txtLogout);
-		//txtLogout.setColumns(10);
+		logout = new JMenuItem("Logout");
+		mnFile.add(logout);
+		logout.addActionListener(actionListener);
 		
-		txtExit = new JMenuItem();
-		txtExit.setText("Exit");
-		mnFile.add(txtExit);
+		exit = new JMenuItem("Exit");
+		mnFile.add(exit);
+		exit.addActionListener(actionListener);
+		
+		tableEntry = new JButton("Table Entry");
+		formEntry = new JButton("Form Entry");
+		fieldHelp = new JButton("Field Help");
+		imageNav = new JButton("Image Navigation");
+		
+		tableEntry.setFocusPainted(true);
+		formEntry.setFocusPainted(true);
+		
+		tableEntry.addActionListener(actionListener);
+		formEntry.addActionListener(actionListener);
+		fieldHelp.addActionListener(actionListener);
+		imageNav.addActionListener(actionListener);
+		
+		JPanel rootPanel = new JPanel(new BorderLayout());
+		JPanel northPanel = new JPanel(new BorderLayout());
+		JPanel southPanel = new JPanel(new BorderLayout());
+		JPanel southWest = new JPanel(new BorderLayout());
+		JPanel southEast = new JPanel(new BorderLayout());
+		
+		JPanel swNorth = new JPanel();
+		JPanel swSouth = new JPanel();
+		
+		JPanel seNorth = new JPanel();
+		JPanel seSouth = new JPanel();
 		
 		JPanel menuButtons = new MenuButtons(session);
-		this.add(menuButtons);
-	}
+		JPanel imagePanel = new ImagePanel(session);
+		JPanel tableEntryPanel = new TableEntry(session);
 
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setOneTouchExpandable(true);
+		splitPane.setTopComponent(imagePanel);
+		splitPane.setBottomComponent(southPanel);
+		//splitPane.setDividerLocation(150);
+		
+		swNorth.add(tableEntry);
+		swNorth.add(formEntry);
+		
+		seNorth.add(fieldHelp);
+		seNorth.add(imageNav);
+		seSouth.add(tableEntryPanel);
+		
+		southWest.add(swNorth, BorderLayout.NORTH);
+		southWest.add(swSouth, BorderLayout.SOUTH);
+		
+		southEast.add(seNorth, BorderLayout.NORTH);
+		southEast.add(seSouth, BorderLayout.SOUTH);
+		
+		northPanel.add(menuButtons, BorderLayout.WEST);
+		southPanel.add(southWest, BorderLayout.WEST);
+		southPanel.add(southEast, BorderLayout.EAST);
+		
+		rootPanel.add(northPanel, BorderLayout.NORTH);
+		rootPanel.add(imagePanel, BorderLayout.CENTER);
+		rootPanel.add(southPanel, BorderLayout.SOUTH);
+		//rootPanel.add(splitPane);
+		
+		this.add(rootPanel);
+	}
+	
+	private ActionListener actionListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == downloadBatch) {
+				try {
+					dBatch = new DownloadBatch(session);
+					//dBatch.setModal(true);
+					dBatch.setVisible(true);
+				} catch (ClientException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else if (e.getSource() == logout) {
+				//TODO: Save session and start indexer fresh
+				userLogin = new UserValidation();
+				userLogin.setVisible(true);
+				dis();
+				//System.exit(-9);
+			} else if (e.getSource() == exit) {
+				//TODO: Save session
+				System.exit(-9);
+			} else if  (e.getSource() == tableEntry) {
+				
+			} else if (e.getSource() == formEntry) {
+				System.out.println("FORM");
+			} else if (e.getSource() == fieldHelp) {
+				
+			} else if (e.getSource() == imageNav) {
+				
+			}
+		}
+	};
+
+	private void dis() {
+		this.setVisible(false);
+		this.dispose();
+	}
 }

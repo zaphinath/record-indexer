@@ -39,13 +39,12 @@ public class MenuButtons extends JPanel {
 		save = new JButton("Save");
 		submit = new JButton("Submit");
 		
-		JToolBar menuBar = new JToolBar();
-		menuBar.add(zoomIn);
-		menuBar.add(zoomOut);
-		menuBar.add(invertImage);
-		menuBar.add(toggleHighlights);
-		menuBar.add(save);
-		menuBar.add(submit);
+		this.add(zoomIn);
+		this.add(zoomOut);
+		this.add(invertImage);
+		this.add(toggleHighlights);
+		this.add(save);
+		this.add(submit);
 		
 		zoomIn.addActionListener(actionListener);
 		zoomOut.addActionListener(actionListener);

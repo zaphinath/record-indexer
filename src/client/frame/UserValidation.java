@@ -6,8 +6,13 @@ package client.frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,6 +23,7 @@ import javax.swing.KeyStroke;
 
 import shared.communication.*;
 import client.ClientException;
+import client.Session;
 import client.communication.ClientCommunicator;
 
 /**
@@ -37,8 +43,8 @@ public class UserValidation extends JFrame {
 	public UserValidation() {
 		super();
 		intializeComponent();
-		indexer = new Indexer();
-		indexer.setVisible(false);
+
+
 		setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -81,8 +87,32 @@ public class UserValidation extends JFrame {
 					e1.printStackTrace();
 				}
 				if (result.getBool().toLowerCase().contains("true")) {
+					//TODO: Check file exists. If not new session
+					File file = new File("sessions/"+result.getLastName().toLowerCase()+result.getFirstName().toLowerCase()+".session");
+					if (file.exists()) {
+						Session s =null;
+						try {
+							ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
+							s = (Session) inputStream.readObject();
+							inputStream.close();
+						} catch (ClassNotFoundException | IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						indexer = new Indexer(s);
+					} else {
+						indexer = new Indexer();
+					}
+					WindowAlert alert = new WindowAlert(result);
+					alert.setVisible(true);
+					
 					indexer.setVisible(true);
+					alert.dispose();
 					dis();
+				} else {
+					ValidationFail fail = new ValidationFail();
+					fail.setVisible(true);
+					fail.dispose();
 				}
 				
 				
@@ -121,6 +151,9 @@ public class UserValidation extends JFrame {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	private void dis() {
 		this.dispose();
 	}
