@@ -24,8 +24,9 @@ import shared.communication.GetSampleImage_Result;
 public class SampleImage extends JDialog {
 	private GetSampleImage_Result result;
 	private Image image;
-	
+	//TODO: Make modal and not resizable
 	public SampleImage(ClientCommunicator cc, GetSampleImage_Params params, String project) {
+		super();
 		try {
 			result = cc.getSampleImage(params);
 		} catch (ClientException e) {
@@ -33,7 +34,10 @@ public class SampleImage extends JDialog {
 			e.printStackTrace();
 		}
 		
+		this.setModal(true);
 		this.setTitle("Sample image from "+project);
+		this.setSize(600, 400);
+		this.setResizable(false);
 		
 		try {
 			image = ImageIO.read(result.getImageUrl());
