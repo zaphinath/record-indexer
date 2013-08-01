@@ -44,10 +44,15 @@ public class UserValidation extends JFrame {
 		super();
 		intializeComponent();
 
-
-		setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+	}
+
+	/**
+	 * @param host2
+	 * @param port2
+	 */
+	public UserValidation(String host2, int port2) {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -58,6 +63,9 @@ public class UserValidation extends JFrame {
 		this.setSize(500, 350);
 		//JFrame frame = new JFrame("Login to Indexer");
 		this.setTitle("Login to Indexer");
+
+		setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JLabel userLabel = new JLabel("Username:");
 		JLabel passLabel = new JLabel("Password:");
 		
