@@ -17,10 +17,10 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import shared.communication.GetProjects_Params;
 import shared.communication.GetProjects_Result;
+import shared.communication.GetSampleImage_Params;
 import shared.model.Project;
 import client.ClientException;
 import client.Session;
@@ -30,13 +30,13 @@ import client.communication.ClientCommunicator;
  * @author Derek Carr
  *
  */
+@SuppressWarnings("serial")
 public class DownloadBatch extends JDialog {
 
 	private ClientCommunicator cc;
 	private Session session;
 	private List<Project> projects;
 	private GetProjects_Result result;
-	private JTextField title;
 	private JButton viewSample;
 	private JComboBox box;
 	private JButton cancel;
@@ -115,7 +115,8 @@ public class DownloadBatch extends JDialog {
 	};
 	
 	private void addSample() {
-		sample = new SampleImage();
+		GetSampleImage_Params imgParam = new GetSampleImage_Params();
+		sample = new SampleImage(cc, imgParam, this.selectedProject);
 		sample.setVisible(true);
 	}
 	private void cancel() {
