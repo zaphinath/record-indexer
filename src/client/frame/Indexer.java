@@ -142,14 +142,7 @@ public class Indexer extends JFrame {
 	private ActionListener actionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == downloadBatch) {
-				try {
-					dBatch = new DownloadBatch(session);
-					//dBatch.setModal(true);
-					dBatch.setVisible(true);
-				} catch (ClientException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				addDownload();
 			} else if (e.getSource() == logout) {
 				//TODO: Save session and start indexer fresh
 				userLogin = new UserValidation();
@@ -170,7 +163,16 @@ public class Indexer extends JFrame {
 			}
 		}
 	};
-
+	
+	private void addDownload() {
+		try {
+			dBatch = new DownloadBatch((JFrame)this, true, session);
+			dBatch.setVisible(true);
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void dis() {
 		this.setVisible(false);
 		this.dispose();
