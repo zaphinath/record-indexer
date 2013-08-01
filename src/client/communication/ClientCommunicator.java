@@ -205,9 +205,9 @@ public class ClientCommunicator {
 		connection.connect();
 		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 			InputStream responseBody = connection.getInputStream();
-			FileOutputStream fout = new FileOutputStream("/users/fred/cs240/record-indexer" + url.getPath().replaceAll("/files", ""));
-			//FileOutputStream fout = new FileOutputStream("/Users/zaphinath/tmp" + url.getPath().replaceAll("/files", ""));
-			//IOUtils.copy(responseBody, fout);
+			FileOutputStream fout = new FileOutputStream("./downloads" + url.getPath().replaceAll("/files", ""));
+			F//ileOutputStream fout = new FileOutputStream("/Users/zaphinath/tmp" + url.getPath().replaceAll("/files", ""));
+			IOUtils.copy(responseBody, fout);
 		} else {
 			throw new ClientException();
 		}
