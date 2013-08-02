@@ -55,4 +55,22 @@ public class FormEntryComponent extends JComponent implements SessionListener {
 		// TODO Auto-generated method stub
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#toggleHighlightsChanged(boolean)
+	 */
+	@Override
+	public void toggleHighlightsChanged(boolean toggle) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#imageInversionChanged(boolean)
+	 */
+	@Override
+	public void imageInversionChanged(boolean inversion) {
+		// TODO Auto-generated method stub
+		
+	}
 }

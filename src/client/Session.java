@@ -23,7 +23,10 @@ public class Session {
 	private Cell selectedCell;
 	private List<SessionListener> listeners;
 	private File batchImage;
+	
 	private int zoomLevel;
+	private boolean imageInverted;
+	private boolean toggledHighlights;
 	
 	private String firstName;
 	private String lastName;
@@ -41,6 +44,9 @@ public class Session {
 	 */
 	public Session() {
 		zoomLevel = 0;
+		imageInverted = false;
+		toggledHighlights = false;
+		
 	}
 	
 	/**
@@ -152,7 +158,7 @@ public class Session {
 	/**
 	 * @param haveBatch the haveBatch to set
 	 */
-	private void setHaveBatch(boolean haveBatch) {
+	public void setHaveBatch(boolean haveBatch) {
 		this.haveBatch = haveBatch;
 		for(SessionListener l : listeners) {
 			l.hasBatchChanged();
@@ -222,6 +228,40 @@ public class Session {
 		this.zoomLevel = zoomLevel;
 		for (SessionListener l : listeners) {
 			l.zoomeLevelChanged(zoomLevel);
+		}
+	}
+
+	/**
+	 * @return the imageInverted
+	 */
+	public boolean isImageInverted() {
+		return imageInverted;
+	}
+
+	/**
+	 * @param imageInverted the imageInverted to set
+	 */
+	public void setImageInverted(boolean imageInverted) {
+		this.imageInverted = imageInverted;
+		for (SessionListener l : listeners) {
+			l.imageInversionChanged(imageInverted);
+		}
+	}
+
+	/**
+	 * @return the toggledHighlights
+	 */
+	public boolean isToggledHighlights() {
+		return toggledHighlights;
+	}
+
+	/**
+	 * @param toggledHighlights the toggledHighlights to set
+	 */
+	public void setToggledHighlights(boolean toggledHighlights) {
+		this.toggledHighlights = toggledHighlights;
+		for (SessionListener l : listeners) {
+			l.toggleHighlightsChanged(toggledHighlights);
 		}
 	}
 	
