@@ -28,7 +28,25 @@ public class Session {
 	private String username;
 	private String password;
 
+	private String urlPrefix;
 	
+	/**
+	 * @return the urlPrefix
+	 */
+	public String getUrlPrefix() {
+		return urlPrefix;
+	}
+	/**
+	 * @param urlPrefix the urlPrefix to set
+	 */
+	public void setUrlPrefix(String urlPrefix) {
+		this.urlPrefix = urlPrefix;
+	}
+	public void setUrlPrefix() {
+		assert host != null;
+		assert port >= 0;
+		this.urlPrefix = "http://"+host+":"+port+"/files/";
+	}
 	/**
 	 * @return the host
 	 */

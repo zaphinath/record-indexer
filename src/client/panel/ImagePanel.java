@@ -28,5 +28,6 @@ public class ImagePanel extends JPanel {
 		this.setOpaque(true);
 		this.setBackground(Color.DARK_GRAY);
 		
+		
 	}
 }

@@ -64,6 +64,15 @@ public class GetSampleImage_Params extends ValidateUser_Params {
 	public void setUrlPrefix(String urlPrefix) {
 		this.urlPrefix = urlPrefix;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "GetSampleImage_Params [projectID=" + projectID + ", urlPrefix="
+				+ urlPrefix + ", username=" + super.getUsername() + ", password="+super.getPassword()+"]";
+	}
 	
 	
 }

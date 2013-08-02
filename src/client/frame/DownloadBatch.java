@@ -7,7 +7,9 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -21,6 +23,7 @@ import javax.swing.JPanel;
 import shared.communication.GetProjects_Params;
 import shared.communication.GetProjects_Result;
 import shared.communication.GetSampleImage_Params;
+import shared.communication.GetSampleImage_Result;
 import shared.model.Project;
 import client.ClientException;
 import client.Session;
@@ -42,11 +45,18 @@ public class DownloadBatch extends JDialog {
 	private JButton cancel;
 	private JButton download;
 	private SampleImage sample;
-	private String selectedProject;
+	
+	private HashMap<String,Integer> projectMap = null;
+	private String selectedProject = null;
+	private int selProjectId = 0;
+	private Frame frame;
 	
 	public DownloadBatch(Frame frame, boolean isModal, Session s) throws ClientException {
 		super(frame, isModal);
+		
+		this.frame = frame;
 		this.setTitle("Download Batch");
+		this.setSize(350, 110);
 		this.setResizable(false);
 		setLocationRelativeTo(null);
 		this.session = s;
@@ -57,12 +67,20 @@ public class DownloadBatch extends JDialog {
 		GetProjects_Params param = new GetProjects_Params(session.getUsername(), session.getPassword());
 		result = cc.getProjects(param);
 		projects = result.getProjects();
+		assert projects != null;
 		
 		//Project Panel
 		JPanel projectPanel = new JPanel();
 		projectPanel.setLayout(new BoxLayout(projectPanel, BoxLayout.X_AXIS));
 		JLabel prod = new JLabel("Projects: ");
-		box = new JComboBox(projects.toArray());
+		
+		projectMap = new HashMap<String, Integer>();
+		String[] sprods = new String[projects.size()];
+		for (int i = 0; i < sprods.length; i++) {
+			sprods[i] = projects.get(i).getTitle();
+			projectMap.put(projects.get(i).getTitle(), projects.get(i).getId());
+		}
+		box = new JComboBox(sprods);
 //		box.addActionListener(actionListener);
 		viewSample = new JButton("View Sample");
 		viewSample.addActionListener(actionListener);
@@ -97,26 +115,46 @@ public class DownloadBatch extends JDialog {
 		rootPanel.add(buttonPanel);
 		rootPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
+		this.add(rootPanel);
+		
 	}
 	private ActionListener actionListener = new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			selectedProject = box.getSelectedItem().toString();
+			selProjectId = projectMap.get(selectedProject);
 			if (e.getSource() == box) {
-				selectedProject = box.getSelectedItem().toString();
+
 			} else if (e.getSource() == viewSample) {
+
 				addSample();
 			} else if (e.getSource() == cancel) {
 				cancel();
 			} else if (e.getSource() == download) {
 				download();
 			}
+			selectedProject = box.getSelectedItem().toString();
+			selProjectId = projectMap.get(selectedProject);
 		}
 	};
 	
 	private void addSample() {
-		GetSampleImage_Params imgParam = new GetSampleImage_Params();
-		sample = new SampleImage(cc, imgParam, this.selectedProject);
+		assert session.getUsername() != null;
+		assert session.getPassword() != null;
+		assert selProjectId != 0;
+		GetSampleImage_Params imgParam = new GetSampleImage_Params(session.getUsername(), session.getPassword(), selProjectId);
+		imgParam.setUrlPrefix(session.getUrlPrefix());
+		GetSampleImage_Result result = null;
+		try {
+			result = cc.getSampleImage(imgParam);
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assert result != null;
+		assert selectedProject != null;
+		sample = new SampleImage(frame, result, selectedProject);
 		sample.setVisible(true);
 	}
 	private void cancel() {

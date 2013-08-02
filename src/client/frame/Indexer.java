@@ -17,8 +17,10 @@ import javax.swing.JSplitPane;
 
 import client.ClientException;
 import client.Session;
+import client.SessionListener;
 import client.panel.ImagePanel;
 import client.panel.MenuButtons;
+import client.panel.SouthWest;
 import client.panel.TableEntry;
 
 
@@ -27,7 +29,7 @@ import client.panel.TableEntry;
  *
  */
 @SuppressWarnings("serial")
-public class Indexer extends JFrame {
+public class Indexer extends JFrame implements SessionListener{
 	private JMenuItem downloadBatch;
 	private JMenuItem logout;
 	private JMenuItem exit;
@@ -56,6 +58,20 @@ public class Indexer extends JFrame {
 		initialize();
 	}
 	
+	/**
+	 * @return the session
+	 */
+	public Session getSession() {
+		return session;
+	}
+
+	/**
+	 * @param session the session to set
+	 */
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
 	private void initialize() {
 		this.setSize(1200, 800);
 		setLocationRelativeTo(null);
@@ -95,11 +111,11 @@ public class Indexer extends JFrame {
 		JPanel rootPanel = new JPanel(new BorderLayout());
 		JPanel northPanel = new JPanel(new BorderLayout());
 		JPanel southPanel = new JPanel(new BorderLayout());
-		JPanel southWest = new JPanel(new BorderLayout());
+		JPanel southWest = new SouthWest(session);
 		JPanel southEast = new JPanel(new BorderLayout());
 		
-		JPanel swNorth = new JPanel();
-		JPanel swSouth = new JPanel();
+		//JPanel swNorth = new JPanel();
+		//JPanel swSouth = new JPanel();
 		
 		JPanel seNorth = new JPanel();
 		JPanel seSouth = new JPanel();
@@ -114,15 +130,15 @@ public class Indexer extends JFrame {
 		splitPane.setBottomComponent(southPanel);
 		//splitPane.setDividerLocation(150);
 		
-		swNorth.add(tableEntry);
-		swNorth.add(formEntry);
+		//swNorth.add(tableEntry);
+		//swNorth.add(formEntry);
 		
 		seNorth.add(fieldHelp);
 		seNorth.add(imageNav);
 		seSouth.add(tableEntryPanel);
 		
-		southWest.add(swNorth, BorderLayout.NORTH);
-		southWest.add(swSouth, BorderLayout.SOUTH);
+		//southWest.add(swNorth, BorderLayout.NORTH);
+		//southWest.add(swSouth, BorderLayout.SOUTH);
 		
 		southEast.add(seNorth, BorderLayout.NORTH);
 		southEast.add(seSouth, BorderLayout.SOUTH);
@@ -133,6 +149,7 @@ public class Indexer extends JFrame {
 		
 		rootPanel.add(northPanel, BorderLayout.NORTH);
 		rootPanel.add(imagePanel, BorderLayout.CENTER);
+		rootPanel.add(splitPane,BorderLayout.SOUTH);
 		rootPanel.add(southPanel, BorderLayout.SOUTH);
 		//rootPanel.add(splitPane);
 		
@@ -177,4 +194,6 @@ public class Indexer extends JFrame {
 		this.setVisible(false);
 		this.dispose();
 	}
+	
+	
 }

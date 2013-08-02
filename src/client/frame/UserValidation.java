@@ -37,8 +37,8 @@ public class UserValidation extends JFrame {
 	private JTextField username;
 	private JPasswordField password;
 	private Indexer indexer;
-	private int port;
-	private String host;
+	private int port = 39640;
+	private String host = "localhost";
 	
 	public UserValidation() {
 		super();
@@ -52,7 +52,10 @@ public class UserValidation extends JFrame {
 	 * @param port2
 	 */
 	public UserValidation(String host2, int port2) {
-		// TODO Auto-generated constructor stub
+		super();
+		this.host = host2;
+		this.port = port2;
+		intializeComponent();
 	}
 
 	/**
@@ -80,12 +83,12 @@ public class UserValidation extends JFrame {
 		
 		ActionListener submit = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				assert port != 0;
-				assert host !=null;
+				//assert port != 0;
+				//assert host !=null;
 				String user = username.getText();
 				String pass = password.getText();
 				ClientCommunicator cc = new ClientCommunicator();
-				cc.setSERVER_PORT(39640);
+				cc.setSERVER_PORT(port);
 				cc.setSERVER_HOST(host);
 				ValidateUser_Params params = new ValidateUser_Params(user,pass);
 				ValidateUser_Result result = null;
@@ -111,6 +114,11 @@ public class UserValidation extends JFrame {
 					} else {
 						indexer = new Indexer();
 					}
+					indexer.getSession().setUsername(user);
+					indexer.getSession().setPassword(pass);
+					indexer.getSession().setHost(host);
+					indexer.getSession().setPort(port);
+					indexer.getSession().setUrlPrefix();
 					WindowAlert alert = new WindowAlert(result);
 					alert.setVisible(true);
 					

@@ -3,6 +3,8 @@
  */
 package client.component;
 
+import java.awt.Dimension;
+
 import javax.swing.JComponent;
 import javax.swing.JTable;
 
@@ -19,9 +21,14 @@ public class Table extends JComponent implements SessionListener {
 	private JTable table;
 	private TableModel tm;
 	
-	Table(Session s) {
+	public Table(Session s) {
+		super();
+		
 		this.session = s;
+		this.setPreferredSize(new Dimension(400,250));
 		tm = new TableModel(session);
 		table = new JTable(tm);
+		
+		this.add(table);
 	}
 }
