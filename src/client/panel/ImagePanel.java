@@ -27,6 +27,7 @@ public class ImagePanel extends JPanel implements SessionListener {
 	private Image image;
 	private JPanel imgPanel;
 	private BufferedImage bufImage;
+	private JLabel img;
 	
 	/**
 	 * @param session
@@ -46,12 +47,17 @@ public class ImagePanel extends JPanel implements SessionListener {
 		this.setBackground(Color.DARK_GRAY);
 		try {
 			image = ImageIO.read(session.getCurrentBatch().getImageUrl());
+			bufImage = ImageIO.read(session.getCurrentBatch().getImageUrl());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		imgPanel = new JPanel();
-		//imgPanel.setSize(image.getWidth(observer), height)
-		JLabel img = new JLabel(new ImageIcon(image));
+		if (session.getZoomLevel() == 0) {
+			imgPanel.setSize(bufImage.getWidth(), bufImage.getHeight());
+		} else {
+			//TODO: set size of zoomed panel
+		}
+		img = new JLabel(new ImageIcon(bufImage));
 		imgPanel.add(img);
 		this.add(imgPanel);
 		
@@ -124,6 +130,6 @@ public class ImagePanel extends JPanel implements SessionListener {
 				bufImage.setRGB(i,j,bufImage.getRGB(i, j) ^ 0xFF000000);
 			}
 		}
-		//redraw image
+		img = new JLabel(new ImageIcon(bufImage));
 	}
 }

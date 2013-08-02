@@ -4,6 +4,7 @@
 package client;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import shared.communication.DownloadBatch_Result;
@@ -47,6 +48,8 @@ public class Session {
 		imageInverted = false;
 		toggledHighlights = false;
 		
+		listeners = new ArrayList<SessionListener>();
+		selectedCell = null;
 	}
 	
 	/**
@@ -174,12 +177,13 @@ public class Session {
 	 * A batch is downloaded for the user;
 	 * Can't download new batch unless this is submitted
 	 * Values array is set
-	 * boolean hasbatch is changed
-	 * alert the listners
+	 * boolean has batch is changed
+	 * alert the listeners
 	 * @param currentBatch the currentBatch to set
 	 */
 	public void setCurrentBatch(DownloadBatch_Result currentBatch) {
 		this.currentBatch = currentBatch;
+		setValues(currentBatch.getNumRecords(), currentBatch.getNumFields());
 		setHaveBatch(true);
 	}
 
@@ -195,6 +199,15 @@ public class Session {
 	 */
 	public void setValues(String[][] values) {
 		this.values = values;
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void setValues(int x, int y) {
+		this.values = new String[x][y];
 	}
 
 	/**
