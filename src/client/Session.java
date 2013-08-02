@@ -152,8 +152,11 @@ public class Session {
 	/**
 	 * @param haveBatch the haveBatch to set
 	 */
-	public void setHaveBatch(boolean haveBatch) {
+	private void setHaveBatch(boolean haveBatch) {
 		this.haveBatch = haveBatch;
+		for(SessionListener l : listeners) {
+			l.hasBatchChanged();
+		}
 	}
 	/**
 	 * @return the currentBatch
@@ -162,11 +165,49 @@ public class Session {
 		return currentBatch;
 	}
 	/**
+	 * A batch is downloaded for the user;
+	 * Can't download new batch unless this is submitted
+	 * Values array is set
+	 * boolean hasbatch is changed
+	 * alert the listners
 	 * @param currentBatch the currentBatch to set
 	 */
 	public void setCurrentBatch(DownloadBatch_Result currentBatch) {
 		this.currentBatch = currentBatch;
+		setHaveBatch(true);
 	}
+
+	/**
+	 * @return the values
+	 */
+	public String[][] getValues() {
+		return values;
+	}
+
+	/**
+	 * @param values the values to set
+	 */
+	public void setValues(String[][] values) {
+		this.values = values;
+	}
+
+	/**
+	 * @return the selectedCell
+	 */
+	public Cell getSelectedCell() {
+		return selectedCell;
+	}
+
+	/**
+	 * @param selectedCell the selectedCell to set
+	 */
+	public void setSelectedCell(Cell selectedCell) {
+		this.selectedCell = selectedCell;
+		for (SessionListener l : listeners) {
+			l.selectedCellChanged(selectedCell);
+		}
+	}
+	
 	
 	
 }
