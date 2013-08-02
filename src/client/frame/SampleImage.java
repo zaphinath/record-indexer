@@ -11,16 +11,15 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import client.ClientException;
-import client.communication.ClientCommunicator;
-import shared.communication.GetSampleImage_Params;
 import shared.communication.GetSampleImage_Result;
 
 /**
  * @author Derek Carr
  *
  */
+@SuppressWarnings("serial")
 public class SampleImage extends JDialog {
 	private Image image;
 	//TODO: Make modal and not resizable
@@ -33,15 +32,17 @@ public class SampleImage extends JDialog {
 		setLocationRelativeTo(null);
 		this.setModal(true);
 		this.setTitle("Sample image from "+project);
-		this.setSize(800, 600);
+		this.setSize(600, 400);
 		this.setResizable(false);
 		try {
 			image = ImageIO.read(result.getImageUrl());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		JPanel rootPanel = new JPanel();
+		rootPanel.setSize(600, 400);
 		JLabel img = new JLabel(new ImageIcon(image));
-		this.add(img);
+		rootPanel.add(img);
+		this.add(rootPanel);
 	}
 }

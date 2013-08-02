@@ -13,6 +13,7 @@ import javax.swing.JToolBar;
 import client.Session;
 import client.SessionListener;
 import client.model.Cell;
+import client.process.SaveSession;
 
 /**
  * @author zaphinath
@@ -68,7 +69,8 @@ public class MenuButtons extends JPanel implements SessionListener {
 			} else if (e.getSource() == toggleHighlights) {
 				session.setToggledHighlights(!session.isToggledHighlights());
 			} else if (e.getSource() == save) {
-				
+				SaveSession saveFile = new SaveSession(session);
+				saveFile.writeFile();
 			} else if (e.getSource() == submit) {
 				session.setHaveBatch(false);
 				

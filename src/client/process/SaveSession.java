@@ -15,4 +15,12 @@ public class SaveSession {
 	public SaveSession(Session session) {
 		this.session = session;
 	}
+
+	/**
+	 * 
+	 */
+	public void writeFile() {
+		// TODO Auto-generated method stub
+		
+	}
 }
