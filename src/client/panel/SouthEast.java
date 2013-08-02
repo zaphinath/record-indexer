@@ -9,14 +9,13 @@ import javax.swing.JTabbedPane;
 
 import client.Session;
 import client.component.FieldHelpComponent;
-import client.component.FormEntryComponent;
 import client.component.ImageNavigationComponent;
-import client.component.Table;
 
 /**
  * @author zaphinath
  *
  */
+@SuppressWarnings("serial")
 public class SouthEast extends JPanel {
 	private FieldHelpComponent fHelp;
 	private ImageNavigationComponent imgNav;
