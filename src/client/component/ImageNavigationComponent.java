@@ -50,4 +50,13 @@ public class ImageNavigationComponent extends JComponent implements
 
 	}
 
+	/* (non-Javadoc)
+	 * @see client.SessionListener#zoomeLevelChanged(int)
+	 */
+	@Override
+	public void zoomeLevelChanged(int zoom) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

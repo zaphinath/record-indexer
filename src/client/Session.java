@@ -40,7 +40,7 @@ public class Session {
 	 * Class Constructor
 	 */
 	public Session() {
-		
+		zoomLevel = 0;
 	}
 	
 	/**
@@ -205,6 +205,23 @@ public class Session {
 		this.selectedCell = selectedCell;
 		for (SessionListener l : listeners) {
 			l.selectedCellChanged(selectedCell);
+		}
+	}
+
+	/**
+	 * @return the zoomLevel
+	 */
+	public int getZoomLevel() {
+		return zoomLevel;
+	}
+
+	/**
+	 * @param zoomLevel the zoomLevel to set
+	 */
+	public void setZoomLevel(int zoomLevel) {
+		this.zoomLevel = zoomLevel;
+		for (SessionListener l : listeners) {
+			l.zoomeLevelChanged(zoomLevel);
 		}
 	}
 	

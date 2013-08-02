@@ -54,4 +54,13 @@ public class FieldHelpComponent extends JComponent implements SessionListener {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see client.SessionListener#zoomeLevelChanged(int)
+	 */
+	@Override
+	public void zoomeLevelChanged(int zoom) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

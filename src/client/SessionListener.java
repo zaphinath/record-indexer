@@ -16,5 +16,7 @@ public interface SessionListener {
 	public void valueChanged(Cell cell, String newValue);
 	
 	public void selectedCellChanged(Cell newSelectedCell);
+	
+	public void zoomeLevelChanged(int zoom);
 
 }

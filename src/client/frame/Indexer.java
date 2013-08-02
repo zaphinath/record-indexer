@@ -223,6 +223,15 @@ public class Indexer extends JFrame implements SessionListener{
 		// TODO Auto-generated method stub
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#zoomeLevelChanged(int)
+	 */
+	@Override
+	public void zoomeLevelChanged(int zoom) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }
