@@ -18,8 +18,10 @@ import javax.swing.JSplitPane;
 import client.ClientException;
 import client.Session;
 import client.SessionListener;
+import client.model.Cell;
 import client.panel.ImagePanel;
 import client.panel.MenuButtons;
+import client.panel.SouthEast;
 import client.panel.SouthWest;
 import client.panel.TableEntry;
 
@@ -112,17 +114,17 @@ public class Indexer extends JFrame implements SessionListener{
 		JPanel northPanel = new JPanel(new BorderLayout());
 		JPanel southPanel = new JPanel(new BorderLayout());
 		JPanel southWest = new SouthWest(session);
-		JPanel southEast = new JPanel(new BorderLayout());
+		JPanel southEast = new SouthEast(session);
 		
 		//JPanel swNorth = new JPanel();
 		//JPanel swSouth = new JPanel();
 		
-		JPanel seNorth = new JPanel();
-		JPanel seSouth = new JPanel();
+		//JPanel seNorth = new JPanel();
+		//JPanel seSouth = new JPanel();
 		
 		JPanel menuButtons = new MenuButtons(session);
 		JPanel imagePanel = new ImagePanel(session);
-		JPanel tableEntryPanel = new TableEntry(session);
+		//JPanel tableEntryPanel = new TableEntry(session);
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setOneTouchExpandable(true);
@@ -133,15 +135,15 @@ public class Indexer extends JFrame implements SessionListener{
 		//swNorth.add(tableEntry);
 		//swNorth.add(formEntry);
 		
-		seNorth.add(fieldHelp);
-		seNorth.add(imageNav);
-		seSouth.add(tableEntryPanel);
+		//seNorth.add(fieldHelp);
+		//seNorth.add(imageNav);
+		//seSouth.add(tableEntryPanel);
 		
 		//southWest.add(swNorth, BorderLayout.NORTH);
 		//southWest.add(swSouth, BorderLayout.SOUTH);
 		
-		southEast.add(seNorth, BorderLayout.NORTH);
-		southEast.add(seSouth, BorderLayout.SOUTH);
+		//southEast.add(seNorth, BorderLayout.NORTH);
+		//southEast.add(seSouth, BorderLayout.SOUTH);
 		
 		northPanel.add(menuButtons, BorderLayout.WEST);
 		southPanel.add(southWest, BorderLayout.WEST);
@@ -193,6 +195,33 @@ public class Indexer extends JFrame implements SessionListener{
 	private void dis() {
 		this.setVisible(false);
 		this.dispose();
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#hasBatchChanged()
+	 */
+	@Override
+	public void hasBatchChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#valueChanged(client.model.Cell, java.lang.String)
+	 */
+	@Override
+	public void valueChanged(Cell cell, String newValue) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#selectedCellChanged(client.model.Cell)
+	 */
+	@Override
+	public void selectedCellChanged(Cell newSelectedCell) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

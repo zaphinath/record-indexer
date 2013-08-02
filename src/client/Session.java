@@ -6,6 +6,8 @@ package client;
 import java.io.File;
 import java.util.List;
 
+import shared.communication.DownloadBatch_Result;
+
 import client.model.Cell;
 
 /**
@@ -29,6 +31,28 @@ public class Session {
 	private String password;
 
 	private String urlPrefix;
+	
+	private boolean haveBatch;
+	private DownloadBatch_Result currentBatch;
+	
+	
+	/*
+	 * Class Constructor
+	 */
+	public Session() {
+		
+	}
+	
+	/**
+	 * Every class that implements sessionlistener needs to 
+	 * add the listener to the list so this session can 
+	 * update the requested changes;
+	 * @param l
+	 */
+	public void addListener(SessionListener l) {
+		listeners.add(l);
+	}
+	
 	
 	/**
 	 * @return the urlPrefix
@@ -118,6 +142,30 @@ public class Session {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	/**
+	 * @return the haveBatch
+	 */
+	public boolean isHaveBatch() {
+		return haveBatch;
+	}
+	/**
+	 * @param haveBatch the haveBatch to set
+	 */
+	public void setHaveBatch(boolean haveBatch) {
+		this.haveBatch = haveBatch;
+	}
+	/**
+	 * @return the currentBatch
+	 */
+	public DownloadBatch_Result getCurrentBatch() {
+		return currentBatch;
+	}
+	/**
+	 * @param currentBatch the currentBatch to set
+	 */
+	public void setCurrentBatch(DownloadBatch_Result currentBatch) {
+		this.currentBatch = currentBatch;
 	}
 	
 	
