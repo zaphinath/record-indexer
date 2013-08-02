@@ -15,12 +15,17 @@ import client.model.Cell;
  */
 @SuppressWarnings("serial")
 public class TableModel extends AbstractTableModel implements SessionListener {
-
+	private Session session;
+	
 	/**
 	 * @param session
 	 */
 	public TableModel(Session session) {
-		// TODO Auto-generated constructor stub
+		super();
+		this.session = session;
+		if (session.isHaveBatch()) {
+			initialize();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -55,9 +60,14 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
-		// TODO Auto-generated method stub
+		if (session.isHaveBatch()) {
+			initialize();
+		} else {
+			destroy();
+		}
 		
 	}
+
 
 	/* (non-Javadoc)
 	 * @see client.SessionListener#valueChanged(client.model.Cell, java.lang.String)
@@ -77,4 +87,18 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 		
 	}
 
+	/**
+	 * 
+	 */
+	private void initialize() {
+		
+	}
+
+	/**
+	 * 
+	 */
+	private void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
 }

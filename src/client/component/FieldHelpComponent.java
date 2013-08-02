@@ -4,6 +4,7 @@
 package client.component;
 
 import javax.swing.JComponent;
+import javax.swing.JEditorPane;
 
 import client.Session;
 import client.SessionListener;
@@ -14,12 +15,16 @@ import client.model.Cell;
  *
  */
 public class FieldHelpComponent extends JComponent implements SessionListener {
-
+	private Session session;
+	private JEditorPane htmlViewer;
+	
 	/**
 	 * @param session
 	 */
 	public FieldHelpComponent(Session session) {
-		// TODO Auto-generated constructor stub
+		super();
+		this.session = session;
+		
 	}
 
 	/* (non-Javadoc)

@@ -9,7 +9,6 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 
 import client.Session;
-import client.SessionListener;
 import client.model.Cell;
 
 /**
@@ -17,7 +16,7 @@ import client.model.Cell;
  *
  */
 @SuppressWarnings("serial")
-public class Table extends JComponent implements SessionListener {
+public class Table extends JComponent {
 	private Session session;
 	private JTable table;
 	private TableModel tm;
@@ -26,38 +25,13 @@ public class Table extends JComponent implements SessionListener {
 		super();
 		
 		this.session = s;
-		this.setPreferredSize(new Dimension(400,250));
+		this.setPreferredSize(new Dimension(450,250));
 		tm = new TableModel(session);
 		table = new JTable(tm);
 		
 		this.add(table);
 	}
 
-	/* (non-Javadoc)
-	 * @see client.SessionListener#hasBatchChanged()
-	 */
-	@Override
-	public void hasBatchChanged() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	/* (non-Javadoc)
-	 * @see client.SessionListener#valueChanged(client.model.Cell, java.lang.String)
-	 */
-	@Override
-	public void valueChanged(Cell cell, String newValue) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see client.SessionListener#selectedCellChanged(client.model.Cell)
-	 */
-	@Override
-	public void selectedCellChanged(Cell newSelectedCell) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }
