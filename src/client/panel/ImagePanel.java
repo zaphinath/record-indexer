@@ -5,6 +5,7 @@ package client.panel;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -25,6 +26,7 @@ public class ImagePanel extends JPanel implements SessionListener {
 	private Session session;
 	private Image image;
 	private JPanel imgPanel;
+	private BufferedImage bufImage;
 	
 	/**
 	 * @param session
@@ -116,7 +118,12 @@ public class ImagePanel extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void imageInversionChanged(boolean inversion) {
-		// TODO Auto-generated method stub
-		
+		assert bufImage != null;
+		for (int i=0; i < bufImage.getWidth(); i++) {
+			for (int j = 0; j < bufImage.getHeight(); j++) {
+				bufImage.setRGB(i,j,bufImage.getRGB(i, j) ^ 0xFF000000);
+			}
+		}
+		//redraw image
 	}
 }
