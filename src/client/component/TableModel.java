@@ -33,8 +33,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.getCurrentBatch().getNumRecords();
 	}
 
 	/* (non-Javadoc)
@@ -42,10 +41,27 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.getCurrentBatch().getNumFields() ;
+	}
+	
+	@Override
+	public String getColumnName(int column) {
+
+		String result = null;
+
+		if (column >= 0 && column < getColumnCount()) {
+			result = session.getCurrentBatch().getFields().get(column).getTitle();
+		} else {
+			throw new IndexOutOfBoundsException();
+		}
+		return result;
 	}
 
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		return (row == 0 || column == 0) ? false : true;
+	}
+	
 	/* (non-Javadoc)
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
