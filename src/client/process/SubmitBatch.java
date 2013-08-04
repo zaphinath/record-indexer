@@ -24,6 +24,7 @@ public class SubmitBatch {
 	public SubmitBatch(Session session) {
 		this.session = session;
 		cc = new ClientCommunicator(session.getHost(), session.getPort());
+		file = new File("sessions/"+session.getLastName().toLowerCase().trim()+session.getFirstName().toLowerCase().trim()+".session");
 		
 	}
 	
@@ -32,7 +33,7 @@ public class SubmitBatch {
 		file = new File(path);
 		file.delete();
 		SubmitBatch_Params params = new SubmitBatch_Params();
-		params.setBatchID(session.getCurrentBatch().getBatchId());
+		params.setBatchID(session.getBatchId());
 		params.setUsername(session.getUsername());
 		params.setPassword(session.getPassword());
 		params.setRecordValues(session.getRecordValues());

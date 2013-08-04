@@ -37,6 +37,16 @@ public class DrawingImage extends JComponent implements DrawingShape {
 	}
 
 	@Override
+	public Object getObject() {
+		return this.image;
+	}
+	
+	@Override
+	public void setObject(Object image) {
+		this.image = (Image) image;
+	}
+	
+	@Override
 	public boolean contains(Graphics2D g2, double x, double y) {
 		return rect.contains(x, y);
 	}
@@ -53,6 +63,18 @@ public class DrawingImage extends JComponent implements DrawingShape {
 			//			0, 0, image.getWidth(null), image.getHeight(null), null);
 		Image timage = image.getScaledInstance(image.getWidth(null)+session.getZoomLevel()*30, image.getHeight(null)+session.getZoomLevel()*30, Image.SCALE_DEFAULT);
 		g2.drawImage(timage, (panel.getWidth() - timage.getWidth(null))/2, (panel.getHeight()-timage.getHeight(null))/2, null);
-	}	
+	}
+	
+	@Override
+	public int getWidth() {
+		return image.getWidth(null);
+	}
+	
+	@Override
+	public int getHeight() {
+		return image.getHeight(null);
+	}
+	
+	
 
 }

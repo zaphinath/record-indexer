@@ -58,7 +58,7 @@ public class ImagePanel extends JPanel implements SessionListener {
 		
 		shapes = new ArrayList<DrawingShape>();
 		dragShapes = new ArrayList<DrawingShape>();
-				
+		
 		rootPanel = new JPanel(new GridBagLayout());
 		this.add(rootPanel);
 		session.addListener(this);
@@ -71,7 +71,7 @@ public class ImagePanel extends JPanel implements SessionListener {
 
 	private void initialize() {
 		try {
-			bufImage = ImageIO.read(session.getCurrentBatch().getImageUrl());
+			bufImage = ImageIO.read(session.getImageUrl());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -187,13 +187,19 @@ public class ImagePanel extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void imageInversionChanged(boolean inversion) {
-		assert bufImage != null;
-		for (int i=0; i < bufImage.getWidth(); i++) {
-			for (int j = 0; j < bufImage.getHeight(); j++) {
-				bufImage.setRGB(i,j,bufImage.getRGB(i, j) ^ 0xFF000000);
+		System.out.println("InversionChanged");
+		for (int h = 0; h < shapes.size(); h++) {
+			BufferedImage tmp = (BufferedImage) shapes.get(h).getObject();
+			for (int i=tmp.getMinTileX(); i < tmp.getWidth()+tmp.getMinTileX(); i++) {
+				for (int j = tmp.getMinY(); j < tmp.getHeight()+tmp.getMinY(); j++) {
+					tmp.setRGB(i,j,tmp.getRGB(i, j) ^ 0xFF000000);
+				}
 			}
+			Image tmp2 = tmp;
+			shapes.get(h).setObject(tmp2);
 		}
-		img = new JLabel(new ImageIcon(bufImage));
+		//img = new JLabel(new ImageIcon(bufImage));
+		this.repaint();
 	}
 	
 

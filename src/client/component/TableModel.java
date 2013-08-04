@@ -35,7 +35,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	@Override
 	public int getRowCount() {
 		if (session.isHaveBatch()) {
-			return session.getCurrentBatch().getNumRecords();
+			return session.getNumRecords();
 		}
 		return 0;
 	}
@@ -46,7 +46,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	@Override
 	public int getColumnCount() {
 		if (session.isHaveBatch()) {
-			return session.getCurrentBatch().getNumFields();
+			return session.getNumFields();
 		}
 		return 0;		
 	}
@@ -57,7 +57,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 		String result = null;
 
 		if (column >= 0 && column < getColumnCount()) {
-			result = session.getCurrentBatch().getFields().get(column).getTitle();
+			result = session.getFields().get(column).getTitle();
 		} else {
 			throw new IndexOutOfBoundsException();
 		}

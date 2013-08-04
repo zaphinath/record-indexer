@@ -42,4 +42,22 @@ public class DrawingRect extends JComponent implements DrawingShape {
 		// OR g2.fillRect((int)rect.getX(), (int)rect.getY(), (int)rect.getWidth(), (int)rect.getHeight());
 	}
 
+	/* (non-Javadoc)
+	 * @see client.component.DrawingShape#getObject()
+	 */
+	@Override
+	public Object getObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see client.component.DrawingShape#setObject(java.lang.Object)
+	 */
+	@Override
+	public void setObject(Object object) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

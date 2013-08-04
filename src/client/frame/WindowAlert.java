@@ -16,11 +16,8 @@ import shared.communication.ValidateUser_Result;
  */
 public class WindowAlert extends JDialog {
 	
-	public WindowAlert(ValidateUser_Result user) {
-		JOptionPane.showMessageDialog(this, "Welcome, "+ user.getFirstName() + " " + user.getLastName()+"." + 
-								"You have indexed " + user.getIndexedRecords() + "records.");
-	}
-	public WindowAlert(Session session) {
-		
+	public WindowAlert(Session s) {
+		JOptionPane.showMessageDialog(this, "Welcome, "+ s.getFirstName() + " " + s.getLastName()+"." + 
+								"You have indexed " + s.getIndexedRecords() + "records.");
 	}
 }

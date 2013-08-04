@@ -24,6 +24,7 @@ import client.panel.MenuButtons;
 import client.panel.SouthEast;
 import client.panel.SouthWest;
 import client.panel.TableEntry;
+import client.process.SaveSession;
 
 
 /**
@@ -165,13 +166,15 @@ public class Indexer extends JFrame implements SessionListener{
 			if (e.getSource() == downloadBatch) {
 				addDownload();
 			} else if (e.getSource() == logout) {
-				//TODO: Save session and start indexer fresh
+				SaveSession save = new SaveSession(session);
+				save.writeFile();
 				userLogin = new UserValidation();
 				userLogin.setVisible(true);
 				dis();
 				//System.exit(-9);
 			} else if (e.getSource() == exit) {
-				//TODO: Save session
+				SaveSession save = new SaveSession(session);
+				save.writeFile();
 				System.exit(-9);
 			} else if  (e.getSource() == tableEntry) {
 				
@@ -195,6 +198,7 @@ public class Indexer extends JFrame implements SessionListener{
 	}
 	
 	private void dis() {
+		this.session = null;
 		this.setVisible(false);
 		this.dispose();
 	}

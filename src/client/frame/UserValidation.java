@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -47,6 +49,7 @@ public class UserValidation extends JFrame {
 	
 	public UserValidation() {
 		super();
+		xmlStream = new XStream(new DomDriver());
 		intializeComponent();
 
 		
@@ -107,11 +110,14 @@ public class UserValidation extends JFrame {
 					//TODO: Check file exists. If not new session
 					File file = new File("sessions/"+result.getLastName().toLowerCase().trim()+result.getFirstName().toLowerCase().trim()+".session");
 					if (file.exists()) {
+						System.out.println("Has File: ");
 						//Session s =null;
 						//ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
 						//s = (Session) inputStream.readObject();
 						//inputStream.close();
 						s = (Session) xmlStream.fromXML(file);
+						System.out.println(s.getBatchId()+ "reading id");
+						s.initiliazeListenersList();
 						indexer = new Indexer(s);
 					} else {
 						indexer = new Indexer();
@@ -123,7 +129,9 @@ public class UserValidation extends JFrame {
 					indexer.getSession().setHost(host);
 					indexer.getSession().setPort(port);
 					indexer.getSession().setUrlPrefix();
-					WindowAlert alert = new WindowAlert(result);
+					indexer.getSession().setIndexedRecords(result.getIndexedRecords());
+					System.out.println(indexer.getSession().getImageUrl());
+					WindowAlert alert = new WindowAlert(indexer.getSession());
 					alert.setVisible(true);
 					
 					indexer.setVisible(true);

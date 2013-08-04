@@ -4,11 +4,12 @@
 package client;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import shared.communication.DownloadBatch_Result;
-
+import shared.model.Field;
 import client.model.Cell;
 
 /**
@@ -26,7 +27,7 @@ public class Session {
 	private String recordValues;
 	private Cell selectedCell;
 	private transient List<SessionListener> listeners;
-	private File batchImage;
+//	private File batchImage;
 	
 	private int zoomLevel;
 	private boolean imageInverted;
@@ -36,15 +37,25 @@ public class Session {
 	private String lastName;
 	private String username;
 	private String password;
+	private String indexedRecords;
 
 	private String urlPrefix;
 	
-	private boolean haveBatch;
-	private DownloadBatch_Result currentBatch;
-	private int fieldIdSelected;
+	//private DownloadBatch_Result currentBatch;
+	//private int fieldIdSelected;
 	
 	//BATCH
+	private boolean haveBatch;
 	
+	private int batchId;
+	private int projectId;
+	private URL imageUrl;
+	private int firstYCoord;
+	private int recordHeight;
+	private int numRecords;
+	private int numFields;
+	
+	private List<Field> fields;
 	
 	/*
 	 * Class Constructor
@@ -56,6 +67,7 @@ public class Session {
 		
 		listeners = new ArrayList<SessionListener>();
 		selectedCell = null;
+		fields = new ArrayList<Field>();
 	}
 	
 	/**
@@ -68,7 +80,13 @@ public class Session {
 		listeners.add(l);
 	}
 	
+	public void clearListeners() {
+		listeners.clear();
+	}
 	
+	public void initiliazeListenersList() {
+		listeners = new ArrayList<SessionListener>();
+	}
 	/**
 	 * @return the urlPrefix
 	 */
@@ -86,6 +104,21 @@ public class Session {
 		assert port >= 0;
 		this.urlPrefix = "http://"+host+":"+port+"/files/";
 	}
+	
+	/**
+	 * @return the indexedRecords
+	 */
+	public String getIndexedRecords() {
+		return indexedRecords;
+	}
+
+	/**
+	 * @param indexedRecords the indexedRecords to set
+	 */
+	public void setIndexedRecords(String indexedRecords) {
+		this.indexedRecords = indexedRecords;
+	}
+
 	/**
 	 * @return the host
 	 */
@@ -173,12 +206,125 @@ public class Session {
 			l.hasBatchChanged();
 		}
 	}
+	
+	/**
+	 * @return the batchId
+	 */
+	public int getBatchId() {
+		return batchId;
+	}
+
+	/**
+	 * @param batchId the batchId to set
+	 */
+	public void setBatchId(int batchId) {
+		this.batchId = batchId;
+	}
+
+	/**
+	 * @return the projectId
+	 */
+	public int getProjectId() {
+		return projectId;
+	}
+
+	/**
+	 * @param projectId the projectId to set
+	 */
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+
+	/**
+	 * @return the imageUrl
+	 */
+	public URL getImageUrl() {
+		return imageUrl;
+	}
+
+	/**
+	 * @param imageUrl the imageUrl to set
+	 */
+	public void setImageUrl(URL imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	/**
+	 * @return the firstYCoord
+	 */
+	public int getFirstYCoord() {
+		return firstYCoord;
+	}
+
+	/**
+	 * @param firstYCoord the firstYCoord to set
+	 */
+	public void setFirstYCoord(int firstYCoord) {
+		this.firstYCoord = firstYCoord;
+	}
+
+	/**
+	 * @return the recordHeight
+	 */
+	public int getRecordHeight() {
+		return recordHeight;
+	}
+
+	/**
+	 * @param recordHeight the recordHeight to set
+	 */
+	public void setRecordHeight(int recordHeight) {
+		this.recordHeight = recordHeight;
+	}
+
+	/**
+	 * @return the numRecords
+	 */
+	public int getNumRecords() {
+		return numRecords;
+	}
+
+	/**
+	 * @param numRecords the numRecords to set
+	 */
+	public void setNumRecords(int numRecords) {
+		this.numRecords = numRecords;
+	}
+
+	/**
+	 * @return the numFields
+	 */
+	public int getNumFields() {
+		return numFields;
+	}
+
+	/**
+	 * @param numFields the numFields to set
+	 */
+	public void setNumFields(int numFields) {
+		this.numFields = numFields;
+	}
+
+	/**
+	 * @return the fields
+	 */
+	public List<Field> getFields() {
+		return fields;
+	}
+
+	/**
+	 * @param fields the fields to set
+	 */
+	public void setFields(List<Field> fields) {
+		this.fields = fields;
+	}
+
 	/**
 	 * @return the currentBatch
 	 */
-	public DownloadBatch_Result getCurrentBatch() {
+/*	public DownloadBatch_Result getCurrentBatch() {
 		return currentBatch;
-	}
+	}*/
 	/**
 	 * A batch is downloaded for the user;
 	 * Can't download new batch unless this is submitted
@@ -190,8 +336,20 @@ public class Session {
 	public void setCurrentBatch(DownloadBatch_Result currentBatch) {
 		assert currentBatch != null;
 		//assert !currentBatch.toString().toLowerCase().contains("fail");
-		this.currentBatch = currentBatch;
+		//this.currentBatch = currentBatch;
 		//setValues(currentBatch.getNumRecords(), currentBatch.getNumFields());
+		batchId = currentBatch.getBatchId();
+		projectId = currentBatch.getProjectId();
+		imageUrl = currentBatch.getImageUrl();
+		firstYCoord = currentBatch.getFirstYCoord();
+		recordHeight = currentBatch.getRecordHeight();
+		numRecords = currentBatch.getNumRecords();
+		numFields = currentBatch.getNumFields();
+		
+		for (int i=0; i < currentBatch.getFields().size(); i++) {
+			fields.add(currentBatch.getFields().get(i));
+		}
+		 List<Field> fields;
 		setHaveBatch(true);
 	}
 
@@ -200,8 +358,8 @@ public class Session {
 	 */
 	public String getRecordValues() {
 		String tmp = "";
-		for (int i = 0; i < currentBatch.getNumRecords(); i++) {
-			for (int j = 0; j < currentBatch.getNumFields(); j++) {
+		for (int i = 0; i < numRecords; i++) {
+			for (int j = 0; j < numFields; j++) {
 				tmp = tmp + "," + values[i][j];
 			}
 		}
