@@ -74,8 +74,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return "FOO";
+		return session.getValue(columnIndex, rowIndex);
 	}
 
 	/* (non-Javadoc)
@@ -89,9 +88,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 			initialize();
 		} else {
 			destroy();
-		}
-		
-		
+		}	
 	}
 
 

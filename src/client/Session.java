@@ -440,7 +440,17 @@ public class Session {
 			l.valueChanged(new Cell(x,y), value);
 		}
 	}
-
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public String getValue(int x, int y) {
+		return this.values[x][y];
+	}
+	
 	/**
 	 * @return the selectedCell
 	 */

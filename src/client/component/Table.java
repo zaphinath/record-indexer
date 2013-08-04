@@ -42,19 +42,18 @@ public class Table extends JComponent {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setCellSelectionEnabled(true);
 		table.getTableHeader().setReorderingAllowed(false);
-		/*TableColumnModel columnModel = table.getColumnModel();
+		TableColumnModel columnModel = table.getColumnModel();
 		for (int i = 0; i < tm.getColumnCount(); ++i) {
 			TableColumn column = columnModel.getColumn(i);
 			column.setPreferredWidth(150);
-		}*/
+		}
 		
 		//System.out.println(table.getColumnCount());
 		
 		JPanel rootPanel = new JPanel(new BorderLayout());
-		//rootPanel.add(table.getTableHeader(), BorderLayout.NORTH);
-		//rootPanel.add(table, BorderLayout.CENTER);
-		JLabel foo = new JLabel("FOOFIGHT");
-		rootPanel.add(foo, BorderLayout.SOUTH);
+		rootPanel.add(table.getTableHeader(), BorderLayout.NORTH);
+		rootPanel.add(table, BorderLayout.CENTER);
+
 		this.add(rootPanel);
 	}
 	

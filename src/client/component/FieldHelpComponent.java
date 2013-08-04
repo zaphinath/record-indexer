@@ -4,6 +4,8 @@
 package client.component;
 
 import java.awt.Dimension;
+import java.io.IOException;
+import java.net.URL;
 
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
@@ -16,9 +18,11 @@ import client.model.Cell;
  * @author Derek Carr
  *
  */
+@SuppressWarnings("serial")
 public class FieldHelpComponent extends JComponent implements SessionListener {
 	private Session session;
 	private JEditorPane htmlViewer;
+	private URL page;
 	
 	/**
 	 * @param session
@@ -26,9 +30,22 @@ public class FieldHelpComponent extends JComponent implements SessionListener {
 	public FieldHelpComponent(Session session) {
 		super();
 		this.session = session;
+		session.addListener(this);
 		this.setPreferredSize(new Dimension(650,250));
 
+		htmlViewer = new JEditorPane();
+		htmlViewer.setEditable(false);
 		
+		if (session.isHaveBatch()){
+			try {
+				page = new URL(session.getUrlPrefix()+session.getFields().get(session.getSelectedCell().getField()).getHtmlHelp());
+				htmlViewer.setPage(page);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		this.add(htmlViewer);
 	}
 
 	/* (non-Javadoc)
@@ -54,8 +71,12 @@ public class FieldHelpComponent extends JComponent implements SessionListener {
 	 */
 	@Override
 	public void selectedCellChanged(Cell newSelectedCell) {
-		// TODO Auto-generated method stub
-
+		try {
+			page = new URL(session.getUrlPrefix()+session.getFields().get(newSelectedCell.getField()).getHtmlHelp());
+			htmlViewer.setPage(page);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/* (non-Javadoc)
