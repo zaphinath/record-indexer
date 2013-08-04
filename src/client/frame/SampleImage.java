@@ -5,6 +5,7 @@ package client.frame;
 
 import java.awt.Frame;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -21,7 +22,7 @@ import shared.communication.GetSampleImage_Result;
  */
 @SuppressWarnings("serial")
 public class SampleImage extends JDialog {
-	private Image image;
+	private BufferedImage image;
 	//TODO: Make modal and not resizable
 	public SampleImage(Frame frame, GetSampleImage_Result result, String project) {
 		super(frame, true);
@@ -39,9 +40,10 @@ public class SampleImage extends JDialog {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		Image bImg = image.getScaledInstance(600, 400, Image.SCALE_SMOOTH);
 		JPanel rootPanel = new JPanel();
 		rootPanel.setSize(600, 400);
-		JLabel img = new JLabel(new ImageIcon(image));
+		JLabel img = new JLabel(new ImageIcon(bImg));
 		rootPanel.add(img);
 		this.add(rootPanel);
 	}

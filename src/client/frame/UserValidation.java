@@ -99,7 +99,6 @@ public class UserValidation extends JFrame {
 				ClientCommunicator cc = new ClientCommunicator(host, port);
 				//cc.setSERVER_PORT(port);
 				//cc.setSERVER_HOST(host);
-				System.out.println(cc.getSERVER_HOST() + cc.getSERVER_PORT());
 				ValidateUser_Params params = new ValidateUser_Params(user,pass);
 				ValidateUser_Result result = null;
 				try {
@@ -117,7 +116,6 @@ public class UserValidation extends JFrame {
 						//s = (Session) inputStream.readObject();
 						//inputStream.close();
 						s = (Session) xmlStream.fromXML(file);
-						System.out.println(s.getBatchId()+ "reading id");
 						s.initiliazeListenersList();
 						s.setUrlPrefix("http://"+host+":"+port+"/files/");
 						//System.out.println("URL PRE" + s.getUrlPrefix());
@@ -133,7 +131,6 @@ public class UserValidation extends JFrame {
 					indexer.getSession().setPort(port);
 					indexer.getSession().setUrlPrefix();
 					indexer.getSession().setIndexedRecords(result.getIndexedRecords());
-					System.out.println(indexer.getSession().getImageUrl());
 					WindowAlert alert = new WindowAlert(indexer.getSession());
 					alert.setVisible(true);
 					
