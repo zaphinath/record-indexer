@@ -71,6 +71,7 @@ public class FieldHelpComponent extends JComponent implements SessionListener {
 	 */
 	@Override
 	public void selectedCellChanged(Cell newSelectedCell) {
+		System.out.println(session.getFields().size()+"fsize");
 		try {
 			page = new URL(session.getUrlPrefix()+session.getFields().get(newSelectedCell.getField()).getHtmlHelp());
 			htmlViewer.setPage(page);

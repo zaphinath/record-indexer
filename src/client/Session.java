@@ -361,8 +361,6 @@ public class Session {
 		assert currentBatch != null;
 		//assert !currentBatch.toString().toLowerCase().contains("fail");
 		//this.currentBatch = currentBatch;
-		createValues(currentBatch.getNumRecords(), currentBatch.getNumFields());
-		this.setSelectedCell(new Cell(0,0));
 		
 		batchId = currentBatch.getBatchId();
 		projectId = currentBatch.getProjectId();
@@ -375,7 +373,9 @@ public class Session {
 		for (int i=0; i < currentBatch.getFields().size(); i++) {
 			fields.add(currentBatch.getFields().get(i));
 		}
-		 List<Field> fields;
+		createValues(currentBatch.getNumRecords(), currentBatch.getNumFields());
+		this.setSelectedCell(new Cell(0,0));
+		//List<Field> fields;
 		setHaveBatch(true);
 	}
 
