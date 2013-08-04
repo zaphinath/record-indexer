@@ -25,7 +25,7 @@ public class Session {
 	private String[][] values;
 	private String recordValues;
 	private Cell selectedCell;
-	private List<SessionListener> listeners;
+	private transient List<SessionListener> listeners;
 	private File batchImage;
 	
 	private int zoomLevel;
@@ -191,7 +191,7 @@ public class Session {
 		assert currentBatch != null;
 		//assert !currentBatch.toString().toLowerCase().contains("fail");
 		this.currentBatch = currentBatch;
-		setValues(currentBatch.getNumRecords(), currentBatch.getNumFields());
+		//setValues(currentBatch.getNumRecords(), currentBatch.getNumFields());
 		setHaveBatch(true);
 	}
 

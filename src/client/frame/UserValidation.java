@@ -43,6 +43,7 @@ public class UserValidation extends JFrame {
 	private int port = 39640;
 	private String host = "localhost";
 	private XStream xmlStream;
+	private Session s;
 	
 	public UserValidation() {
 		super();
@@ -106,7 +107,7 @@ public class UserValidation extends JFrame {
 					//TODO: Check file exists. If not new session
 					File file = new File("sessions/"+result.getLastName().toLowerCase().trim()+result.getFirstName().toLowerCase().trim()+".session");
 					if (file.exists()) {
-						Session s =null;
+						//Session s =null;
 						//ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
 						//s = (Session) inputStream.readObject();
 						//inputStream.close();
