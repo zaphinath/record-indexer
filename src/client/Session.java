@@ -19,8 +19,11 @@ public class Session {
 	
 	private String host;
 	private int port;
+	private int frameWidth;
+	private int frameHeight;
 	
 	private String[][] values;
+	private String recordValues;
 	private Cell selectedCell;
 	private List<SessionListener> listeners;
 	private File batchImage;
@@ -38,13 +41,16 @@ public class Session {
 	
 	private boolean haveBatch;
 	private DownloadBatch_Result currentBatch;
+	private int fieldIdSelected;
+	
+	//BATCH
 	
 	
 	/*
 	 * Class Constructor
 	 */
 	public Session() {
-		zoomLevel = 0;
+		zoomLevel = -10;
 		imageInverted = false;
 		toggledHighlights = false;
 		
@@ -182,9 +188,31 @@ public class Session {
 	 * @param currentBatch the currentBatch to set
 	 */
 	public void setCurrentBatch(DownloadBatch_Result currentBatch) {
+		assert currentBatch != null;
+		//assert !currentBatch.toString().toLowerCase().contains("fail");
 		this.currentBatch = currentBatch;
 		setValues(currentBatch.getNumRecords(), currentBatch.getNumFields());
 		setHaveBatch(true);
+	}
+
+	/**
+	 * @return the recordValues
+	 */
+	public String getRecordValues() {
+		String tmp = "";
+		for (int i = 0; i < currentBatch.getNumRecords(); i++) {
+			for (int j = 0; j < currentBatch.getNumFields(); j++) {
+				tmp = tmp + "," + values[i][j];
+			}
+		}
+		return recordValues;
+	}
+
+	/**
+	 * @param recordValues the recordValues to set
+	 */
+	public void setRecordValues(String recordValues) {
+		this.recordValues = recordValues;
 	}
 
 	/**
@@ -276,6 +304,34 @@ public class Session {
 		for (SessionListener l : listeners) {
 			l.toggleHighlightsChanged(toggledHighlights);
 		}
+	}
+
+	/**
+	 * @return the frameWidth
+	 */
+	public int getFrameWidth() {
+		return frameWidth;
+	}
+
+	/**
+	 * @param frameWidth the frameWidth to set
+	 */
+	public void setFrameWidth(int frameWidth) {
+		this.frameWidth = frameWidth;
+	}
+
+	/**
+	 * @return the frameHeight
+	 */
+	public int getFrameHeight() {
+		return frameHeight;
+	}
+
+	/**
+	 * @param frameHeight the frameHeight to set
+	 */
+	public void setFrameHeight(int frameHeight) {
+		this.frameHeight = frameHeight;
 	}
 	
 	

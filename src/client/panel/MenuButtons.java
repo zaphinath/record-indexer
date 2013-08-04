@@ -13,6 +13,7 @@ import client.Session;
 import client.SessionListener;
 import client.model.Cell;
 import client.process.SaveSession;
+import client.process.SubmitBatch;
 
 /**
  * @author zaphinath
@@ -72,6 +73,8 @@ public class MenuButtons extends JPanel implements SessionListener {
 				saveFile.writeFile();
 			} else if (e.getSource() == submit) {
 				session.setHaveBatch(false);
+				SubmitBatch sub = new SubmitBatch(session);
+				sub.submit();
 				
 			}
 		}

@@ -18,6 +18,7 @@ import client.component.Table;
  * @author zaphinath
  *
  */
+@SuppressWarnings("serial")
 public class SouthWest extends JPanel {
 	Session session;
 	private Table table;

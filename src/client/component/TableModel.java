@@ -23,6 +23,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	public TableModel(Session session) {
 		super();
 		this.session = session;
+		session.addListener(this);
 		if (session.isHaveBatch()) {
 			initialize();
 		}
@@ -33,7 +34,10 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public int getRowCount() {
-		return session.getCurrentBatch().getNumRecords();
+		if (session.isHaveBatch()) {
+			return session.getCurrentBatch().getNumRecords();
+		}
+		return 0;
 	}
 
 	/* (non-Javadoc)
@@ -41,7 +45,10 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public int getColumnCount() {
-		return session.getCurrentBatch().getNumFields() ;
+		if (session.isHaveBatch()) {
+			return session.getCurrentBatch().getNumFields();
+		}
+		return 0;		
 	}
 	
 	@Override
@@ -68,7 +75,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
-		return null;
+		return "FOO";
 	}
 
 	/* (non-Javadoc)
@@ -76,11 +83,14 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
+		System.out.println("BATCH CHANGED:");
+		fireTableStructureChanged();
 		if (session.isHaveBatch()) {
 			initialize();
 		} else {
 			destroy();
 		}
+		
 		
 	}
 

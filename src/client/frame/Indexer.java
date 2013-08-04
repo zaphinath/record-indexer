@@ -75,7 +75,9 @@ public class Indexer extends JFrame implements SessionListener{
 	}
 
 	private void initialize() {
-		this.setSize(1200, 800);
+		session.setFrameWidth(1200);
+		session.setFrameHeight(800);
+		this.setSize(session.getFrameWidth(), session.getFrameHeight());
 		setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

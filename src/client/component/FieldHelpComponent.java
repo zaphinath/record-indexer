@@ -3,6 +3,8 @@
  */
 package client.component;
 
+import java.awt.Dimension;
+
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 
@@ -24,6 +26,8 @@ public class FieldHelpComponent extends JComponent implements SessionListener {
 	public FieldHelpComponent(Session session) {
 		super();
 		this.session = session;
+		this.setPreferredSize(new Dimension(650,250));
+
 		
 	}
 

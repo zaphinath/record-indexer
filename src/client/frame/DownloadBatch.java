@@ -20,6 +20,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import shared.communication.DownloadBatch_Params;
+import shared.communication.DownloadBatch_Result;
 import shared.communication.GetProjects_Params;
 import shared.communication.GetProjects_Result;
 import shared.communication.GetSampleImage_Params;
@@ -161,6 +163,17 @@ public class DownloadBatch extends JDialog {
 		this.dispose();
 	}
 	private void download() {
-		
+		DownloadBatch_Result result = null;
+		DownloadBatch_Params params = new DownloadBatch_Params(session.getUsername(), session.getPassword(), selProjectId);
+		params.setUrlPrefix(session.getUrlPrefix());
+		try {
+			result = cc.downloadBatch(params);
+			//System.out.println(result.toString());
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.session.setCurrentBatch(result);
+		this.dispose();
 	}
 }

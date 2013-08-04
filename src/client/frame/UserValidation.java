@@ -21,6 +21,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.KeyStroke;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import shared.communication.*;
 import client.ClientException;
 import client.Session;
@@ -39,6 +42,7 @@ public class UserValidation extends JFrame {
 	private Indexer indexer;
 	private int port = 39640;
 	private String host = "localhost";
+	private XStream xmlStream;
 	
 	public UserValidation() {
 		super();
@@ -55,6 +59,7 @@ public class UserValidation extends JFrame {
 		super();
 		this.host = host2;
 		this.port = port2;
+		xmlStream = new XStream(new DomDriver());
 		intializeComponent();
 	}
 
@@ -99,23 +104,21 @@ public class UserValidation extends JFrame {
 				}
 				if (result.getBool().toLowerCase().contains("true")) {
 					//TODO: Check file exists. If not new session
-					File file = new File("sessions/"+result.getLastName().toLowerCase()+result.getFirstName().toLowerCase()+".session");
+					File file = new File("sessions/"+result.getLastName().toLowerCase().trim()+result.getFirstName().toLowerCase().trim()+".session");
 					if (file.exists()) {
 						Session s =null;
-						try {
-							ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
-							s = (Session) inputStream.readObject();
-							inputStream.close();
-						} catch (ClassNotFoundException | IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						//ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
+						//s = (Session) inputStream.readObject();
+						//inputStream.close();
+						s = (Session) xmlStream.fromXML(file);
 						indexer = new Indexer(s);
 					} else {
 						indexer = new Indexer();
 					}
 					indexer.getSession().setUsername(user);
 					indexer.getSession().setPassword(pass);
+					indexer.getSession().setFirstName(result.getFirstName().trim());
+					indexer.getSession().setLastName(result.getLastName().trim());
 					indexer.getSession().setHost(host);
 					indexer.getSession().setPort(port);
 					indexer.getSession().setUrlPrefix();
