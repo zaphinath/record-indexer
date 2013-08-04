@@ -3,11 +3,14 @@
  */
 package client.panel;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import client.Session;
 import client.SessionListener;
@@ -21,7 +24,7 @@ import client.process.SubmitBatch;
  */
 @SuppressWarnings("serial")
 public class MenuButtons extends JPanel implements SessionListener {
-	
+	private JFrame parentFrame;
 	private JButton zoomIn;
 	private JButton zoomOut;
 	private JButton invertImage;
@@ -31,10 +34,13 @@ public class MenuButtons extends JPanel implements SessionListener {
 	
 	private Session session;
 	
-	public MenuButtons(Session s) {
+	public MenuButtons(JFrame frame, Session s) {
 		super();
 		session = s;
+		session.addListener(this);
 		
+		parentFrame = frame;
+		System.out.println("ParentFrame="+parentFrame.getWidth());
 		zoomIn = new JButton("Zoom In");
 		zoomOut = new JButton("Zoom Out");
 		invertImage = new JButton("Invert Image");
@@ -56,6 +62,15 @@ public class MenuButtons extends JPanel implements SessionListener {
 		save.addActionListener(actionListener);
 		submit.addActionListener(actionListener);
 		
+		if (!session.isHaveBatch()) {
+			zoomIn.setEnabled(false);
+			zoomOut.setEnabled(false);
+			invertImage.setEnabled(false);
+			toggleHighlights.setEnabled(false);
+			save.setEnabled(false);
+			submit.setEnabled(false);
+		}
+		
 	}
 	
 	private ActionListener actionListener = new ActionListener() {
@@ -69,7 +84,7 @@ public class MenuButtons extends JPanel implements SessionListener {
 			} else if (e.getSource() == toggleHighlights) {
 				session.setToggledHighlights(!session.isToggledHighlights());
 			} else if (e.getSource() == save) {
-				SaveSession saveFile = new SaveSession(session);
+				SaveSession saveFile = new SaveSession(parentFrame, session);
 				saveFile.writeFile();
 			} else if (e.getSource() == submit) {
 				session.setHaveBatch(false);
@@ -86,7 +101,21 @@ public class MenuButtons extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
-		// TODO Auto-generated method stub
+		if (!session.isHaveBatch()) {
+			zoomIn.setEnabled(false);
+			zoomOut.setEnabled(false);
+			invertImage.setEnabled(false);
+			toggleHighlights.setEnabled(false);
+			save.setEnabled(false);
+			submit.setEnabled(false);
+		} else { 
+			zoomIn.setEnabled(true);
+			zoomOut.setEnabled(true);
+			invertImage.setEnabled(true);
+			toggleHighlights.setEnabled(true);
+			save.setEnabled(true);
+			submit.setEnabled(true);
+		}
 		
 	}
 

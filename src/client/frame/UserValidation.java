@@ -42,18 +42,18 @@ public class UserValidation extends JFrame {
 	private JTextField username;
 	private JPasswordField password;
 	private Indexer indexer;
-	private int port = 39640;
-	private String host = "localhost";
+	private int port;// = 39640;
+	private String host;// = "localhost";
 	private XStream xmlStream;
 	private Session s;
 	
-	public UserValidation() {
+	/*public UserValidation() {
 		super();
 		xmlStream = new XStream(new DomDriver());
 		intializeComponent();
 
 		
-	}
+	}*/
 
 	/**
 	 * @param host2
@@ -96,9 +96,10 @@ public class UserValidation extends JFrame {
 				//assert host !=null;
 				String user = username.getText();
 				String pass = password.getText();
-				ClientCommunicator cc = new ClientCommunicator();
-				cc.setSERVER_PORT(port);
-				cc.setSERVER_HOST(host);
+				ClientCommunicator cc = new ClientCommunicator(host, port);
+				//cc.setSERVER_PORT(port);
+				//cc.setSERVER_HOST(host);
+				System.out.println(cc.getSERVER_HOST() + cc.getSERVER_PORT());
 				ValidateUser_Params params = new ValidateUser_Params(user,pass);
 				ValidateUser_Result result = null;
 				try {
@@ -118,6 +119,8 @@ public class UserValidation extends JFrame {
 						s = (Session) xmlStream.fromXML(file);
 						System.out.println(s.getBatchId()+ "reading id");
 						s.initiliazeListenersList();
+						s.setUrlPrefix("http://"+host+":"+port+"/files/");
+						//System.out.println("URL PRE" + s.getUrlPrefix());
 						indexer = new Indexer(s);
 					} else {
 						indexer = new Indexer();

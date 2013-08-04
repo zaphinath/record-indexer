@@ -3,6 +3,9 @@
  */
 package client;
 
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ public class Session {
 	private int port;
 	private int frameWidth;
 	private int frameHeight;
+	private Point framePoint;
 	
 	private String[][] values;
 	private String recordValues;
@@ -68,6 +72,12 @@ public class Session {
 		listeners = new ArrayList<SessionListener>();
 		selectedCell = null;
 		fields = new ArrayList<Field>();
+		
+		frameHeight = 800;
+		frameWidth = 1200;
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		//this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		framePoint = new Point(dim.width/2-frameWidth/2, dim.height/2-frameHeight/2);
 	}
 	
 	/**
@@ -117,6 +127,20 @@ public class Session {
 	 */
 	public void setIndexedRecords(String indexedRecords) {
 		this.indexedRecords = indexedRecords;
+	}
+
+	/**
+	 * @return the framePoint
+	 */
+	public Point getFramePoint() {
+		return framePoint;
+	}
+
+	/**
+	 * @param framePoint the framePoint to set
+	 */
+	public void setFramePoint(Point framePoint) {
+		this.framePoint = framePoint;
 	}
 
 	/**

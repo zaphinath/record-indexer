@@ -4,6 +4,8 @@
 package client.frame;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -33,6 +35,7 @@ import client.process.SaveSession;
  */
 @SuppressWarnings("serial")
 public class Indexer extends JFrame implements SessionListener{
+	private JFrame thisFrame = this;
 	private JMenuItem downloadBatch;
 	private JMenuItem logout;
 	private JMenuItem exit;
@@ -76,10 +79,14 @@ public class Indexer extends JFrame implements SessionListener{
 	}
 
 	private void initialize() {
-		session.setFrameWidth(1200);
-		session.setFrameHeight(800);
+		session.setFrameWidth(session.getFrameWidth());
+		session.setFrameHeight(session.getFrameHeight());
 		this.setSize(session.getFrameWidth(), session.getFrameHeight());
-		setLocationRelativeTo(null);
+		//setLocationRelativeTo(null);
+		
+		
+		this.setLocation(session.getFramePoint());
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -91,6 +98,9 @@ public class Indexer extends JFrame implements SessionListener{
 		downloadBatch = new JMenuItem("Download Batch");
 		mnFile.add(downloadBatch);
 		downloadBatch.addActionListener(actionListener);
+		System.out.println(session.isHaveBatch() + "Batch status");
+		if (session.isHaveBatch())
+			downloadBatch.setEnabled(false);
 		
 		logout = new JMenuItem("Logout");
 		mnFile.add(logout);
@@ -125,11 +135,11 @@ public class Indexer extends JFrame implements SessionListener{
 		//JPanel seNorth = new JPanel();
 		//JPanel seSouth = new JPanel();
 		
-		JPanel menuButtons = new MenuButtons(session);
+		JPanel menuButtons = new MenuButtons(this, session);
 		JPanel imagePanel = new ImagePanel(session);
 		//JPanel tableEntryPanel = new TableEntry(session);
 
-		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, imagePanel, southPanel);
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setTopComponent(imagePanel);
 		splitPane.setBottomComponent(southPanel);
@@ -166,14 +176,14 @@ public class Indexer extends JFrame implements SessionListener{
 			if (e.getSource() == downloadBatch) {
 				addDownload();
 			} else if (e.getSource() == logout) {
-				SaveSession save = new SaveSession(session);
+				SaveSession save = new SaveSession(thisFrame, session);
 				save.writeFile();
-				userLogin = new UserValidation();
+				userLogin = new UserValidation(session.getHost(), session.getPort());
 				userLogin.setVisible(true);
 				dis();
 				//System.exit(-9);
 			} else if (e.getSource() == exit) {
-				SaveSession save = new SaveSession(session);
+				SaveSession save = new SaveSession(thisFrame, session);
 				save.writeFile();
 				System.exit(-9);
 			} else if  (e.getSource() == tableEntry) {
@@ -208,8 +218,11 @@ public class Indexer extends JFrame implements SessionListener{
 	 */
 	@Override
 	public void hasBatchChanged() {
-		// TODO Auto-generated method stub
-		
+		if (session.isHaveBatch()) {
+			downloadBatch.setEnabled(false);
+		} else {
+			downloadBatch.setEnabled(true);
+		}
 	}
 
 	/* (non-Javadoc)

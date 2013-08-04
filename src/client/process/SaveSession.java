@@ -3,6 +3,8 @@
  */
 package client.process;
 
+import java.awt.Frame;
+import java.awt.Point;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -25,8 +27,9 @@ public class SaveSession {
 	private FileOutputStream fwrite;
 	private File file;
 	private String path;
+
 	
-	public SaveSession(Session session) {
+	public SaveSession(Frame frame, Session session) {
 		this.session = session;
 		xstream = new XStream(new DomDriver());
 		try {
@@ -39,6 +42,11 @@ public class SaveSession {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		//save frame variables
+		session.setFramePoint(frame.getLocationOnScreen());
+		session.setFrameWidth(frame.getWidth());
+		session.setFrameHeight(frame.getHeight());
 	}
 
 	/**
