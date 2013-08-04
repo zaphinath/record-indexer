@@ -361,7 +361,9 @@ public class Session {
 		assert currentBatch != null;
 		//assert !currentBatch.toString().toLowerCase().contains("fail");
 		//this.currentBatch = currentBatch;
-		//setValues(currentBatch.getNumRecords(), currentBatch.getNumFields());
+		createValues(currentBatch.getNumRecords(), currentBatch.getNumFields());
+		this.setSelectedCell(new Cell(0,0));
+		
 		batchId = currentBatch.getBatchId();
 		projectId = currentBatch.getProjectId();
 		imageUrl = currentBatch.getImageUrl();
@@ -413,11 +415,30 @@ public class Session {
 	
 	/**
 	 * 
+	 * @param width
+	 * @param height
+	 */
+	public void createValues(int width, int height) {
+		this.values = new String[width][height];
+		for (int i = 0; i < height; i++ ) {
+			for (int j = 0; j < width; j++ ) {
+				values[j][i] = "";
+			}
+		}
+		
+	}
+	
+	/**
+	 * 
 	 * @param x
 	 * @param y
 	 */
-	public void setValues(int x, int y) {
-		this.values = new String[x][y];
+	public void setValue(int x, int y, String value) {
+		//this.values = new String[x][y];
+		this.values[x][y] = value;
+		for (SessionListener l : listeners) {
+			l.valueChanged(new Cell(x,y), value);
+		}
 	}
 
 	/**

@@ -35,7 +35,7 @@ public class Table extends JComponent {
 	public Table(Session s) {
 		super();
 		this.session = s;
-		this.setPreferredSize(new Dimension(450,250));
+		//this.setPreferredSize(new Dimension(450,250));
 		tm = new TableModel(session);
 		table = new JTable(tm);
 		table.setRowHeight(30);
@@ -48,11 +48,13 @@ public class Table extends JComponent {
 			column.setPreferredWidth(150);
 		}*/
 		
-		System.out.println(table.getColumnCount());
+		//System.out.println(table.getColumnCount());
 		
 		JPanel rootPanel = new JPanel(new BorderLayout());
-		rootPanel.add(table.getTableHeader(), BorderLayout.NORTH);
-		rootPanel.add(table, BorderLayout.CENTER);
+		//rootPanel.add(table.getTableHeader(), BorderLayout.NORTH);
+		//rootPanel.add(table, BorderLayout.CENTER);
+		JLabel foo = new JLabel("FOOFIGHT");
+		rootPanel.add(foo, BorderLayout.SOUTH);
 		this.add(rootPanel);
 	}
 	

@@ -32,8 +32,10 @@ public class SouthWest extends JPanel {
 		table = new Table(session);
 		fec = new FormEntryComponent(session);
 		
-		JTabbedPane tabs = new JTabbedPane();
+		table.setSize(new Dimension(450,250));
 		
+		JTabbedPane tabs = new JTabbedPane();
+		tabs.setPreferredSize(new Dimension(450,250));
 		tabs.addTab("Table Entry", table);
 		tabs.addTab("Form Entry", fec);
 		

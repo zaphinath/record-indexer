@@ -79,6 +79,7 @@ public class Indexer extends JFrame implements SessionListener{
 	}
 
 	private void initialize() {
+		session.addListener(this);
 		session.setFrameWidth(session.getFrameWidth());
 		session.setFrameHeight(session.getFrameHeight());
 		this.setSize(session.getFrameWidth(), session.getFrameHeight());
