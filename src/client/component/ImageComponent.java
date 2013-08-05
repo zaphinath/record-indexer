@@ -58,14 +58,14 @@ public class ImageComponent extends JComponent implements SessionListener {
 		
 		w_originX = 0;
 		w_originY = 0;
-		scale = 1.0;
+		scale = session.getScale();
 		
 		initDrag();
 	
 		shapes = new ArrayList<DrawingShape>();
 		stroke = new BasicStroke(5);
 		
-		this.setBackground(new Color(178, 223, 210));
+		this.setBackground(new Color(84,84,84));
 		this.setPreferredSize(new Dimension(700, 700));
 		this.setMinimumSize(new Dimension(100, 100));
 		this.setMaximumSize(new Dimension(1000, 1000));
