@@ -33,7 +33,8 @@ public class Session {
 	private transient List<SessionListener> listeners;
 //	private File batchImage;
 	
-	private int zoomLevel;
+	//private int zoomLevel;
+	private double scale;
 	private boolean imageInverted;
 	private boolean toggledHighlights;
 	
@@ -66,7 +67,7 @@ public class Session {
 	 * Class Constructor
 	 */
 	public Session() {
-		zoomLevel = -10;
+		scale = .5;
 		imageInverted = false;
 		toggledHighlights = false;
 		
@@ -495,17 +496,20 @@ public class Session {
 	/**
 	 * @return the zoomLevel
 	 */
-	public int getZoomLevel() {
-		return zoomLevel;
+	public double getScale() {
+		return scale;
 	}
 
 	/**
 	 * @param zoomLevel the zoomLevel to set
 	 */
-	public void setZoomLevel(int zoomLevel) {
-		this.zoomLevel = zoomLevel;
-		for (SessionListener l : listeners) {
-			l.zoomeLevelChanged(zoomLevel);
+	public void setZoomLevel(double scale) {
+		if (scale > .05 || scale < 20) {
+			this.scale = scale;
+			
+			for (SessionListener l : listeners) {
+				l.scaleChanged(scale);
+			}
 		}
 	}
 

@@ -227,15 +227,6 @@ public class Indexer extends JFrame implements SessionListener{
 	}
 
 	/* (non-Javadoc)
-	 * @see client.SessionListener#zoomeLevelChanged(int)
-	 */
-	@Override
-	public void zoomeLevelChanged(int zoom) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
 	 * @see client.SessionListener#toggleHighlightsChanged(boolean)
 	 */
 	@Override
@@ -249,6 +240,15 @@ public class Indexer extends JFrame implements SessionListener{
 	 */
 	@Override
 	public void imageInversionChanged(boolean inversion) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#scaleChanged(double)
+	 */
+	@Override
+	public void scaleChanged(double scale) {
 		// TODO Auto-generated method stub
 		
 	}

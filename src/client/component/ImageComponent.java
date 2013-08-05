@@ -230,7 +230,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 		} else {
 			shapes.clear();
 		}
-
+		this.repaint();
 	}
 
 	/* (non-Javadoc)
@@ -252,15 +252,6 @@ public class ImageComponent extends JComponent implements SessionListener {
 	}
 
 	/* (non-Javadoc)
-	 * @see client.SessionListener#zoomeLevelChanged(int)
-	 */
-	@Override
-	public void zoomeLevelChanged(int zoom) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
 	 * @see client.SessionListener#toggleHighlightsChanged(boolean)
 	 */
 	@Override
@@ -276,6 +267,15 @@ public class ImageComponent extends JComponent implements SessionListener {
 	public void imageInversionChanged(boolean inversion) {
 		// TODO Auto-generated method stub
 
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#scaleChanged(double)
+	 */
+	@Override
+	public void scaleChanged(double scale) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

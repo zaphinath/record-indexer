@@ -172,12 +172,12 @@ public class ImagePanel extends JPanel implements SessionListener {
 
 	/* (non-Javadoc)
 	 * @see client.SessionListener#zoomeLevelChanged(int)
-	 */
+	 
 	@Override
 	public void zoomeLevelChanged(int zoom) {
 		this.repaint();
 		
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 * @see client.SessionListener#toggleHighlightsChanged(boolean)
@@ -247,6 +247,15 @@ public class ImagePanel extends JPanel implements SessionListener {
 			lastPoint = null;
 		}
 	};
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#scaleChanged(double)
+	 */
+	@Override
+	public void scaleChanged(double scale) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

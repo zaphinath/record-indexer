@@ -76,9 +76,9 @@ public class MenuButtons extends JPanel implements SessionListener {
 	private ActionListener actionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == zoomIn) {
-				session.setZoomLevel(session.getZoomLevel() + 1);
+				session.setZoomLevel(session.getScale() + .1);
 			} else if (e.getSource() == zoomOut) {
-				session.setZoomLevel(session.getZoomLevel() - 1);
+				session.setZoomLevel(session.getScale() - .1);
 			} else if (e.getSource() == invertImage) {
 				session.setImageInverted(!session.isImageInverted());
 			} else if (e.getSource() == toggleHighlights) {
@@ -138,15 +138,6 @@ public class MenuButtons extends JPanel implements SessionListener {
 	}
 
 	/* (non-Javadoc)
-	 * @see client.SessionListener#zoomeLevelChanged(int)
-	 */
-	@Override
-	public void zoomeLevelChanged(int zoom) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
 	 * @see client.SessionListener#toggleHighlightsChanged(boolean)
 	 */
 	@Override
@@ -160,6 +151,15 @@ public class MenuButtons extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void imageInversionChanged(boolean inversion) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#scaleChanged(double)
+	 */
+	@Override
+	public void scaleChanged(double scale) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -17,7 +17,7 @@ public interface SessionListener {
 	
 	public void selectedCellChanged(Cell newSelectedCell);
 	
-	public void zoomeLevelChanged(int zoom);
+	public void scaleChanged(double scale);
 	
 	public void toggleHighlightsChanged(boolean toggle);
 	
