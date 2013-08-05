@@ -58,11 +58,14 @@ public class DrawingImage extends JComponent implements DrawingShape {
 
 	@Override
 	public void draw(Graphics2D g2) {
-		Rectangle2D bounds = rect.getBounds2D();
+		/*Rectangle2D bounds = rect.getBounds2D();
 		//g2.drawImage(image, (int)bounds.getMinX(), (int)bounds.getMinY(), (int)bounds.getMaxX(), (int)bounds.getMaxY(),
 			//			0, 0, image.getWidth(null), image.getHeight(null), null);
 		Image timage = image.getScaledInstance(image.getWidth(null)+session.getZoomLevel()*30, image.getHeight(null)+session.getZoomLevel()*30, Image.SCALE_DEFAULT);
 		g2.drawImage(timage, (panel.getWidth() - timage.getWidth(null))/2, (panel.getHeight()-timage.getHeight(null))/2, null);
+		*/
+		g2.drawImage(image, (int)rect.getMinX(), (int)rect.getMinY(), (int)rect.getMaxX(), (int)rect.getMaxY(),
+				0, 0, image.getWidth(null), image.getHeight(null), null);
 	}
 	
 	@Override
