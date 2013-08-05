@@ -275,7 +275,8 @@ public class ImageComponent extends JComponent implements SessionListener {
 	@Override
 	public void scaleChanged(double scale) {
 		// TODO Auto-generated method stub
-		
+		this.scale = scale;
+		repaint();
 	}
 
 }

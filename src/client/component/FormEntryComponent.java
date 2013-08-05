@@ -84,7 +84,5 @@ public class FormEntryComponent extends JComponent implements SessionListener {
 	@Override
 	public void scaleChanged(double scale) {
 		// TODO Auto-generated method stub
-		scale = session.getScale();
-		repaint();
 	}
 }

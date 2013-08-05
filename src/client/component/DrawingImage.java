@@ -17,6 +17,7 @@ import client.Session;
  * @author zaphinath
  *
  */
+@SuppressWarnings("serial")
 public class DrawingImage extends JComponent implements DrawingShape {
 
 	private Image image;
