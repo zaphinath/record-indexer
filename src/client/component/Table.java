@@ -40,7 +40,7 @@ public class Table extends JPanel {
 		//this.setPreferredSize(new Dimension(450,250));
 		tm = new TableModel(session);
 		table = new JTable(tm);
-
+		
 		//table.setPreferredSize(new Dimension(470,250));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setCellSelectionEnabled(true);
@@ -60,7 +60,7 @@ public class Table extends JPanel {
 		this.setLayout(new BorderLayout());
 		
 		JScrollPane rPane = new JScrollPane(table);
-		this.add(Box.createRigidArea(new Dimension(0,5)),BorderLayout.WEST);
+		//this.add(Box.createRigidArea(new Dimension(0,20)),BorderLayout.WEST);
 
 		this.add(rPane, BorderLayout.CENTER);
 		//rootPanel.add(table.getTableHeader(), BorderLayout.NORTH);

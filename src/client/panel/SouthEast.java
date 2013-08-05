@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import client.Session;
-import client.component.FieldHelpComponent;
 import client.component.ImageNavigationComponent;
 
 /**
@@ -17,7 +16,7 @@ import client.component.ImageNavigationComponent;
  */
 @SuppressWarnings("serial")
 public class SouthEast extends JPanel {
-	private FieldHelpComponent fHelp;
+	private FieldHelpPanel fHelp;
 	private ImageNavigationComponent imgNav;
 	private Session session;
 	
@@ -30,7 +29,7 @@ public class SouthEast extends JPanel {
 		this.session = session;
 		//this.setPreferredSize(new Dimension(400,300));
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		fHelp = new FieldHelpComponent(session);
+		fHelp = new FieldHelpPanel(session);
 		imgNav = new ImageNavigationComponent(session);
 		
 		JTabbedPane tabs = new JTabbedPane();

@@ -392,7 +392,7 @@ public class Session {
 			fields.add(currentBatch.getFields().get(i));
 			fieldTitles.add(currentBatch.getFields().get(i).getTitle());
 		}
-		createValues(numRecords, numFields);
+		createValues(numFields, numRecords);
 		this.setSelectedCell(new Cell(1,1));
 		//List<Field> fields;
 		setHaveBatch(true);
@@ -439,10 +439,11 @@ public class Session {
 	 */
 	public void createValues(int width, int height) {
 		this.values = new String[width][height];
+		System.out.println(width+ " wh"+height);
 		for (int i = 0; i < height; i++ ) {
 			for (int j = 0; j < width; j++ ) {
-				if (i == 0) {
-					values[j][i] = Integer.toString(i);
+				if (j == 0) {
+					values[j][i] = Integer.toString(i+1);
 				} else {
 					values[j][i] = "";
 				}

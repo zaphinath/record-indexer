@@ -1,7 +1,7 @@
 /**
  * 
  */
-package client.component;
+package client.panel;
 
 import java.awt.Dimension;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import client.model.Cell;
  *
  */
 @SuppressWarnings("serial")
-public class FieldHelpComponent extends JPanel implements SessionListener {
+public class FieldHelpPanel extends JPanel implements SessionListener {
 	private Session session;
 	private JEditorPane htmlViewer;
 	private URL page;
@@ -29,11 +29,11 @@ public class FieldHelpComponent extends JPanel implements SessionListener {
 	/**
 	 * @param session
 	 */
-	public FieldHelpComponent(Session session) {
+	public FieldHelpPanel(Session session) {
 		super();
 		this.session = session;
 		session.addListener(this);
-		this.setPreferredSize(new Dimension(650,250));
+		this.setPreferredSize(new Dimension(650,230));
 		if (session.isHaveBatch()){
 			try {
 				page = new URL(session.getUrlPrefix()+session.getFields().get(session.getSelectedCell().getField()).getHtmlHelp());

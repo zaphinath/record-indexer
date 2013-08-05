@@ -68,7 +68,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return (row == 0 || column == 0) ? false : true;
+		return (column == 0) ? false : true;
 	}
 	
 	/* (non-Javadoc)
@@ -76,7 +76,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return session.getValue( rowIndex, columnIndex);
+		return session.getValue( columnIndex, rowIndex);
 	}
 
 	@Override
