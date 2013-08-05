@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -31,7 +32,7 @@ import client.model.Cell;
  */
 @SuppressWarnings("serial")
 public class ImageComponent extends JComponent implements SessionListener {
-	//private static Image NULL_IMAGE = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+	private static Image NULL_IMAGE = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
 	
 	private Session session;
 	private int w_originX;
@@ -90,8 +91,8 @@ public class ImageComponent extends JComponent implements SessionListener {
 			return ImageIO.read(url);
 		}
 		catch (IOException e) {
-			//return NULL_IMAGE;
-			return null;
+			return NULL_IMAGE;
+			//return null;
 		}
 	}
 	
