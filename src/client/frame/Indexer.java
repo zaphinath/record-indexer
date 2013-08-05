@@ -20,6 +20,7 @@ import javax.swing.JSplitPane;
 import client.ClientException;
 import client.Session;
 import client.SessionListener;
+import client.component.ImageComponent;
 import client.model.Cell;
 import client.panel.ImagePanel;
 import client.panel.MenuButtons;
@@ -130,34 +131,16 @@ public class Indexer extends JFrame implements SessionListener{
 		JPanel southWest = new SouthWest(session);
 		JPanel southEast = new SouthEast(session);
 		
-		//JPanel swNorth = new JPanel();
-		//JPanel swSouth = new JPanel();
-		
-		//JPanel seNorth = new JPanel();
-		//JPanel seSouth = new JPanel();
 		
 		JPanel menuButtons = new MenuButtons(this, session);
-		JPanel imagePanel = new ImagePanel(session);
-		//JPanel tableEntryPanel = new TableEntry(session);
-
-		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, imagePanel, southPanel);
+		//JPanel imagePanel = new ImagePanel(session);
+		ImageComponent imagePanel = new ImageComponent(session);
+		/*JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, imagePanel, southPanel);
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setTopComponent(imagePanel);
-		splitPane.setBottomComponent(southPanel);
+		splitPane.setBottomComponent(southPanel);*/
 		//splitPane.setDividerLocation(150);
 		
-		//swNorth.add(tableEntry);
-		//swNorth.add(formEntry);
-		
-		//seNorth.add(fieldHelp);
-		//seNorth.add(imageNav);
-		//seSouth.add(tableEntryPanel);
-		
-		//southWest.add(swNorth, BorderLayout.NORTH);
-		//southWest.add(swSouth, BorderLayout.SOUTH);
-		
-		//southEast.add(seNorth, BorderLayout.NORTH);
-		//southEast.add(seSouth, BorderLayout.SOUTH);
 		
 		northPanel.add(menuButtons, BorderLayout.WEST);
 		southPanel.add(southWest, BorderLayout.WEST);
@@ -165,12 +148,10 @@ public class Indexer extends JFrame implements SessionListener{
 		
 		rootPanel.add(northPanel, BorderLayout.NORTH);
 		rootPanel.add(imagePanel, BorderLayout.CENTER);
-		rootPanel.add(splitPane,BorderLayout.SOUTH);
+		//rootPanel.add(splitPane,BorderLayout.SOUTH);
 		rootPanel.add(southPanel, BorderLayout.SOUTH);
-		//rootPanel.add(splitPane);
 		
 		this.add(rootPanel);
-		//this.pack();
 	}
 	
 	private ActionListener actionListener = new ActionListener() {

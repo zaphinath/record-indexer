@@ -76,6 +76,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		session.setSelectedCell(new Cell(columnIndex, rowIndex));
 		return session.getValue( columnIndex, rowIndex);
 	}
 
@@ -104,16 +105,14 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public void valueChanged(Cell cell, String newValue) {
-		// TODO Auto-generated method stub
-		
+		fireTableCellUpdated(cell.getField(), cell.getRecord());
 	}
 
 	/* (non-Javadoc)
 	 * @see client.SessionListener#selectedCellChanged(client.model.Cell)
 	 */
 	@Override
-	public void selectedCellChanged(Cell newSelectedCell) {
-		// TODO Auto-generated method stub
+	public void selectedCellChanged(Cell cell) {
 		
 	}
 
