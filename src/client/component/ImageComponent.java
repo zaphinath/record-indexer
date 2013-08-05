@@ -74,8 +74,10 @@ public class ImageComponent extends JComponent implements SessionListener {
 		this.addMouseMotionListener(mouseAdapter);
 		//this.addComponentListener(componentAdapter);
 		
-		Image image = loadImage(session.getImageUrl());
-		shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null))));//, session, this));
+		if (session.isHaveBatch()) {
+			Image image = loadImage(session.getImageUrl());
+			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null))));//, session, this));
+		}
 	}
 
 	private void initDrag() {
@@ -87,15 +89,13 @@ public class ImageComponent extends JComponent implements SessionListener {
 	}
 	
 	private Image loadImage(URL url) {
-		if (session.isHaveBatch()) {
-			try {
-				return ImageIO.read(url);
-			}
-			catch (IOException e) {
-				//return null;
-			}
+		try {
+			return ImageIO.read(url);
 		}
-		return NULL_IMAGE;
+		catch (IOException e) {
+			return NULL_IMAGE;
+			//return null;
+		}
 	}
 	
 	@Override
@@ -224,7 +224,12 @@ public class ImageComponent extends JComponent implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
-		// TODO Auto-generated method stub
+		if (session.isHaveBatch()) {
+			Image image = loadImage(session.getImageUrl());
+			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null))));//, session, this));
+		} else {
+			shapes.clear();
+		}
 
 	}
 
