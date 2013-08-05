@@ -87,13 +87,15 @@ public class ImageComponent extends JComponent implements SessionListener {
 	}
 	
 	private Image loadImage(URL url) {
-		try {
-			return ImageIO.read(url);
+		if (session.isHaveBatch()) {
+			try {
+				return ImageIO.read(url);
+			}
+			catch (IOException e) {
+				//return null;
+			}
 		}
-		catch (IOException e) {
-			return NULL_IMAGE;
-			//return null;
-		}
+		return NULL_IMAGE;
 	}
 	
 	@Override
