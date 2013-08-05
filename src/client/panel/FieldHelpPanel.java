@@ -82,13 +82,13 @@ public class FieldHelpPanel extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void selectedCellChanged(Cell newSelectedCell) {
-		System.out.println(session.getFields().size()+"fsize");
+		/*System.out.println(session.getFields().size()+"fsize");
 		try {
 			page = new URL(session.getUrlPrefix()+session.getFields().get(newSelectedCell.getField()+1).getHtmlHelp());
 			htmlViewer.setPage(page);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	/* (non-Javadoc)
