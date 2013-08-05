@@ -76,9 +76,9 @@ public class MenuButtons extends JPanel implements SessionListener {
 	private ActionListener actionListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == zoomIn) {
-				session.setZoomLevel(session.getScale() + .1);
+				session.setScale(session.getScale() + .1);
 			} else if (e.getSource() == zoomOut) {
-				session.setZoomLevel(session.getScale() - .1);
+				session.setScale(session.getScale() - .1);
 			} else if (e.getSource() == invertImage) {
 				session.setImageInverted(!session.isImageInverted());
 			} else if (e.getSource() == toggleHighlights) {

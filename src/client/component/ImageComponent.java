@@ -56,8 +56,8 @@ public class ImageComponent extends JComponent implements SessionListener {
 		this.session = session;
 		session.addListener(this);
 		
-		w_originX = 0;
-		w_originY = 0;
+		w_originX = session.getW_originX();
+		w_originY = session.getW_originY();
 		scale = session.getScale();
 		
 		initDrag();

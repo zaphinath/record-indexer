@@ -33,7 +33,8 @@ public class Session {
 	private transient List<SessionListener> listeners;
 //	private File batchImage;
 	
-	//private int zoomLevel;
+	private int w_originX;
+	private int w_originY;
 	private double scale;
 	private boolean imageInverted;
 	private boolean toggledHighlights;
@@ -45,9 +46,7 @@ public class Session {
 	private String indexedRecords;
 
 	private String urlPrefix;
-	
-	//private DownloadBatch_Result currentBatch;
-	//private int fieldIdSelected;
+
 	
 	//BATCH
 	private boolean haveBatch;
@@ -67,6 +66,8 @@ public class Session {
 	 * Class Constructor
 	 */
 	public Session() {
+		w_originX = 0;
+		w_originY = 0;
 		scale = .5;
 		imageInverted = false;
 		toggledHighlights = false;
@@ -146,6 +147,34 @@ public class Session {
 	 */
 	public void setFramePoint(Point framePoint) {
 		this.framePoint = framePoint;
+	}
+
+	/**
+	 * @return the w_originX
+	 */
+	public int getW_originX() {
+		return w_originX;
+	}
+
+	/**
+	 * @param w_originX the w_originX to set
+	 */
+	public void setW_originX(int w_originX) {
+		this.w_originX = w_originX;
+	}
+
+	/**
+	 * @return the w_originY
+	 */
+	public int getW_originY() {
+		return w_originY;
+	}
+
+	/**
+	 * @param w_originY the w_originY to set
+	 */
+	public void setW_originY(int w_originY) {
+		this.w_originY = w_originY;
 	}
 
 	/**
@@ -494,7 +523,7 @@ public class Session {
 	}
 
 	/**
-	 * @return the zoomLevel
+	 * @return the scaleLevel
 	 */
 	public double getScale() {
 		return scale;
@@ -503,7 +532,7 @@ public class Session {
 	/**
 	 * @param zoomLevel the zoomLevel to set
 	 */
-	public void setZoomLevel(double scale) {
+	public void setScale(double scale) {
 		if (scale > .05 || scale < 20) {
 			this.scale = scale;
 			

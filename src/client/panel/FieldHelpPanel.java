@@ -36,6 +36,7 @@ public class FieldHelpPanel extends JPanel implements SessionListener {
 		this.setPreferredSize(new Dimension(650,230));
 		if (session.isHaveBatch()){
 			try {
+				System.out.println("FIELD SELECTED " + session.getSelectedCell().getField());
 				page = new URL(session.getUrlPrefix()+session.getFields().get(session.getSelectedCell().getField()).getHtmlHelp());
 				//htmlViewer.setPage(page);
 				htmlViewer = new JEditorPane(page);
