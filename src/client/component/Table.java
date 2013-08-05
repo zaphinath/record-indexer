@@ -9,9 +9,11 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
@@ -27,7 +29,7 @@ import client.model.Cell;
  *
  */
 @SuppressWarnings("serial")
-public class Table extends JComponent {
+public class Table extends JPanel {
 	private Session session;
 	private JTable table;
 	private TableModel tm;
@@ -38,23 +40,33 @@ public class Table extends JComponent {
 		//this.setPreferredSize(new Dimension(450,250));
 		tm = new TableModel(session);
 		table = new JTable(tm);
-		table.setRowHeight(30);
+
+		//table.setPreferredSize(new Dimension(470,250));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setCellSelectionEnabled(true);
 		table.getTableHeader().setReorderingAllowed(false);
-		TableColumnModel columnModel = table.getColumnModel();
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.setGridColor(Color.BLACK);
+		/*TableColumnModel columnModel = table.getColumnModel();
 		for (int i = 0; i < tm.getColumnCount(); ++i) {
 			TableColumn column = columnModel.getColumn(i);
-			column.setPreferredWidth(150);
-		}
+			column.setPreferredWidth(60);
+		}*/
+		
 		
 		//System.out.println(table.getColumnCount());
 		
-		JPanel rootPanel = new JPanel(new BorderLayout());
-		rootPanel.add(table.getTableHeader(), BorderLayout.NORTH);
-		rootPanel.add(table, BorderLayout.CENTER);
+		//JPanel rootPanel = new JPanel(new BorderLayout());
+		this.setLayout(new BorderLayout());
+		
+		JScrollPane rPane = new JScrollPane(table);
+		this.add(Box.createRigidArea(new Dimension(0,5)),BorderLayout.WEST);
 
-		this.add(rootPanel);
+		this.add(rPane, BorderLayout.CENTER);
+		//rootPanel.add(table.getTableHeader(), BorderLayout.NORTH);
+		//rootPanel.add(table, BorderLayout.CENTER);
+		
+		//this.add(rootPanel);
 	}
 	
 }

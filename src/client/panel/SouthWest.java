@@ -32,14 +32,17 @@ public class SouthWest extends JPanel {
 		table = new Table(session);
 		fec = new FormEntryComponent(session);
 		
-		table.setSize(new Dimension(450,250));
+		JPanel tPanel = new JPanel();
+		//tPanel.setSize(new Dimension(470,250));
+		tPanel.add(table);
+		//table.setSize(new Dimension(450,250));
 		
 		JTabbedPane tabs = new JTabbedPane();
 		tabs.setPreferredSize(new Dimension(450,250));
-		tabs.addTab("Table Entry", table);
+		tabs.addTab("Table Entry", tPanel);
 		tabs.addTab("Form Entry", fec);
 		
-		this.add(Box.createRigidArea(new Dimension(0,5)));
+		//this.add(Box.createRigidArea(new Dimension(0,5)));
 		this.add(tabs);
 	}
 }

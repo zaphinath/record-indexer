@@ -60,6 +60,7 @@ public class Session {
 	private int numFields;
 	
 	private List<Field> fields;
+	private List<String> fieldTitles;
 	
 	/*
 	 * Class Constructor
@@ -70,8 +71,11 @@ public class Session {
 		toggledHighlights = false;
 		
 		listeners = new ArrayList<SessionListener>();
-		selectedCell = null;
+		selectedCell = new Cell(1,1);
 		fields = new ArrayList<Field>();
+		fieldTitles = new ArrayList<String>();
+		
+		fieldTitles.add("Record Number");
 		
 		frameHeight = 800;
 		frameWidth = 1200;
@@ -344,6 +348,20 @@ public class Session {
 	}
 
 	/**
+	 * @return the fieldTitles
+	 */
+	public List<String> getFieldTitles() {
+		return fieldTitles;
+	}
+
+	/**
+	 * @param fieldTitles the fieldTitles to set
+	 */
+	public void setFieldTitles(List<String> fieldTitles) {
+		this.fieldTitles = fieldTitles;
+	}
+
+	/**
 	 * @return the currentBatch
 	 */
 /*	public DownloadBatch_Result getCurrentBatch() {
@@ -368,13 +386,14 @@ public class Session {
 		firstYCoord = currentBatch.getFirstYCoord();
 		recordHeight = currentBatch.getRecordHeight();
 		numRecords = currentBatch.getNumRecords();
-		numFields = currentBatch.getNumFields();
+		numFields = currentBatch.getNumFields()+1;
 		
 		for (int i=0; i < currentBatch.getFields().size(); i++) {
 			fields.add(currentBatch.getFields().get(i));
+			fieldTitles.add(currentBatch.getFields().get(i).getTitle());
 		}
-		createValues(currentBatch.getNumRecords(), currentBatch.getNumFields());
-		this.setSelectedCell(new Cell(0,0));
+		createValues(numRecords, numFields);
+		this.setSelectedCell(new Cell(1,1));
 		//List<Field> fields;
 		setHaveBatch(true);
 	}
@@ -422,7 +441,11 @@ public class Session {
 		this.values = new String[width][height];
 		for (int i = 0; i < height; i++ ) {
 			for (int j = 0; j < width; j++ ) {
-				values[j][i] = "";
+				if (i == 0) {
+					values[j][i] = Integer.toString(i);
+				} else {
+					values[j][i] = "";
+				}
 			}
 		}
 		

@@ -170,6 +170,7 @@ public class Indexer extends JFrame implements SessionListener{
 		//rootPanel.add(splitPane);
 		
 		this.add(rootPanel);
+		//this.pack();
 	}
 	
 	private ActionListener actionListener = new ActionListener() {

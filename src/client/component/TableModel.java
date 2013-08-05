@@ -35,6 +35,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	@Override
 	public int getRowCount() {
 		if (session.isHaveBatch()) {
+			//System.out.println(session.getNumRecords()+"INTABLE");
 			return session.getNumRecords();
 		}
 		return 0;
@@ -46,6 +47,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	@Override
 	public int getColumnCount() {
 		if (session.isHaveBatch()) {
+			//System.out.println("GETCOLCOUNT" + session.getNumFields());
 			return session.getNumFields();
 		}
 		return 0;		
@@ -55,12 +57,12 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	public String getColumnName(int column) {
 
 		String result = null;
-
 		if (column >= 0 && column < getColumnCount()) {
-			result = session.getFields().get(column).getTitle();
+			result = session.getFieldTitles().get(column);
 		} else {
 			throw new IndexOutOfBoundsException();
 		}
+		//System.out.println("Result="+result);
 		return result;
 	}
 
@@ -74,9 +76,14 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return session.getValue(columnIndex, rowIndex);
+		return session.getValue( rowIndex, columnIndex);
 	}
 
+	@Override
+	public void setValueAt(Object value, int row, int column) {
+		session.setValue(column, row, (String)value);
+	}
+	
 	/* (non-Javadoc)
 	 * @see client.SessionListener#hasBatchChanged()
 	 */

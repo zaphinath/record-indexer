@@ -3,7 +3,10 @@
  */
 package client.component;
 
+import java.util.ArrayList;
+
 import javax.swing.JComponent;
+import javax.swing.JTextField;
 
 import client.Session;
 import client.SessionListener;
@@ -13,12 +16,21 @@ import client.model.Cell;
  * @author zaphinath
  *
  */
+@SuppressWarnings("serial")
 public class FormEntryComponent extends JComponent implements SessionListener {
 	private Session session;
+	private ArrayList<JTextField> values;
 	
 	public FormEntryComponent(Session s) {
 		this.session = s;
+		values = new ArrayList<JTextField>();
+		
+		for (int i = 0; i < session.getFields().size(); i++ ) {
+			values.add(new JTextField());
+			this.add(values.get(i));
+		}
 	}
+	
 
 	/* (non-Javadoc)
 	 * @see client.SessionListener#hasBatchChanged()

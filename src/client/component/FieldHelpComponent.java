@@ -9,6 +9,8 @@ import java.net.URL;
 
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import client.Session;
 import client.SessionListener;
@@ -19,7 +21,7 @@ import client.model.Cell;
  *
  */
 @SuppressWarnings("serial")
-public class FieldHelpComponent extends JComponent implements SessionListener {
+public class FieldHelpComponent extends JPanel implements SessionListener {
 	private Session session;
 	private JEditorPane htmlViewer;
 	private URL page;
@@ -32,18 +34,26 @@ public class FieldHelpComponent extends JComponent implements SessionListener {
 		this.session = session;
 		session.addListener(this);
 		this.setPreferredSize(new Dimension(650,250));
-
-		htmlViewer = new JEditorPane();
-		htmlViewer.setEditable(false);
-		
 		if (session.isHaveBatch()){
 			try {
 				page = new URL(session.getUrlPrefix()+session.getFields().get(session.getSelectedCell().getField()).getHtmlHelp());
-				htmlViewer.setPage(page);
+				//htmlViewer.setPage(page);
+				htmlViewer = new JEditorPane(page);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		} else {
+			htmlViewer = new JEditorPane();
 		}
+
+		htmlViewer.setEditable(false);
+		htmlViewer.setOpaque(true);
+		htmlViewer.setPreferredSize(new Dimension(650,250));
+		//JScrollPane htmlScrollPane = new JScrollPane(htmlViewer);
+		//htmlScrollPane.setVerticalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		//htmlScrollPane.setPreferredSize(new Dimension(500, 600));
+	
+		
 		
 		this.add(htmlViewer);
 	}
@@ -73,7 +83,7 @@ public class FieldHelpComponent extends JComponent implements SessionListener {
 	public void selectedCellChanged(Cell newSelectedCell) {
 		System.out.println(session.getFields().size()+"fsize");
 		try {
-			page = new URL(session.getUrlPrefix()+session.getFields().get(newSelectedCell.getField()).getHtmlHelp());
+			page = new URL(session.getUrlPrefix()+session.getFields().get(newSelectedCell.getField()+1).getHtmlHelp());
 			htmlViewer.setPage(page);
 		} catch (IOException e) {
 			e.printStackTrace();

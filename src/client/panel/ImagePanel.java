@@ -122,9 +122,15 @@ public class ImagePanel extends JPanel implements SessionListener {
 			g.drawImage(image, (this.getWidth() - image.getWidth(null))/2, (this.getHeight()-image.getHeight(null))/2, null); // see javadoc for more info on the parameters            
 			*/
 			Graphics2D g2 = (Graphics2D)g;
+			drawBackground(g2);
 			drawShapes(g2);
 		}
 		
+	}
+	
+	private void drawBackground(Graphics2D g2) {
+		g2.setColor(getBackground());
+		g2.fillRect(0,  0, getWidth(), getHeight());
 	}
 	
 	private void drawShapes(Graphics2D g2) {
