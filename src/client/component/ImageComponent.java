@@ -106,7 +106,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 		Graphics2D g2 = (Graphics2D)g;
 		drawBackground(g2);
 		
-		//g2.translate(centerx centery);
+		g2.translate(session.getFramePoint().x, session.getFramePoint().y);
 		g2.scale(scale, scale);
 		g2.translate(-w_originX, -w_originY);
 		

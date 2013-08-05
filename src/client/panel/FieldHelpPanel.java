@@ -21,7 +21,7 @@ import client.model.Cell;
  *
  */
 @SuppressWarnings("serial")
-public class FieldHelpPanel extends JPanel implements SessionListener {
+public class FieldHelpPanel extends JComponent implements SessionListener {
 	private Session session;
 	private JEditorPane htmlViewer;
 	private URL page;
