@@ -45,9 +45,10 @@ public class FieldHelpPanel extends JPanel implements SessionListener {
 		} else {
 			htmlViewer = new JEditorPane();
 		}
-
+		htmlViewer.setContentType("text/html");
+		//htmlViewer.setEditorKit(new javax.swing.text.html.HTMLEditorKit());
 		htmlViewer.setEditable(false);
-		htmlViewer.setOpaque(true);
+		//htmlViewer.setOpaque(true);
 		htmlViewer.setPreferredSize(new Dimension(650,250));
 		//JScrollPane htmlScrollPane = new JScrollPane(htmlViewer);
 		//htmlScrollPane.setVerticalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
