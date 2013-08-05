@@ -516,6 +516,7 @@ public class Session {
 	 * @param selectedCell the selectedCell to set
 	 */
 	public void setSelectedCell(Cell selectedCell) {
+		System.out.println("FIELD: " +selectedCell.getField() + " ROW: " + selectedCell.getRecord());
 		this.selectedCell = selectedCell;
 		for (SessionListener l : listeners) {
 			l.selectedCellChanged(selectedCell);
