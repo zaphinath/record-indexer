@@ -37,7 +37,7 @@ public class FieldHelpPanel extends JPanel implements SessionListener {
 		if (session.isHaveBatch()){
 			try {
 				System.out.println("FIELD SELECTED " + session.getSelectedCell().getField());
-				page = new URL(session.getUrlPrefix()+session.getFields().get(session.getSelectedCell().getField()).getHtmlHelp());
+				page = new URL(session.getUrlPrefix()+session.getFields().get(session.getSelectedCell().getField()-1).getHtmlHelp());
 				//htmlViewer.setPage(page);
 				htmlViewer = new JEditorPane(page);
 			} catch (IOException e) {
