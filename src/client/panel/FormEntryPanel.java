@@ -6,6 +6,10 @@ package client.panel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
@@ -33,6 +37,9 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	private JPanel rootPanel;
 	private JPanel rightSide;
 	
+	private JList list;
+	private ListModel lModel;
+	
 	public FormEntryPanel(Session s) {
 		this.session = s;
 		session.addListener(this);
@@ -40,8 +47,8 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		rootPanel = new JPanel(new BorderLayout());
 		rightSide = new JPanel(new GridLayout(0,2));
 
-		ListModel lModel = new ListModel(session);
-		JList list = new JList(lModel);
+		lModel = new ListModel(session);
+		list = new JList(lModel);
 		list.setSize(new Dimension(30,230));
 		
 		
@@ -123,4 +130,33 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	public void scaleChanged(double scale) {
 		// TODO Auto-generated method stub
 	}
+	
+	MouseAdapter tableMouseListener = new MouseAdapter() {
+   /* @Override
+    public void mouseClicked(MouseEvent e) {  
+      //int row = list.rowAtPoint(e.getPoint());//get mouse-selected row
+    	//int col = table.columnAtPoint(e.getPoint());//get mouse-selected col
+      int row = list.getSelectedIndex();
+      int col = rightSide.getComponentAt(e.getX(), e.getY());
+      session.setSelectedCell(new Cell(col,row));
+    }*/
+ };
+ 
+ KeyAdapter keyboardListener = new KeyAdapter() {
+   @Override
+   public void keyPressed(KeyEvent e) {
+	   Cell tmp = session.getSelectedCell();
+	   Cell nCell = null;
+	   if(e.getKeyCode() == KeyEvent.VK_TAB) {
+		   if (tmp.getField() < session.getNumFields()-1) {
+			   nCell = new Cell(tmp.getField()+1, tmp.getRecord());
+		   } else if (tmp.getRecord() == session.getNumRecords() && tmp.getField() == session.getNumFields()) {
+			   nCell = new Cell(0,0);
+		   } else {
+			   nCell = new Cell(0, tmp.getRecord()+1);
+		   }
+		   session.setSelectedCell(nCell);
+	   }
+   }
+ };
 }
