@@ -61,7 +61,7 @@ public class Table extends JPanel implements SessionListener {
 		//table.setColumnSelectionInterval(1, 1);
 		//table.setRowSelectionInterval(0, 0);
 		if (session.isHaveBatch()) {
-			session.setSelectedCell(new Cell(1,0));
+			session.setSelectedCell(session.getSelectedCell());
 		}
 		this.setLayout(new BorderLayout());
 		
