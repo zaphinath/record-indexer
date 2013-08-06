@@ -7,12 +7,16 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
+import javax.swing.AbstractListModel;
 import javax.swing.JComponent;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 import client.Session;
 import client.SessionListener;
+import client.component.ListModel;
 import client.model.Cell;
 
 /**
@@ -29,6 +33,10 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		
 		JPanel rootPanel = new JPanel(new BorderLayout());
 		JPanel rightSide = new JPanel(new GridLayout(0,2));
+
+		ListModel lModel = new ListModel(session);
+		JList list = new JList(lModel);
+		
 		
 		
 		
@@ -40,6 +48,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 			
 		}
 		
+		rootPanel.add(list, BorderLayout.WEST);
 		rootPanel.add(rightSide, BorderLayout.EAST);
 		this.add(rootPanel);
 	}
