@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -29,12 +30,15 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	private Session session;
 	private ArrayList<JTextField> values;
 	
+	private JPanel rootPanel;
+	private JPanel rightSide;
+	
 	public FormEntryPanel(Session s) {
 		this.session = s;
 		session.addListener(this);
 		
-		JPanel rootPanel = new JPanel(new BorderLayout());
-		JPanel rightSide = new JPanel(new GridLayout(0,2));
+		rootPanel = new JPanel(new BorderLayout());
+		rightSide = new JPanel(new GridLayout(0,2));
 
 		ListModel lModel = new ListModel(session);
 		JList list = new JList(lModel);
@@ -44,25 +48,35 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		
 		values = new ArrayList<JTextField>();
 		
-		for (int i = 0; i < session.getFields().size(); i++ ) {
-			values.add(new JTextField());
-			rightSide.add(values.get(i));
-			
+		if(session.isHaveBatch()) {
+			initializeWithBatch();
 		}
+
 		
 		rootPanel.add(list, BorderLayout.WEST);
 		rootPanel.add(rightSide, BorderLayout.EAST);
 		this.add(rootPanel);
 	}
 	
-
+	private void initializeWithBatch() {
+		for (int i = 0; i < session.getFields().size(); i++ ) {
+			JLabel tmpLabel = new JLabel(session.getFields().get(i).getTitle());
+			rightSide.add(tmpLabel);
+			values.add(new JTextField());
+			rightSide.add(values.get(i));
+			
+		}
+	}
 	/* (non-Javadoc)
 	 * @see client.SessionListener#hasBatchChanged()
 	 */
 	@Override
 	public void hasBatchChanged() {
-		// TODO Auto-generated method stub
-		
+		if (session.isHaveBatch()) {
+			initializeWithBatch();
+		} else {
+			values.clear();
+		}
 	}
 
 	/* (non-Javadoc)

@@ -58,7 +58,7 @@ public class ListModel extends AbstractListModel implements SessionListener {
 	@Override
 	public void hasBatchChanged() {
 		if (session.isHaveBatch()) {
-			for (int i = 0; i < session.getFields().size(); i++) {
+			for (int i = 0; i < session.getNumRecords(); i++) {
 				numRecords.add(i+1);
 				this.fireIntervalAdded(numRecords, 0, numRecords.size());
 			}
