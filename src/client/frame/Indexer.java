@@ -26,7 +26,6 @@ import client.panel.ImagePanel;
 import client.panel.MenuButtons;
 import client.panel.SouthEast;
 import client.panel.SouthWest;
-import client.panel.TableEntry;
 import client.process.SaveSession;
 
 

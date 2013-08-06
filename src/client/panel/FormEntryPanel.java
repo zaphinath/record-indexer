@@ -59,6 +59,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 			initializeWithBatch();
 		}
 
+		list.addMouseListener(listMouseListener);
 		
 		rootPanel.add(list, BorderLayout.WEST);
 		rootPanel.add(rightSide, BorderLayout.EAST);
@@ -72,6 +73,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 			values.add(new JTextField());
 			rightSide.add(values.get(i));
 			
+			values.get(i).addMouseListener(listMouseListener);
 		}
 	}
 	/* (non-Javadoc)
@@ -131,15 +133,25 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		// TODO Auto-generated method stub
 	}
 	
-	MouseAdapter tableMouseListener = new MouseAdapter() {
-   /* @Override
+	MouseAdapter listMouseListener = new MouseAdapter() {
+   @Override
     public void mouseClicked(MouseEvent e) {  
-      //int row = list.rowAtPoint(e.getPoint());//get mouse-selected row
+      /*//int row = list.rowAtPoint(e.getPoint());//get mouse-selected row
     	//int col = table.columnAtPoint(e.getPoint());//get mouse-selected col
       int row = list.getSelectedIndex();
-      int col = rightSide.getComponentAt(e.getX(), e.getY());
-      session.setSelectedCell(new Cell(col,row));
-    }*/
+      //int col = rightSide.getComponentAt(e.getX(), e.getY());
+      int col = 0;
+      session.setSelectedCell(new Cell(col,row));*/
+  	 int row = list.getSelectedIndex();
+  	 int col = 0;
+  	 for (int i = 0; i < values.size(); i++) {
+  		 if (e.getSource() == values.get(i)) {
+  			 col = i;
+  		 }
+  	 }
+     session.setSelectedCell(new Cell(col, row));
+      
+    }
  };
  
  KeyAdapter keyboardListener = new KeyAdapter() {
