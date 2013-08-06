@@ -12,8 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.AbstractListModel;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -39,6 +37,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	
 	private JList list;
 	private ListModel lModel;
+	
 	
 	public FormEntryPanel(Session s) {
 		this.session = s;
@@ -147,7 +146,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
       int col = 0;
       session.setSelectedCell(new Cell(col,row));*/
   	 int row = list.getSelectedIndex();
-  	 int col = 0;
+  	 int col = session.getSelectedCell().getField();
   	 for (int i = 0; i < values.size(); i++) {
   		 if (e.getSource() == values.get(i)) {
   			 col = i+1;
