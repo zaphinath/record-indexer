@@ -26,7 +26,7 @@ public class SouthWest extends JPanel {
 		super();
 		this.session = s;
 		//this.setPreferredSize(new Dimension(400,300));
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		//this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		table = new Table(session);
 		fec = new FormEntryPanel(session);
 		
