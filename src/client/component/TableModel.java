@@ -100,6 +100,20 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 		}	
 	}
 
+	/**
+	 * 
+	 */
+	private void initialize() {
+		
+	}
+
+	/**
+	 * 
+	 */
+	private void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see client.SessionListener#valueChanged(client.model.Cell, java.lang.String)
@@ -114,21 +128,6 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public void selectedCellChanged(Cell cell) {
-		
-	}
-
-	/**
-	 * 
-	 */
-	private void initialize() {
-		
-	}
-
-	/**
-	 * 
-	 */
-	private void destroy() {
-		// TODO Auto-generated method stub
 		
 	}
 

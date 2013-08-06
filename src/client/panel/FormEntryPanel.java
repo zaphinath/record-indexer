@@ -146,7 +146,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
   	 int col = 0;
   	 for (int i = 0; i < values.size(); i++) {
   		 if (e.getSource() == values.get(i)) {
-  			 col = i;
+  			 col = i+1;
   		 }
   	 }
      session.setSelectedCell(new Cell(col, row));

@@ -27,6 +27,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import client.Session;
+import client.SessionListener;
 import client.component.TableModel;
 import client.model.Cell;
 
@@ -35,7 +36,7 @@ import client.model.Cell;
  *
  */
 @SuppressWarnings("serial")
-public class Table extends JPanel {
+public class Table extends JPanel implements SessionListener {
 	private Session session;
 	private JTable table;
 	private TableModel tm;
@@ -90,6 +91,60 @@ public class Table extends JPanel {
 		   }
 	   }
    };
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#hasBatchChanged()
+	 */
+	@Override
+	public void hasBatchChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#valueChanged(client.model.Cell, java.lang.String)
+	 */
+	@Override
+	public void valueChanged(Cell cell, String newValue) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#selectedCellChanged(client.model.Cell)
+	 */
+	@Override
+	public void selectedCellChanged(Cell newSelectedCell) {
+		table.setRowSelectionInterval(newSelectedCell.getRecord(), newSelectedCell.getRecord());
+		table.setColumnSelectionInterval(newSelectedCell.getField(), newSelectedCell.getField());
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#scaleChanged(double)
+	 */
+	@Override
+	public void scaleChanged(double scale) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#toggleHighlightsChanged(boolean)
+	 */
+	@Override
+	public void toggleHighlightsChanged(boolean toggle) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see client.SessionListener#imageInversionChanged(boolean)
+	 */
+	@Override
+	public void imageInversionChanged(boolean inversion) {
+		// TODO Auto-generated method stub
+		
+	}
    
 }
 /*
