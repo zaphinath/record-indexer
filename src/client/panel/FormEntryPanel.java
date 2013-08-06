@@ -80,7 +80,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		for (int i = 0; i < session.getNumRecords(); i++) {
    	 if (i == session.getSelectedCell().getRecord()) {
    		 for (int j = 1; j < session.getNumFields(); j++) {
-   			 values.get(j).setText(session.getValue(j, i));
+   			 values.get(j).setText(session.getValue(i, j));
    		 }
    	 }
     }
