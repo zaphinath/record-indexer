@@ -79,7 +79,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		}
 		for (int i = 0; i < session.getNumRecords(); i++) {
    	 if (i == session.getSelectedCell().getRecord()) {
-   		 for (int j = 0; j < session.getNumFields()-1; j++) {
+   		 for (int j = 1; j < session.getNumFields(); j++) {
    			 values.get(j).setText(session.getValue(j, i));
    		 }
    	 }
@@ -137,9 +137,6 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		
 	}
 
-	private void rePaint() {
-		this.rePaint();
-	}
 
 	/* (non-Javadoc)
 	 * @see client.SessionListener#scaleChanged(double)
@@ -162,13 +159,12 @@ public class FormEntryPanel extends JPanel implements SessionListener {
      session.setSelectedCell(new Cell(col, row));
      for (int i = 0; i < session.getNumRecords(); i++) {
     	 if (i == row) {
-    		 for (int j = 0; j < session.getNumFields()-1; j++) {
+    		 for (int j = 1; j < session.getNumFields(); j++) {
     			 values.get(j).setText(session.getValue(j, i));
     		 }
     	 }
      }
-     rePaint();
-    }
+   }
  };
  
  KeyAdapter keyboardListener = new KeyAdapter() {
