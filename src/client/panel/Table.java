@@ -60,8 +60,9 @@ public class Table extends JPanel implements SessionListener {
 		table.addKeyListener(keyboardListener);
 		//table.setColumnSelectionInterval(1, 1);
 		//table.setRowSelectionInterval(0, 0);
-		session.setSelectedCell(new Cell(1,0));
-		
+		if (session.isHaveBatch()) {
+			session.setSelectedCell(new Cell(1,0));
+		}
 		this.setLayout(new BorderLayout());
 		
 		JScrollPane rPane = new JScrollPane(table);
@@ -102,8 +103,11 @@ public class Table extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
-		// TODO Auto-generated method stub
-		
+		if (session.isHaveBatch()) { 
+			session.setSelectedCell(new Cell(1,0));
+		} else {
+			session.setSelectedCell(null);
+		}
 	}
 
 	/* (non-Javadoc)
