@@ -58,7 +58,10 @@ public class Table extends JPanel implements SessionListener {
 		table.setGridColor(Color.BLACK);
 		table.addMouseListener(tableMouseListener);
 		table.addKeyListener(keyboardListener);
-
+		//table.setColumnSelectionInterval(1, 1);
+		//table.setRowSelectionInterval(0, 0);
+		session.setSelectedCell(new Cell(1,0));
+		
 		this.setLayout(new BorderLayout());
 		
 		JScrollPane rPane = new JScrollPane(table);

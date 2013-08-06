@@ -74,7 +74,11 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 			rightSide.add(values.get(i));
 			
 			values.get(i).addMouseListener(listMouseListener);
+			if (session.getSelectedCell().getField() == i) {
+				values.get(i).selectAll();
+			}
 		}
+		list.setSelectedIndex(session.getSelectedCell().getRecord());
 	}
 	/* (non-Javadoc)
 	 * @see client.SessionListener#hasBatchChanged()
