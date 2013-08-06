@@ -27,6 +27,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 		if (session.isHaveBatch()) {
 			initialize();
 		}
+		
 	}
 
 	/* (non-Javadoc)
@@ -76,7 +77,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		session.setSelectedCell(new Cell(columnIndex, rowIndex));
+		//session.setSelectedCell(new Cell(columnIndex, rowIndex));
 		return session.getValue( columnIndex, rowIndex);
 	}
 
@@ -90,7 +91,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
-		System.out.println("BATCH CHANGED:");
+		//System.out.println("BATCH CHANGED:");
 		fireTableStructureChanged();
 		if (session.isHaveBatch()) {
 			initialize();

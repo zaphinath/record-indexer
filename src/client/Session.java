@@ -35,6 +35,8 @@ public class Session {
 	
 	private int w_originX;
 	private int w_originY;
+	private int w_centerX;
+	private int w_centerY;
 	private double scale;
 	private boolean imageInverted;
 	private boolean toggledHighlights;
@@ -68,6 +70,8 @@ public class Session {
 	public Session() {
 		w_originX = 0;
 		w_originY = 0;
+		/*w_centerX = frameWidth/2;
+		w_centerY = */
 		scale = .5;
 		imageInverted = false;
 		toggledHighlights = false;
@@ -140,6 +144,34 @@ public class Session {
 	 */
 	public Point getFramePoint() {
 		return framePoint;
+	}
+
+	/**
+	 * @return the w_centerX
+	 */
+	public int getW_centerX() {
+		return w_centerX;
+	}
+
+	/**
+	 * @param w_centerX the w_centerX to set
+	 */
+	public void setW_centerX(int w_centerX) {
+		this.w_centerX = w_centerX;
+	}
+
+	/**
+	 * @return the w_centerY
+	 */
+	public int getW_centerY() {
+		return w_centerY;
+	}
+
+	/**
+	 * @param w_centerY the w_centerY to set
+	 */
+	public void setW_centerY(int w_centerY) {
+		this.w_centerY = w_centerY;
 	}
 
 	/**
@@ -423,7 +455,7 @@ public class Session {
 			fieldTitles.add(currentBatch.getFields().get(i).getTitle());
 		}
 		createValues(numFields, numRecords);
-		this.setSelectedCell(new Cell(1,1));
+		//this.setSelectedCell(new Cell(1,1));
 		//List<Field> fields;
 		setHaveBatch(true);
 	}
@@ -469,7 +501,6 @@ public class Session {
 	 */
 	public void createValues(int width, int height) {
 		this.values = new String[width][height];
-		System.out.println(width+ " wh"+height);
 		for (int i = 0; i < height; i++ ) {
 			for (int j = 0; j < width; j++ ) {
 				if (j == 0) {
@@ -516,7 +547,6 @@ public class Session {
 	 * @param selectedCell the selectedCell to set
 	 */
 	public void setSelectedCell(Cell selectedCell) {
-		System.out.println("FIELD: " +selectedCell.getField() + " ROW: " + selectedCell.getRecord());
 		this.selectedCell = selectedCell;
 		for (SessionListener l : listeners) {
 			l.selectedCellChanged(selectedCell);

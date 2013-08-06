@@ -11,8 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import client.Session;
-import client.component.FormEntryComponent;
-import client.component.Table;
 
 /**
  * @author zaphinath
@@ -22,7 +20,7 @@ import client.component.Table;
 public class SouthWest extends JPanel {
 	Session session;
 	private Table table;
-	private FormEntryComponent fec;
+	private FormEntryPanel fec;
 	
 	public SouthWest(Session s) {
 		super();
@@ -30,7 +28,7 @@ public class SouthWest extends JPanel {
 		//this.setPreferredSize(new Dimension(400,300));
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		table = new Table(session);
-		fec = new FormEntryComponent(session);
+		fec = new FormEntryPanel(session);
 		
 		JTabbedPane tabs = new JTabbedPane();
 		tabs.setPreferredSize(new Dimension(450,230));

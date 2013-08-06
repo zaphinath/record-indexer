@@ -21,7 +21,7 @@ import client.model.Cell;
  *
  */
 @SuppressWarnings("serial")
-public class FieldHelpPanel extends JComponent implements SessionListener {
+public class FieldHelpPanel extends JPanel implements SessionListener {
 	private Session session;
 	private JEditorPane htmlViewer;
 	private URL page;
@@ -36,9 +36,7 @@ public class FieldHelpPanel extends JComponent implements SessionListener {
 		this.setPreferredSize(new Dimension(650,230));
 		if (session.isHaveBatch()){
 			try {
-				System.out.println("FIELD SELECTED " + session.getSelectedCell().getField());
 				page = new URL(session.getUrlPrefix()+session.getFields().get(session.getSelectedCell().getField()-1).getHtmlHelp());
-				//htmlViewer.setPage(page);
 				htmlViewer = new JEditorPane(page);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -47,9 +45,7 @@ public class FieldHelpPanel extends JComponent implements SessionListener {
 			htmlViewer = new JEditorPane();
 		}
 		htmlViewer.setContentType("text/html");
-		//htmlViewer.setEditorKit(new javax.swing.text.html.HTMLEditorKit());
 		htmlViewer.setEditable(false);
-		//htmlViewer.setOpaque(true);
 		htmlViewer.setPreferredSize(new Dimension(650,250));
 		//JScrollPane htmlScrollPane = new JScrollPane(htmlViewer);
 		//htmlScrollPane.setVerticalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -83,13 +79,15 @@ public class FieldHelpPanel extends JComponent implements SessionListener {
 	 */
 	@Override
 	public void selectedCellChanged(Cell newSelectedCell) {
-		/*System.out.println(session.getFields().size()+"fsize");
-		try {
-			page = new URL(session.getUrlPrefix()+session.getFields().get(newSelectedCell.getField()+1).getHtmlHelp());
-			htmlViewer.setPage(page);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+		int sel = newSelectedCell.getField()-1;
+		if (sel >= 0 && sel < session.getFieldTitles().size()) {
+			try {
+				page = new URL(session.getUrlPrefix()+session.getFields().get(sel).getHtmlHelp());
+				htmlViewer.setPage(page);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/* (non-Javadoc)

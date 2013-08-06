@@ -135,6 +135,7 @@ public class Indexer extends JFrame implements SessionListener{
 		JPanel menuButtons = new MenuButtons(this, session);
 		//JPanel imagePanel = new ImagePanel(session);
 		ImageComponent imagePanel = new ImageComponent(session);
+
 		/*JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, imagePanel, southPanel);
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setTopComponent(imagePanel);
@@ -152,6 +153,8 @@ public class Indexer extends JFrame implements SessionListener{
 		rootPanel.add(southPanel, BorderLayout.SOUTH);
 		
 		this.add(rootPanel);
+		
+		
 	}
 	
 	private ActionListener actionListener = new ActionListener() {

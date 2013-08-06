@@ -8,14 +8,14 @@ package client.model;
  *
  */
 public class Cell {
-	private int record;
 	private int field;
+	private int record;
 	
 	/**
 	 * @param record
 	 * @param field
 	 */
-	public Cell(int record, int field) {
+	public Cell(int field, int record) {
 		super();
 		this.record = record;
 		this.field = field;

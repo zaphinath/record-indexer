@@ -1,7 +1,13 @@
 client
 client.communication
+client.component
+client.frame
+client.model
+client.panel
+client.process
 server
 server.database
+server.handler
 shared.communication
 shared.model
 utils

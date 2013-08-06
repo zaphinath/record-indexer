@@ -13,6 +13,9 @@ import java.awt.image.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
@@ -37,11 +40,13 @@ public class ImageComponent extends JComponent implements SessionListener {
 	private Session session;
 	private int w_originX;
 	private int w_originY;
+	private int w_centerX;
+	private int w_centerY;
 	private double scale;
 	
 	private boolean dragging;
-	private int d_dragStartX;
-	private int d_dragStartY;
+	private int w_dragStartX;
+	private int w_dragStartY;
 	private int w_dragStartOriginX;
 	private int w_dragStartOriginY;
 
@@ -55,15 +60,28 @@ public class ImageComponent extends JComponent implements SessionListener {
 		super();
 		this.session = session;
 		session.addListener(this);
+		shapes = new ArrayList<DrawingShape>();
+		stroke = new BasicStroke(5);
+
+		Image image = null;
+		if (session.isHaveBatch()) {
+			System.out.println(session.getImageUrl()+"URL");
+			image = loadImage(session.getImageUrl());
+			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null))));//, session, this));
+		}
 		
 		w_originX = session.getW_originX();
 		w_originY = session.getW_originY();
+		//w_centerX = session.getW_centerX();
+		//w_centerY = session.getW_centerY();
+		w_centerX = session.getFrameWidth()/4;
+		w_centerY = session.getFrameHeight()/20;
+		session.setW_centerX(w_centerX);
+		session.setW_centerY(w_centerY);
 		scale = session.getScale();
 		
 		initDrag();
 	
-		shapes = new ArrayList<DrawingShape>();
-		stroke = new BasicStroke(5);
 		
 		this.setBackground(new Color(84,84,84));
 		this.setPreferredSize(new Dimension(700, 700));
@@ -72,18 +90,13 @@ public class ImageComponent extends JComponent implements SessionListener {
 		
 		this.addMouseListener(mouseAdapter);
 		this.addMouseMotionListener(mouseAdapter);
-		//this.addComponentListener(componentAdapter);
-		
-		if (session.isHaveBatch()) {
-			Image image = loadImage(session.getImageUrl());
-			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null))));//, session, this));
-		}
+		//this.addComponentListener(componentAdapter);			
 	}
 
 	private void initDrag() {
 		dragging = false;
-		d_dragStartX = 0;
-		d_dragStartY = 0;
+		w_dragStartX = 0;
+		w_dragStartY = 0;
 		w_dragStartOriginX = 0;
 		w_dragStartOriginY = 0;
 	}
@@ -105,8 +118,8 @@ public class ImageComponent extends JComponent implements SessionListener {
 
 		Graphics2D g2 = (Graphics2D)g;
 		drawBackground(g2);
-		
-		g2.translate(session.getFramePoint().x, session.getFramePoint().y);
+		//System.out.println("X: " + w_centerX + " Y: " + w_centerY);
+		g2.translate(w_centerX, w_centerY);
 		g2.scale(scale, scale);
 		g2.translate(-w_originX, -w_originY);
 		
@@ -130,8 +143,23 @@ public class ImageComponent extends JComponent implements SessionListener {
 		public void mousePressed(MouseEvent e) {
 			int d_X = e.getX();
 			int d_Y = e.getY();
-			int w_X = deviceToWorldX(d_X);
-			int w_Y = deviceToWorldY(d_Y);
+			
+			AffineTransform transform = new AffineTransform();
+			transform.translate(w_centerX, w_centerY);
+			transform.scale(scale, scale);
+			transform.translate(-w_originX, -w_originY);
+			
+			Point2D d_Pt = new Point2D.Double(d_X, d_Y);
+			Point2D w_Pt = new Point2D.Double();
+			try
+			{
+				transform.inverseTransform(d_Pt, w_Pt);
+			}
+			catch (NoninvertibleTransformException ex) {
+				return;
+			}
+			int w_X = (int)w_Pt.getX();
+			int w_Y = (int)w_Pt.getY();
 			
 			boolean hitShape = false;
 			
@@ -145,8 +173,8 @@ public class ImageComponent extends JComponent implements SessionListener {
 			
 			if (hitShape) {
 				dragging = true;		
-				d_dragStartX = e.getX();
-				d_dragStartY = e.getY();		
+				w_dragStartX = w_X;
+				w_dragStartY = w_Y;		
 				w_dragStartOriginX = w_originX;
 				w_dragStartOriginY = w_originY;
 			}
@@ -155,14 +183,33 @@ public class ImageComponent extends JComponent implements SessionListener {
 		@Override
 		public void mouseDragged(MouseEvent e) {		
 			if (dragging) {
-				int d_deltaX = (e.getX() - d_dragStartX);
-				int d_deltaY = (e.getY() - d_dragStartY);
+				int d_X = e.getX();
+				int d_Y = e.getY();
 				
-				int w_deltaX = (int)(d_deltaX / scale);
-				int w_deltaY = (int)(d_deltaY / scale);
+				AffineTransform transform = new AffineTransform();
+				transform.translate(w_centerX, w_centerY);
+				transform.scale(scale, scale);
+				transform.translate(-w_dragStartOriginX, -w_dragStartOriginY);
+				
+				Point2D d_Pt = new Point2D.Double(d_X, d_Y);
+				Point2D w_Pt = new Point2D.Double();
+				try
+				{
+					transform.inverseTransform(d_Pt, w_Pt);
+				}
+				catch (NoninvertibleTransformException ex) {
+					return;
+				}
+				int w_X = (int)w_Pt.getX();
+				int w_Y = (int)w_Pt.getY();
+				
+				int w_deltaX = w_X - w_dragStartX;
+				int w_deltaY = w_Y - w_dragStartY;
 				
 				w_originX = w_dragStartOriginX - w_deltaX;
 				w_originY = w_dragStartOriginY - w_deltaY;
+				
+				//notifyOriginChanged(w_originX, w_originY);
 				
 				repaint();
 			}

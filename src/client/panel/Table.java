@@ -1,12 +1,17 @@
 /**
  * 
  */
-package client.component;
+package client.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -22,6 +27,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import client.Session;
+import client.component.TableModel;
 import client.model.Cell;
 
 /**
@@ -33,42 +39,58 @@ public class Table extends JPanel {
 	private Session session;
 	private JTable table;
 	private TableModel tm;
+	private Cell selectedCell;
 	
 	public Table(Session s) {
 		super();
 		this.session = s;
-		//this.setPreferredSize(new Dimension(450,250));
+		selectedCell = session.getSelectedCell();
 		tm = new TableModel(session);
 		table = new JTable(tm);
 		
-		//table.setPreferredSize(new Dimension(470,250));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setCellSelectionEnabled(true);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setGridColor(Color.BLACK);
-		/*TableColumnModel columnModel = table.getColumnModel();
-		for (int i = 0; i < tm.getColumnCount(); ++i) {
-			TableColumn column = columnModel.getColumn(i);
-			column.setPreferredWidth(60);
-		}*/
-		
-		
-		//System.out.println(table.getColumnCount());
-		
-		//JPanel rootPanel = new JPanel(new BorderLayout());
+		table.addMouseListener(tableMouseListener);
+		table.addKeyListener(keyboardListener);
+
 		this.setLayout(new BorderLayout());
 		
 		JScrollPane rPane = new JScrollPane(table);
-		//this.add(Box.createRigidArea(new Dimension(0,20)),BorderLayout.WEST);
 
 		this.add(rPane, BorderLayout.CENTER);
-		//rootPanel.add(table.getTableHeader(), BorderLayout.NORTH);
-		//rootPanel.add(table, BorderLayout.CENTER);
-		
-		//this.add(rootPanel);
+
 	}
 	
+	MouseAdapter tableMouseListener = new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {  
+        int row = table.rowAtPoint(e.getPoint());//get mouse-selected row
+        int col = table.columnAtPoint(e.getPoint());//get mouse-selected col
+        session.setSelectedCell(new Cell(col,row));
+      }
+   };
+   
+   KeyAdapter keyboardListener = new KeyAdapter() {
+	   @Override
+	   public void keyPressed(KeyEvent e) {
+		   Cell tmp = session.getSelectedCell();
+		   Cell nCell = null;
+		   if(e.getKeyCode() == KeyEvent.VK_TAB) {
+			   if (tmp.getField() < session.getNumFields()-1) {
+				   nCell = new Cell(tmp.getField()+1, tmp.getRecord());
+			   } else if (tmp.getRecord() == session.getNumRecords() && tmp.getField() == session.getNumFields()) {
+				   nCell = new Cell(0,0);
+			   } else {
+				   nCell = new Cell(0, tmp.getRecord()+1);
+			   }
+			   session.setSelectedCell(nCell);
+		   }
+	   }
+   };
+   
 }
 /*
 @SuppressWarnings("serial")

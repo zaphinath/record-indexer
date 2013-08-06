@@ -1,11 +1,14 @@
 /**
  * 
  */
-package client.component;
+package client.panel;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import client.Session;
@@ -17,18 +20,28 @@ import client.model.Cell;
  *
  */
 @SuppressWarnings("serial")
-public class FormEntryComponent extends JComponent implements SessionListener {
+public class FormEntryPanel extends JPanel implements SessionListener {
 	private Session session;
 	private ArrayList<JTextField> values;
 	
-	public FormEntryComponent(Session s) {
+	public FormEntryPanel(Session s) {
 		this.session = s;
+		
+		JPanel rootPanel = new JPanel(new BorderLayout());
+		JPanel rightSide = new JPanel(new GridLayout(0,2));
+		
+		
+		
 		values = new ArrayList<JTextField>();
 		
 		for (int i = 0; i < session.getFields().size(); i++ ) {
 			values.add(new JTextField());
-			this.add(values.get(i));
+			rightSide.add(values.get(i));
+			
 		}
+		
+		rootPanel.add(rightSide, BorderLayout.EAST);
+		this.add(rootPanel);
 	}
 	
 
