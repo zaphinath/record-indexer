@@ -49,7 +49,8 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		lModel = new ListModel(session);
 		list = new JList(lModel);
 		list.setPreferredSize(new Dimension(80,230));
-		rightSide.setPreferredSize(new Dimension(330,100));
+		//rightSide.setPreferredSize(new Dimension(330,0));
+		
 		
 		
 		values = new ArrayList<JTextField>();
