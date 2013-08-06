@@ -18,7 +18,7 @@ import client.model.Cell;
 @SuppressWarnings("serial")
 public class ListModel extends AbstractListModel implements SessionListener {
 	private Session session;
-	private ArrayList<Integer> fieldValues;
+	private ArrayList<Integer> numRecords;
 	
 	/**
 	 * @param session 
@@ -26,10 +26,12 @@ public class ListModel extends AbstractListModel implements SessionListener {
 	 */
 	public ListModel(Session session) {
 		this.session = session;
-		fieldValues = new ArrayList<Integer>();
+		session.addListener(this);
+		
+		numRecords = new ArrayList<Integer>();
 		if (session.isHaveBatch()) {
-			for (int i = 0; i < session.getFields().size(); i++) {
-				fieldValues.add(i+1);
+			for (int i = 0; i < session.getNumRecords(); i++) {
+				numRecords.add(i+1);
 			}
 		}
 	}
@@ -39,7 +41,7 @@ public class ListModel extends AbstractListModel implements SessionListener {
 	 */
 	@Override
 	public int getSize() {
-		return fieldValues.size();
+		return numRecords.size();
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +49,7 @@ public class ListModel extends AbstractListModel implements SessionListener {
 	 */
 	@Override
 	public Object getElementAt(int index) {
-		return fieldValues.get(index);
+		return numRecords.get(index);
 	}
 
 	/* (non-Javadoc)
@@ -57,12 +59,12 @@ public class ListModel extends AbstractListModel implements SessionListener {
 	public void hasBatchChanged() {
 		if (session.isHaveBatch()) {
 			for (int i = 0; i < session.getFields().size(); i++) {
-				fieldValues.add(i+1);
-				this.fireIntervalAdded(fieldValues, 0, fieldValues.size());
+				numRecords.add(i+1);
+				this.fireIntervalAdded(numRecords, 0, numRecords.size());
 			}
 		} else {
-			this.fireIntervalRemoved(fieldValues, 0, fieldValues.size());
-			fieldValues.clear();
+			this.fireIntervalRemoved(numRecords, 0, numRecords.size());
+			numRecords.clear();
 		}
 	}
 

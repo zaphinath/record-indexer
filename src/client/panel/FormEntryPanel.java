@@ -4,6 +4,7 @@
 package client.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -30,13 +31,14 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	
 	public FormEntryPanel(Session s) {
 		this.session = s;
+		session.addListener(this);
 		
 		JPanel rootPanel = new JPanel(new BorderLayout());
 		JPanel rightSide = new JPanel(new GridLayout(0,2));
 
 		ListModel lModel = new ListModel(session);
 		JList list = new JList(lModel);
-		
+		list.setSize(new Dimension(30,230));
 		
 		
 		
