@@ -77,6 +77,13 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 				values.get(i).selectAll();
 			}
 		}
+		for (int i = 0; i < session.getNumRecords(); i++) {
+   	 if (i == session.getSelectedCell().getRecord()) {
+   		 for (int j = 0; j < session.getNumFields()-1; j++) {
+   			 values.get(j).setText(session.getValue(j, i));
+   		 }
+   	 }
+    }
 		list.setSelectedIndex(session.getSelectedCell().getRecord());
 	}
 	/* (non-Javadoc)
@@ -97,7 +104,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	@Override
 	public void valueChanged(Cell cell, String newValue) {
 		list.setSelectedIndex(cell.getRecord());
-		int field = cell.getField();
+		int field = cell.getField()-1;
 		values.get(field).requestFocus();
 		values.get(field).setText(newValue);
 		this.repaint();
@@ -130,6 +137,9 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		
 	}
 
+	private void rePaint() {
+		this.rePaint();
+	}
 
 	/* (non-Javadoc)
 	 * @see client.SessionListener#scaleChanged(double)
@@ -142,12 +152,6 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	MouseAdapter listMouseListener = new MouseAdapter() {
    @Override
     public void mouseClicked(MouseEvent e) {  
-      /*//int row = list.rowAtPoint(e.getPoint());//get mouse-selected row
-    	//int col = table.columnAtPoint(e.getPoint());//get mouse-selected col
-      int row = list.getSelectedIndex();
-      //int col = rightSide.getComponentAt(e.getX(), e.getY());
-      int col = 0;
-      session.setSelectedCell(new Cell(col,row));*/
   	 int row = list.getSelectedIndex();
   	 int col = session.getSelectedCell().getField();
   	 for (int i = 0; i < values.size(); i++) {
@@ -156,7 +160,14 @@ public class FormEntryPanel extends JPanel implements SessionListener {
   		 }
   	 }
      session.setSelectedCell(new Cell(col, row));
-      
+     for (int i = 0; i < session.getNumRecords(); i++) {
+    	 if (i == row) {
+    		 for (int j = 0; j < session.getNumFields()-1; j++) {
+    			 values.get(j).setText(session.getValue(j, i));
+    		 }
+    	 }
+     }
+     rePaint();
     }
  };
  
