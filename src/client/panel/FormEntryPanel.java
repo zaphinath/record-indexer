@@ -115,8 +115,9 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void selectedCellChanged(Cell newSelectedCell) {
-		// TODO Auto-generated method stub
-		
+		list.setSelectedIndex(newSelectedCell.getRecord());
+		values.get(newSelectedCell.getField()-1).requestFocus();
+		repaint();
 	}
 
 	/* (non-Javadoc)
