@@ -40,7 +40,6 @@ public class MenuButtons extends JPanel implements SessionListener {
 		session.addListener(this);
 		
 		parentFrame = frame;
-		System.out.println("ParentFrame="+parentFrame.getWidth());
 		zoomIn = new JButton("Zoom In");
 		zoomOut = new JButton("Zoom Out");
 		invertImage = new JButton("Invert Image");

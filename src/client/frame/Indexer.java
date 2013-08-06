@@ -47,6 +47,8 @@ public class Indexer extends JFrame implements SessionListener{
 	private JButton fieldHelp;
 	private JButton imageNav;
 	
+	private JPanel southEast;
+	
 	private UserValidation userLogin;
 	private DownloadBatch dBatch;
 	
@@ -129,7 +131,7 @@ public class Indexer extends JFrame implements SessionListener{
 		JPanel northPanel = new JPanel(new BorderLayout());
 		JPanel southPanel = new JPanel(new BorderLayout());
 		JPanel southWest = new SouthWest(session);
-		JPanel southEast = new SouthEast(session);
+		southEast = new SouthEast(session);
 		
 		
 		JPanel menuButtons = new MenuButtons(this, session);
@@ -207,6 +209,7 @@ public class Indexer extends JFrame implements SessionListener{
 		if (session.isHaveBatch()) {
 			downloadBatch.setEnabled(false);
 		} else {
+			southEast = new SouthEast(session);
 			downloadBatch.setEnabled(true);
 		}
 	}

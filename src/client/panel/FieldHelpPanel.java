@@ -61,7 +61,6 @@ public class FieldHelpPanel extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
-		// TODO Auto-generated method stub
 
 	}
 
