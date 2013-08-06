@@ -58,8 +58,10 @@ public class ListModel extends AbstractListModel implements SessionListener {
 		if (session.isHaveBatch()) {
 			for (int i = 0; i < session.getFields().size(); i++) {
 				fieldValues.add(i+1);
+				this.fireIntervalAdded(fieldValues, 0, fieldValues.size());
 			}
 		} else {
+			this.fireIntervalRemoved(fieldValues, 0, fieldValues.size());
 			fieldValues.clear();
 		}
 	}
