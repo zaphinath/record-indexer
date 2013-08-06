@@ -104,7 +104,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 * 
 	 */
 	private void initialize() {
-		session.setSelectedCell(new Cell(1,0));
+		//session.setSelectedCell(new Cell(1,0));
 	}
 
 	/**
