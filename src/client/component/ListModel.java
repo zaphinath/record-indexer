@@ -27,8 +27,10 @@ public class ListModel extends AbstractListModel implements SessionListener {
 	public ListModel(Session session) {
 		this.session = session;
 		fieldValues = new ArrayList<Integer>();
-		for (int i = 0; i < session.getFields().size(); i++) {
-			fieldValues.add(i+1);
+		if (session.isHaveBatch()) {
+			for (int i = 0; i < session.getFields().size(); i++) {
+				fieldValues.add(i+1);
+			}
 		}
 	}
 
@@ -53,8 +55,13 @@ public class ListModel extends AbstractListModel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
-		// TODO Auto-generated method stub
-
+		if (session.isHaveBatch()) {
+			for (int i = 0; i < session.getFields().size(); i++) {
+				fieldValues.add(i+1);
+			}
+		} else {
+			fieldValues.clear();
+		}
 	}
 
 	/* (non-Javadoc)
