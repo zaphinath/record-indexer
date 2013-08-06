@@ -103,11 +103,7 @@ public class Table extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
-		if (session.isHaveBatch()) { 
-			session.setSelectedCell(new Cell(1,0));
-		} else {
-			session.setSelectedCell(null);
-		}
+
 	}
 
 	/* (non-Javadoc)
