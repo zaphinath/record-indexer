@@ -45,6 +45,8 @@ public class Table extends JPanel implements SessionListener {
 	public Table(Session s) {
 		super();
 		this.session = s;
+		session.addListener(this);
+		
 		selectedCell = session.getSelectedCell();
 		tm = new TableModel(session);
 		table = new JTable(tm);
