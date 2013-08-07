@@ -6,6 +6,8 @@ package client.process;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -39,20 +41,17 @@ public class SpellChecker {
 	}
 
 
-		public String suggestSimilarWord(String inputWord) throws NoSimilarWordFoundException {
-	    //System.out.println(this.root.getWordCount());
-	    root.clearList();
-	    if (root.find(inputWord) != null) {
-	      return inputWord;
-	    } else {
-	      String tmp = root.filterList(inputWord); 
-	      if (tmp == null)
-	        throw new NoSimilarWordFoundException();
-	      
-	      return tmp;
-	       
-	    }
+	public ArrayList<String> suggestSimilarWords(String inputWord) throws NoSimilarWordFoundException {
+    //System.out.println(this.root.getWordCount());
+		root.clearList();
+    //if (root.find(inputWord) != null) {
+    //  return inputWord;
+    //} else {
+    ArrayList<String> tmp = root.filterList(inputWord); 
+      if (tmp == null)
+        throw new NoSimilarWordFoundException();
+      
+      return tmp;   
+   }
 	    
-	  }
-
 }

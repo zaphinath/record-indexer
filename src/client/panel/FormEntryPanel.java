@@ -76,6 +76,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 			values.get(i).setPreferredSize(new Dimension(150,10));
 			values.get(i).addMouseListener(listMouseListener);
 			values.get(i).addKeyListener(keyboardListener);
+			//values.get(i).action(evt, what);
 			if (session.getSelectedCell().getField() == i) {
 				values.get(i).selectAll();
 			}
@@ -257,9 +258,11 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 //		   }
 //		   session.setSelectedCell(new Cell(col,row));
 //	   }
-	   if(e.getKeyCode() == KeyEvent.VK_TAB) {
+	   if(e.getKeyCode() == KeyEvent.VK_TAB || e.getKeyCode() == KeyEvent.VK_ENTER) {
 		   for (int i = 0; i < values.size(); i++) {
 			   if (e.getSource() == values.get(i)) {
+				   String value = values.get(i).getText();
+				   session.setValue(col, row, value);
 				   if (col < values.size()) {
 					   col = i+2;
 					   values.get(i+1).requestFocusInWindow();

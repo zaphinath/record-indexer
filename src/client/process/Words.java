@@ -4,6 +4,8 @@
 package client.process;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import client.process.WordNode;
 
 /**
@@ -16,6 +18,8 @@ public class Words implements Trie{
 	  private int numberWords;
 	  private int hashCode;
 	  private String xml;
+	  
+	  private ArrayList<String> list;
 
 	  private ArrayList<String> buildList = new ArrayList<String>();
 	  //private ArrayList<listNode> buildList = new ArrayList<listNode>();
@@ -151,10 +155,12 @@ public class Words implements Trie{
 	      }
 	    }
 	  }
-	  protected String filterList(String word) {
+	  protected ArrayList<String> filterList(String word) {
 	    word = word.toLowerCase();
 	    String shortest = null;
 	    findSimilar(word);
+	    
+	    list = new ArrayList<String>();
 	    Trie.Node t = new WordNode();
 	    Trie.Node s = new WordNode();
 
@@ -162,16 +168,18 @@ public class Words implements Trie{
 	    for (int i = 0; i < length; i++) {
 	      s = find(buildList.get(i));
 	      if (s != null ) {
-	        //System.out.println(buildList.get(i));
-	        if (s.getValue() > t.getValue()) {
-	          shortest = buildList.get(i);
-	          t = s;
-	        } else if (s.getValue() == t.getValue()) {
-	          //s = get(i) && t = shortest
-	          if (buildList.get(i).compareTo(shortest) < 0) {
-	            shortest = buildList.get(i);
-	          }
-	        }
+	        //if (s.getValue() > t.getValue()) {
+	    	if (s.getValue() > 0) {
+	    		list.add(word);
+	    		shortest = buildList.get(i);
+	    		t = s;
+	        } 
+//	    	else if (s.getValue() == t.getValue()) {
+//	          //s = get(i) && t = shortest
+//	          if (buildList.get(i).compareTo(shortest) < 0) {
+//	            shortest = buildList.get(i);
+//	          }
+//	        }
 	      }
 	    }
 	    if (shortest == null) {
@@ -182,20 +190,22 @@ public class Words implements Trie{
 	      for (int i = 0; i < length; i++) {
 	        s = find(buildList.get(i));
 	        if (s != null ) {
-	          //System.out.println(buildList.get(i));
-	          if (s.getValue() > t.getValue()) {
+	          //if (s.getValue() > t.getValue()) {
+	          if (s.getValue() > 0) {
 	            shortest = buildList.get(i);
 	            t = s;
-	          } else if (s.getValue() == t.getValue()) {
-	            //s = get(i) && t = shortest
-	            if (buildList.get(i).compareTo(shortest) > 0) {
-	              shortest = buildList.get(i);
-	            }
-	          }
+	            list.add(word);
+	          } 
+//	          else if (s.getValue() == t.getValue()) {
+//	            //s = get(i) && t = shortest
+//	            if (buildList.get(i).compareTo(shortest) > 0) {
+//	              shortest = buildList.get(i);
+//	            }
+//	          }
 	        }
 	      }
 	    }
-	    return shortest;
+	    return list;
 	  }
 
 

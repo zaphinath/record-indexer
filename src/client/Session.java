@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +15,18 @@ import java.util.List;
 import shared.communication.DownloadBatch_Result;
 import shared.model.Field;
 import client.model.Cell;
+import client.process.SpellChecker;
+import client.process.SpellChecker.NoSimilarWordFoundException;
 
 /**
  * @author Derek Carr
  *
  */
 public class Session {
+	private class KnownWords {
+		public boolean known = true;
+		public ArrayList<String> similarValues;
+	}
 	
 	private String host;
 	private int port;
@@ -27,6 +34,7 @@ public class Session {
 	private int frameHeight;
 	private Point framePoint;
 	
+	private KnownWords[][] knownWords;
 	private String[][] values;
 	private String recordValues;
 	private Cell selectedCell;
@@ -48,7 +56,7 @@ public class Session {
 	private String indexedRecords;
 
 	private String urlPrefix;
-
+	private SpellChecker spCheck;
 	
 	//BATCH
 	private boolean haveBatch;
@@ -88,6 +96,8 @@ public class Session {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		//this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		framePoint = new Point(dim.width/2-frameWidth/2, dim.height/2-frameHeight/2);
+		
+		spCheck = new SpellChecker();
 	}
 	
 	/**
@@ -125,6 +135,20 @@ public class Session {
 		this.urlPrefix = "http://"+host+":"+port+"/files/";
 	}
 	
+	/**
+	 * @return the knownWords
+	 */
+	public KnownWords[][] getKnownWords() {
+		return knownWords;
+	}
+
+	/**
+	 * @param knownWords the knownWords to set
+	 */
+	public void setKnownWords(KnownWords[][] knownWords) {
+		this.knownWords = knownWords;
+	}
+
 	/**
 	 * @return the indexedRecords
 	 */
@@ -424,12 +448,6 @@ public class Session {
 	}
 
 	/**
-	 * @return the currentBatch
-	 */
-/*	public DownloadBatch_Result getCurrentBatch() {
-		return currentBatch;
-	}*/
-	/**
 	 * A batch is downloaded for the user;
 	 * Can't download new batch unless this is submitted
 	 * Values array is set
@@ -501,6 +519,7 @@ public class Session {
 	 */
 	public void createValues(int width, int height) {
 		this.values = new String[width][height];
+		this.knownWords = new KnownWords[width][height];
 		for (int i = 0; i < height; i++ ) {
 			for (int j = 0; j < width; j++ ) {
 				if (j == 0) {
@@ -508,6 +527,7 @@ public class Session {
 				} else {
 					values[j][i] = "";
 				}
+				knownWords[j][i] = new KnownWords();;
 			}
 		}
 		
@@ -521,6 +541,15 @@ public class Session {
 	public void setValue(int x, int y, String value) {
 		//this.values = new String[x][y];
 		this.values[x][y] = value;
+		try {
+			spCheck.useDictionary(urlPrefix+fields.get(x-1).getKnownData());
+			this.knownWords[x][y].similarValues = spCheck.suggestSimilarWords(value);
+			if (this.knownWords[x][y].similarValues.size() > 0) {
+				this.knownWords[x][y].known = false;
+			}
+		} catch (IOException | NoSimilarWordFoundException e) {
+			e.printStackTrace();
+		}
 		for (SessionListener l : listeners) {
 			l.valueChanged(new Cell(x,y), value);
 		}
