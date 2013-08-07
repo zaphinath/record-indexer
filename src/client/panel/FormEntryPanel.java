@@ -6,17 +6,18 @@ package client.panel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 
 import client.Session;
 import client.SessionListener;
@@ -48,10 +49,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 
 		lModel = new ListModel(session);
 		list = new JList(lModel);
-		list.setPreferredSize(new Dimension(80,230));
-		//rightSide.setPreferredSize(new Dimension(330,0));
-		
-		
+		list.setPreferredSize(new Dimension(80,160));
 		
 		values = new ArrayList<JTextField>();
 		
@@ -60,6 +58,8 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		}
 
 		list.addMouseListener(listMouseListener);
+	
+		//rightSide.addKeyListener(keyboardListener);
 		
 		rootPanel.add(list, BorderLayout.WEST);
 		rootPanel.add(rightSide, BorderLayout.EAST);
@@ -70,23 +70,82 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		for (int i = 0; i < session.getFields().size(); i++ ) {
 			JLabel tmpLabel = new JLabel(session.getFields().get(i).getTitle());
 			rightSide.add(tmpLabel);
-			values.add(new JTextField());
+			values.add(new JTextField(){public boolean isManagingFocus() { return true; } });
 			rightSide.add(values.get(i));
-			
+			//values.get(i).setSize(150, 15);
+			values.get(i).setPreferredSize(new Dimension(150,10));
 			values.get(i).addMouseListener(listMouseListener);
+			values.get(i).addKeyListener(keyboardListener);
 			if (session.getSelectedCell().getField() == i) {
 				values.get(i).selectAll();
 			}
 		}
 		for (int i = 0; i < session.getNumRecords(); i++) {
-   	 if (i == session.getSelectedCell().getRecord()) {
-   		 for (int j = 1; j < session.getNumFields(); j++) {
-   			 values.get(j-1).setText(session.getValue(j, i));
-   		 }
-   	 }
-    }
+			if (i == session.getSelectedCell().getRecord()) {
+				for (int j = 1; j < session.getNumFields(); j++) {
+					values.get(j-1).setText(session.getValue(j, i));
+	   		 	}
+			}
+		}
 		list.setSelectedIndex(session.getSelectedCell().getRecord());
 	}
+	
+	/**
+	 * @return the values
+	 */
+	public ArrayList<JTextField> getValues() {
+		return values;
+	}
+
+	/**
+	 * @param values the values to set
+	 */
+	public void setValues(ArrayList<JTextField> values) {
+		this.values = values;
+	}
+
+	/**
+	 * @return the rootPanel
+	 */
+	public JPanel getRootPanel() {
+		return rootPanel;
+	}
+
+	/**
+	 * @param rootPanel the rootPanel to set
+	 */
+	public void setRootPanel(JPanel rootPanel) {
+		this.rootPanel = rootPanel;
+	}
+
+	/**
+	 * @return the rightSide
+	 */
+	public JPanel getRightSide() {
+		return rightSide;
+	}
+
+	/**
+	 * @param rightSide the rightSide to set
+	 */
+	public void setRightSide(JPanel rightSide) {
+		this.rightSide = rightSide;
+	}
+
+	/**
+	 * @return the lModel
+	 */
+	public ListModel getlModel() {
+		return lModel;
+	}
+
+	/**
+	 * @param lModel the lModel to set
+	 */
+	public void setlModel(ListModel lModel) {
+		this.lModel = lModel;
+	}
+
 	/* (non-Javadoc)
 	 * @see client.SessionListener#hasBatchChanged()
 	 */
@@ -117,8 +176,9 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	@Override
 	public void selectedCellChanged(Cell newSelectedCell) {
 		list.setSelectedIndex(newSelectedCell.getRecord());
-		values.get(newSelectedCell.getField()-1).requestFocus();
-		repaint();
+		//values.get(newSelectedCell.getField()).requestFocus();
+		//values.get(newSelectedCell.getField()-1).requestFocusInWindow();
+		//repaint();
 	}
 
 	/* (non-Javadoc)
@@ -149,7 +209,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	}
 	
 	MouseAdapter listMouseListener = new MouseAdapter() {
-   @Override
+    @Override
     public void mouseClicked(MouseEvent e) {  
   	 int row = list.getSelectedIndex();
   	 int col = session.getSelectedCell().getField();
@@ -170,20 +230,44 @@ public class FormEntryPanel extends JPanel implements SessionListener {
  };
  
  KeyAdapter keyboardListener = new KeyAdapter() {
+//   @Override
+//   public void keyReleased(KeyEvent e) {
+//	   if(e.getKeyCode() == 157 || e.getKeyCode() == KeyEvent.VK_SHIFT || e.getKeyCode() == KeyEvent.VK_TAB) {
+//		   int row = list.getSelectedIndex();
+//		   int col = session.getSelectedCell().getField();
+//		   for (int i = 0; i < values.size(); i++) {
+//			   if (e.getSource() == values.get(i)) {
+//				   col = i+1;
+//			   }
+//		   }
+//		   session.setSelectedCell(new Cell(col,row));
+//	   }
+//   	}
    @Override
    public void keyPressed(KeyEvent e) {
-	   Cell tmp = session.getSelectedCell();
-	   Cell nCell = null;
+	   int row = list.getSelectedIndex();
+	   int col = session.getSelectedCell().getField();
+//	   if (e.getKeyCode() == KeyEvent.VK_TAB  e.getKeyCode() == KeyEvent.VK_SHIFT) {
+//		   for (int i = 0; i < values.size(); i++) {
+//			   if (e.getSource() == values.get(i)) {
+//				   col = i+1;
+//				   if (i < values.size())
+//					   values.get(i+1).requestFocusInWindow();
+//			   }
+//		   }
+//		   session.setSelectedCell(new Cell(col,row));
+//	   }
 	   if(e.getKeyCode() == KeyEvent.VK_TAB) {
-		   if (tmp.getField() < session.getNumFields()-1) {
-			   nCell = new Cell(tmp.getField()+1, tmp.getRecord());
-		   } else if (tmp.getRecord() == session.getNumRecords() && tmp.getField() == session.getNumFields()) {
-			   nCell = new Cell(0,0);
-		   } else {
-			   nCell = new Cell(0, tmp.getRecord()+1);
+		   for (int i = 0; i < values.size(); i++) {
+			   if (e.getSource() == values.get(i)) {
+				   if (col < values.size()) {
+					   col = i+2;
+					   values.get(i+1).requestFocusInWindow();
+				   }
+			   }
 		   }
-		   session.setSelectedCell(nCell);
+		   session.setSelectedCell(new Cell(col,row));
 	   }
-   }
+  	}
  };
 }

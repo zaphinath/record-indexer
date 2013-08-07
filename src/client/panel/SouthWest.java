@@ -3,12 +3,15 @@
  */
 package client.panel;
 
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import client.Session;
 
@@ -30,12 +33,22 @@ public class SouthWest extends JPanel {
 		table = new Table(session);
 		fec = new FormEntryPanel(session);
 		
-		JTabbedPane tabs = new JTabbedPane();
+		final JTabbedPane tabs = new JTabbedPane();
 		tabs.setPreferredSize(new Dimension(450,230));
 		tabs.addTab("Table Entry", table);
 		tabs.addTab("Form Entry", fec);
 		
+		tabs.addChangeListener( new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				Component comp = tabs.getSelectedComponent();
+				if (comp.equals(fec)) {
+					fec.getValues().get(session.getSelectedCell().getField()-1).requestFocusInWindow();
+				}
+			}
+		});
 		//this.add(Box.createRigidArea(new Dimension(0,20)));
 		this.add(tabs);
 	}
+	
+	
 }

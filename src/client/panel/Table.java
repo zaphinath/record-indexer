@@ -82,18 +82,22 @@ public class Table extends JPanel implements SessionListener {
    
    KeyAdapter keyboardListener = new KeyAdapter() {
 	   @Override
-	   public void keyPressed(KeyEvent e) {
+	   public void keyReleased(KeyEvent e) {
 		   Cell tmp = session.getSelectedCell();
 		   Cell nCell = null;
 		   if(e.getKeyCode() == KeyEvent.VK_TAB) {
-			   if (tmp.getField() < session.getNumFields()-1) {
+			   /*if (tmp.getField() < session.getNumFields()-1) {
 				   nCell = new Cell(tmp.getField()+1, tmp.getRecord());
 			   } else if (tmp.getRecord() == session.getNumRecords() && tmp.getField() == session.getNumFields()) {
 				   nCell = new Cell(0,0);
 			   } else {
 				   nCell = new Cell(0, tmp.getRecord()+1);
 			   }
-			   session.setSelectedCell(nCell);
+			   session.setSelectedCell(nCell);*/
+		        int row = table.getSelectedRow();//get mouse-selected row
+		        int col = table.getSelectedColumn();//get mouse-selected col
+
+		        session.setSelectedCell(new Cell(col,row));
 		   }
 	   }
    };
