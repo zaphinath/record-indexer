@@ -59,11 +59,12 @@ public class Table extends JPanel implements SessionListener {
 		table.setGridColor(Color.BLACK);
 		table.addMouseListener(tableMouseListener);
 		table.addKeyListener(keyboardListener);
-		TableColumnModel columnModel = table.getColumnModel();
+		/*TableColumnModel columnModel = table.getColumnModel();
 		for (int i = 0; i < tm.getColumnCount(); ++i) {
 			TableColumn column = columnModel.getColumn(i);
 			column.setCellRenderer(new ColorCellRenderer(session));
-		}
+		}*/
+		table.setDefaultRenderer(String.class, new ColorCellRenderer(session));
 		
 		if (session.isHaveBatch()) {
 			session.setSelectedCell(session.getSelectedCell());
@@ -104,11 +105,7 @@ public class Table extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
-		TableColumnModel columnModel = table.getColumnModel();
-		for (int i = 0; i < tm.getColumnCount(); ++i) {
-			TableColumn column = columnModel.getColumn(i);
-			column.setCellRenderer(new ColorCellRenderer(session));
-		}
+		
 	}
 
 	/* (non-Javadoc)
