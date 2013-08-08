@@ -104,7 +104,11 @@ public class Table extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
-
+		TableColumnModel columnModel = table.getColumnModel();
+		for (int i = 0; i < tm.getColumnCount(); ++i) {
+			TableColumn column = columnModel.getColumn(i);
+			column.setCellRenderer(new ColorCellRenderer(session));
+		}
 	}
 
 	/* (non-Javadoc)
@@ -158,14 +162,14 @@ public class Table extends JPanel implements SessionListener {
 class ColorCellRenderer extends JLabel implements TableCellRenderer {
 
 	private Border unselectedBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
-	private Border selectedBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
+	private Border selectedBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
 
 	private Session session;
 	
 	public ColorCellRenderer(Session s) {
 		this.session = s;
 		setOpaque(true);
-		setFont(getFont().deriveFont(16.0f));
+		//setFont(getFont().deriveFont(16.0f));
 	}
 
 	public Component getTableCellRendererComponent(JTable table,
