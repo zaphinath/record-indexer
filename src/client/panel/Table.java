@@ -27,6 +27,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import client.Session;
+import client.Session.KnownWord;
 import client.SessionListener;
 import client.component.TableModel;
 import client.model.Cell;
@@ -58,8 +59,12 @@ public class Table extends JPanel implements SessionListener {
 		table.setGridColor(Color.BLACK);
 		table.addMouseListener(tableMouseListener);
 		table.addKeyListener(keyboardListener);
-		//table.setColumnSelectionInterval(1, 1);
-		//table.setRowSelectionInterval(0, 0);
+		TableColumnModel columnModel = table.getColumnModel();
+		for (int i = 0; i < tm.getColumnCount(); ++i) {
+			TableColumn column = columnModel.getColumn(i);
+			column.setCellRenderer(new ColorCellRenderer(session));
+		}
+		
 		if (session.isHaveBatch()) {
 			session.setSelectedCell(session.getSelectedCell());
 		}
@@ -86,14 +91,6 @@ public class Table extends JPanel implements SessionListener {
 		   Cell tmp = session.getSelectedCell();
 		   Cell nCell = null;
 		   if(e.getKeyCode() == KeyEvent.VK_TAB) {
-			   /*if (tmp.getField() < session.getNumFields()-1) {
-				   nCell = new Cell(tmp.getField()+1, tmp.getRecord());
-			   } else if (tmp.getRecord() == session.getNumRecords() && tmp.getField() == session.getNumFields()) {
-				   nCell = new Cell(0,0);
-			   } else {
-				   nCell = new Cell(0, tmp.getRecord()+1);
-			   }
-			   session.setSelectedCell(nCell);*/
 		        int row = table.getSelectedRow();//get mouse-selected row
 		        int col = table.getSelectedColumn();//get mouse-selected col
 
@@ -156,15 +153,17 @@ public class Table extends JPanel implements SessionListener {
 	}
    
 }
-/*
+
 @SuppressWarnings("serial")
 class ColorCellRenderer extends JLabel implements TableCellRenderer {
 
 	private Border unselectedBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
 	private Border selectedBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
 
-	public ColorCellRenderer() {
-		
+	private Session session;
+	
+	public ColorCellRenderer(Session s) {
+		this.session = s;
 		setOpaque(true);
 		setFont(getFont().deriveFont(16.0f));
 	}
@@ -172,10 +171,12 @@ class ColorCellRenderer extends JLabel implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table,
 			Object value, boolean isSelected, boolean hasFocus, int row,
 			int column) {
-
-		//Color c = ColorUtils.fromString((String)value);
-		//this.setBackground(c);
-		
+		//KnownWord k = session.getKnownWordAt(column, row);
+		if (session.getKnownWordAt(column, row).known == false) {
+			this.setBackground(Color.RED);
+		} else {
+			this.setBackground(Color.GREEN);
+		}
 		if (isSelected) {
 			this.setBorder(selectedBorder);
 		}
@@ -189,4 +190,3 @@ class ColorCellRenderer extends JLabel implements TableCellRenderer {
 	}
 
 }
-*/

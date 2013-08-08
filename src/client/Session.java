@@ -23,7 +23,7 @@ import client.process.SpellChecker.NoSimilarWordFoundException;
  *
  */
 public class Session {
-	private class KnownWords {
+	public class KnownWord {
 		public boolean known = true;
 		public ArrayList<String> similarValues;
 	}
@@ -34,7 +34,7 @@ public class Session {
 	private int frameHeight;
 	private Point framePoint;
 	
-	private KnownWords[][] knownWords;
+	private KnownWord[][] knownWords;
 	private String[][] values;
 	private String recordValues;
 	private Cell selectedCell;
@@ -134,21 +134,17 @@ public class Session {
 		assert port >= 0;
 		this.urlPrefix = "http://"+host+":"+port+"/files/";
 	}
+
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public KnownWord getKnownWordAt(int x, int y) {
+		return knownWords[x][y];
+	}
 	
-	/**
-	 * @return the knownWords
-	 */
-	public KnownWords[][] getKnownWords() {
-		return knownWords;
-	}
-
-	/**
-	 * @param knownWords the knownWords to set
-	 */
-	public void setKnownWords(KnownWords[][] knownWords) {
-		this.knownWords = knownWords;
-	}
-
 	/**
 	 * @return the indexedRecords
 	 */
@@ -520,7 +516,7 @@ public class Session {
 	 */
 	public void createValues(int width, int height) {
 		this.values = new String[width][height];
-		this.knownWords = new KnownWords[width][height];
+		this.knownWords = new KnownWord[width][height];
 		for (int i = 0; i < height; i++ ) {
 			for (int j = 0; j < width; j++ ) {
 				if (j == 0) {
@@ -528,7 +524,7 @@ public class Session {
 				} else {
 					values[j][i] = "";
 				}
-				knownWords[j][i] = new KnownWords();;
+				knownWords[j][i] = new KnownWord();;
 			}
 		}
 		
