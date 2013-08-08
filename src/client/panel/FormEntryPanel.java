@@ -248,6 +248,8 @@ public class FormEntryPanel extends JPanel implements SessionListener {
    public void keyPressed(KeyEvent e) {
 	   int row = list.getSelectedIndex();
 	   int col = session.getSelectedCell().getField();
+	   if (col < 0) col = 0;
+	   if (row < 0) row = 0;
 //	   if (e.getKeyCode() == KeyEvent.VK_TAB  e.getKeyCode() == KeyEvent.VK_SHIFT) {
 //		   for (int i = 0; i < values.size(); i++) {
 //			   if (e.getSource() == values.get(i)) {
