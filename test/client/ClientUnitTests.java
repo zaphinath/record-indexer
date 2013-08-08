@@ -1,6 +1,8 @@
 package client;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import org.junit.*;
 
@@ -13,8 +15,13 @@ public class ClientUnitTests {
 	
 	@Before
 	public void setup() {
-		dict = new File("data/1890_last_names.txt");
 		spCheck = new SpellChecker();
+		try {
+			spCheck.useDictionary("data/1890_last_names.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@After
@@ -23,20 +30,46 @@ public class ClientUnitTests {
 		spCheck = null;
 	}
 	
+	@Test 
+	public void testHaveWord() {
+		ArrayList<String> result = spCheck.suggestSimilarWords("travis");
+		assertNull(result);
+		result = spCheck.suggestSimilarWords("Travis");
+		assertNull(result);
+		result = spCheck.suggestSimilarWords("TRAVIS");
+		assertNull(result);
+		result = spCheck.suggestSimilarWords("branch");
+		assertNull(result);
+	}
+	
 	@Test
 	public void testEditDistanceOne() {
-		
-
+		ArrayList<String> result = spCheck.suggestSimilarWords("travsi");	
+		assertEquals(1,result.size());
+		result = spCheck.suggestSimilarWords("ravis");	
+		assertEquals(1,result.size());
+		result = spCheck.suggestSimilarWords("rtravis");
+		assertEquals(1,result.size());
+		result = spCheck.suggestSimilarWords("traves");	
+		assertEquals(1,result.size());
 	}
 	
 	@Test
 	public void testEditDistanceTwo() {
-		
+		ArrayList<String> result = spCheck.suggestSimilarWords("travsit");	
+		assertEquals(1,result.size());
+		result = spCheck.suggestSimilarWords("avis");	
+		assertEquals(3,result.size());
+		result = spCheck.suggestSimilarWords("rrtravis");
+		assertEquals(1,result.size());
+		result = spCheck.suggestSimilarWords("treves");	
+		assertEquals(1,result.size());
 	}
 	
 	@Test
-	public void testEditException() {
-		
+	public void testNoWord() {
+		ArrayList<String> result = spCheck.suggestSimilarWords("facebook");
+		assertEquals(0, result.size());
 	}
 
 	public static void main(String[] args) {

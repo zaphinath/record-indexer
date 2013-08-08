@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.image.*;
 import java.awt.event.MouseAdapter;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import client.Session;
 import client.SessionListener;
@@ -68,6 +71,32 @@ public class ImageComponent extends JComponent implements SessionListener {
 			System.out.println(session.getImageUrl()+"URL");
 			image = loadImage(session.getImageUrl());
 			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null))));//, session, this));
+			
+			/*JPanel rootPanel = new JPanel(new GridBagLayout());
+			GridBagConstraints gbc = new GridBagConstraints();
+			
+			for (int i=0; i < session.getNumRecords(); i++) {
+				for (int j=0; j < session.getNumFields()-1; j++) {
+					int tmpHeight = session.getRecordHeight();
+					int tmpWidth = session.getFields().get(j).getWidth();
+					double tmpX = 0;
+					double tmpY = 0;
+					//DrawingRect rect = new DrawingRect(new Rectangle2D.Double(tmpX, tmpY, tmpWidth, tmpHeight), new Color(210, 180, 140, 0));
+					JPanel tmp = new JPanel();
+					tmp.setSize(new Dimension(tmpWidth, tmpHeight));
+					tmp.setBackground(Color.BLUE);
+					tmp.setForeground(Color.BLUE);
+					gbc.fill = GridBagConstraints.HORIZONTAL;
+					gbc.gridx = session.getFields().get(j).getXcoord();
+					gbc.gridy = (session.getFirstYCoord() + session.getRecordHeight()*i);
+					gbc.weightx = 1.0;
+					gbc.weighty = 1.0;
+					rootPanel.add(tmp, gbc);
+				}
+			}
+			
+			//rootPanel.revalidate();
+			this.add(rootPanel);*/
 		}
 		
 		w_originX = session.getW_originX();

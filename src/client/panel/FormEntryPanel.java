@@ -89,6 +89,8 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 			}
 		}
 		list.setSelectedIndex(session.getSelectedCell().getRecord());
+		repaint();
+		
 	}
 	
 	/**

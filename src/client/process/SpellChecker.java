@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -30,8 +29,10 @@ public class SpellChecker {
 	      root.clearList();
 	      this.root = new Words();
 	      Scanner sc = new Scanner(new File(dictionaryFileName));
+	      sc.useDelimiter(", *");
 	      while (sc.hasNext()) {
-	    	  root.add(sc.next());
+	    	  String tmp = sc.next().trim();
+	    	  root.add(tmp);
 	      }
 	      sc.close();
 		} catch (FileNotFoundException e) {
@@ -41,17 +42,15 @@ public class SpellChecker {
 	}
 
 
-	public ArrayList<String> suggestSimilarWords(String inputWord) throws NoSimilarWordFoundException {
-    //System.out.println(this.root.getWordCount());
+	public ArrayList<String> suggestSimilarWords(String inputWord) {
 		root.clearList();
-    //if (root.find(inputWord) != null) {
-    //  return inputWord;
-    //} else {
-    ArrayList<String> tmp = root.filterList(inputWord); 
-      if (tmp == null)
-        throw new NoSimilarWordFoundException();
-      
-      return tmp;   
+		ArrayList<String> tmp;
+		if (root.find(inputWord) != null) {
+			return null;
+		} else {
+			tmp = root.filterList(inputWord); 
+		}
+		return tmp;   
    }
 	    
 }

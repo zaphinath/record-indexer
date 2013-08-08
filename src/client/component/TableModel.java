@@ -111,7 +111,7 @@ public class TableModel extends AbstractTableModel implements SessionListener {
 	 * 
 	 */
 	private void destroy() {
-		session.setSelectedCell(null);
+		//session.setSelectedCell(null);
 	}
 
 	/* (non-Javadoc)

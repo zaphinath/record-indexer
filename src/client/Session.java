@@ -468,6 +468,7 @@ public class Session {
 		numRecords = currentBatch.getNumRecords();
 		numFields = currentBatch.getNumFields()+1;
 		
+		fields.clear();
 		for (int i=0; i < currentBatch.getFields().size(); i++) {
 			fields.add(currentBatch.getFields().get(i));
 			fieldTitles.add(currentBatch.getFields().get(i).getTitle());
@@ -547,7 +548,7 @@ public class Session {
 			if (this.knownWords[x][y].similarValues.size() > 0) {
 				this.knownWords[x][y].known = false;
 			}
-		} catch (IOException | NoSimilarWordFoundException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		for (SessionListener l : listeners) {

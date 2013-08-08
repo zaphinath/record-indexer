@@ -137,11 +137,14 @@ public class Indexer extends JFrame implements SessionListener{
 		//JPanel imagePanel = new ImagePanel(session);
 		ImageComponent imagePanel = new ImageComponent(session);
 
-		/*JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, imagePanel, southPanel);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);//, imagePanel, southPanel);
+		splitPane.add(northPanel, JSplitPane.TOP);
+		splitPane.add(southPanel, JSplitPane.BOTTOM);
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setTopComponent(imagePanel);
-		splitPane.setBottomComponent(southPanel);*/
-		//splitPane.setDividerLocation(150);
+		splitPane.setBottomComponent(southPanel);
+		
+		splitPane.setDividerLocation(550);
 		
 		
 		northPanel.add(menuButtons, BorderLayout.WEST);
@@ -150,7 +153,7 @@ public class Indexer extends JFrame implements SessionListener{
 		
 		rootPanel.add(northPanel, BorderLayout.NORTH);
 		rootPanel.add(imagePanel, BorderLayout.CENTER);
-		//rootPanel.add(splitPane,BorderLayout.SOUTH);
+		rootPanel.add(splitPane, BorderLayout.SOUTH);
 		rootPanel.add(southPanel, BorderLayout.SOUTH);
 		
 		this.add(rootPanel);
@@ -208,7 +211,7 @@ public class Indexer extends JFrame implements SessionListener{
 		if (session.isHaveBatch()) {
 			downloadBatch.setEnabled(false);
 		} else {
-			southEast = new SouthEast(session);
+			//southEast = new SouthEast(session);
 			downloadBatch.setEnabled(true);
 		}
 	}

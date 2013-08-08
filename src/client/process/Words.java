@@ -4,7 +4,6 @@
 package client.process;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import client.process.WordNode;
 
@@ -19,23 +18,20 @@ public class Words implements Trie{
 	  private int hashCode;
 	  private String xml;
 	  
-	  private ArrayList<String> list;
+	  private ArrayList<String> list ;
 
-	  private ArrayList<String> buildList = new ArrayList<String>();
-	  //private ArrayList<listNode> buildList = new ArrayList<listNode>();
-	  
-	  private class listNode {
-	    String str;
-	    int count;
-	  }
+	  private ArrayList<String> buildList;// = new ArrayList<String>();
 
 	  public Words() {
+		buildList = new ArrayList<String>();
+		list = new ArrayList<String>();
 	    root = new WordNode();
 	    numberNodes = 1;
 	    numberWords = 0;
 	  }
 	  public void clearList() {
 	    this.buildList.clear();
+	    this.list.clear();
 	  }
 
 	  public void add(String word) {  
@@ -111,12 +107,10 @@ public class Words implements Trie{
 		}
 
 	  protected void findSimilar(String word) {
-	    Trie.Node t = new WordNode();
 	    //Delete Edit
 	    for (int i = 0; i < word.length(); i++) {
 	      StringBuilder foo = new StringBuilder(word);
 	      //System.out.println("Delete");
-	      Trie.Node s = new WordNode();
 	      String tmp = foo.deleteCharAt(i).toString();
 	      buildList.add(tmp);
 	    }
@@ -124,7 +118,6 @@ public class Words implements Trie{
 	    for (int i = 0; i < word.length() -1; i++) {
 	      StringBuilder foo = new StringBuilder(word);
 	      //System.out.println("Transpose");
-	      Trie.Node s = new WordNode();
 	      char a = foo.charAt(i);
 	      char b = foo.charAt(i+1);
 	      StringBuilder tmp = foo;
@@ -136,7 +129,6 @@ public class Words implements Trie{
 	    for (int i = 0; i < word.length(); i++) {
 	      for (int j = 97; j < 123; j++) {
 	        StringBuilder foo = new StringBuilder(word);
-	        Trie.Node s = new WordNode();
 	        char a = (char) j;
 	        StringBuilder tmp = foo;
 	        tmp.setCharAt(i,a);
@@ -147,7 +139,6 @@ public class Words implements Trie{
 	    for (int i = 0; i < word.length()+1; i++) {
 	      for (int j = 97; j < 123; j++) {
 	        StringBuilder foo = new StringBuilder(word);
-	        Trie.Node s = new WordNode();
 	        char a = (char) j;
 	        StringBuilder tmp = foo;
 	        tmp.insert(i,a);
@@ -159,27 +150,18 @@ public class Words implements Trie{
 	    word = word.toLowerCase();
 	    String shortest = null;
 	    findSimilar(word);
-	    
-	    list = new ArrayList<String>();
-	    Trie.Node t = new WordNode();
 	    Trie.Node s = new WordNode();
 
 	    int length = buildList.size();
 	    for (int i = 0; i < length; i++) {
 	      s = find(buildList.get(i));
 	      if (s != null ) {
-	        //if (s.getValue() > t.getValue()) {
 	    	if (s.getValue() > 0) {
-	    		list.add(word);
 	    		shortest = buildList.get(i);
-	    		t = s;
+	    		if (!list.contains(shortest)) {
+	    			list.add(shortest);
+	    		}
 	        } 
-//	    	else if (s.getValue() == t.getValue()) {
-//	          //s = get(i) && t = shortest
-//	          if (buildList.get(i).compareTo(shortest) < 0) {
-//	            shortest = buildList.get(i);
-//	          }
-//	        }
 	      }
 	    }
 	    if (shortest == null) {
@@ -193,15 +175,10 @@ public class Words implements Trie{
 	          //if (s.getValue() > t.getValue()) {
 	          if (s.getValue() > 0) {
 	            shortest = buildList.get(i);
-	            t = s;
-	            list.add(word);
+	            if (!list.contains(shortest)) {
+	            	list.add(shortest);
+	            }
 	          } 
-//	          else if (s.getValue() == t.getValue()) {
-//	            //s = get(i) && t = shortest
-//	            if (buildList.get(i).compareTo(shortest) > 0) {
-//	              shortest = buildList.get(i);
-//	            }
-//	          }
 	        }
 	      }
 	    }
