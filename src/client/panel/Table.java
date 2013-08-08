@@ -7,14 +7,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -190,4 +195,59 @@ class ColorCellRenderer extends JLabel implements TableCellRenderer {
 		return this;
 	}
 
+}
+@SuppressWarnings("serial")
+class ColorCellEditor extends AbstractCellEditor implements TableCellEditor {
+	
+	private JComboBox<String> comboBox;
+	private String currentValue;
+	
+	
+	
+	public ColorCellEditor() {
+		
+		for (String colorName : colorMap.keySet()) {
+			comboBox.addItem(colorName);
+		}
+	}
+
+	@Override
+	public Object getCellEditorValue() {
+		return currentValue;
+	}
+
+	@Override
+	public Component getTableCellEditorComponent(JTable table, Object value,
+			boolean isSelected, int row, int column) {
+		
+		currentValue = (String)value;
+		
+		comboBox.setSelectedItem(currentValue);
+		
+		return comboBox;
+	}
+	
+	private ActionListener actionListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			String comboValue = (String)comboBox.getSelectedItem();
+			
+			Color colorValue = ColorUtils.fromString(comboValue);
+			
+			if (colorValue == null) {
+				if (colorMap.containsKey(comboValue)) {
+					colorValue = colorMap.get(comboValue);
+				}
+			}
+			
+			if (colorValue != null) {
+				currentValue = ColorUtils.toString(colorValue);
+			}
+			
+			fireEditingStopped();
+		}	
+	};
+	
 }
