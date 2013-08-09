@@ -110,15 +110,9 @@ public class UserValidation extends JFrame {
 					//TODO: Check file exists. If not new session
 					File file = new File("sessions/"+result.getLastName().toLowerCase().trim()+result.getFirstName().toLowerCase().trim()+".session");
 					if (file.exists()) {
-						System.out.println("Has File: ");
-						//Session s =null;
-						//ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file));
-						//s = (Session) inputStream.readObject();
-						//inputStream.close();
 						s = (Session) xmlStream.fromXML(file);
 						s.initiliazeListenersList();
 						s.setUrlPrefix("http://"+host+":"+port+"/files/");
-						//System.out.println("URL PRE" + s.getUrlPrefix());
 						indexer = new Indexer(s);
 					} else {
 						indexer = new Indexer();

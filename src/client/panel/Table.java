@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,15 +48,23 @@ public class Table extends JPanel implements SessionListener {
 	private JTable table;
 	private TableModel tm;
 	private Cell selectedCell;
+	private JFrame frame;
 	
 	public Table(Session s) {
 		super();
 		this.session = s;
 		session.addListener(this);
 		
+		final ColorCellRenderer renderer = new ColorCellRenderer(session);
 		selectedCell = session.getSelectedCell();
 		tm = new TableModel(session);
-		table = new JTable(tm);
+		table = new JTable(tm) {
+		   @Override
+		   public TableCellRenderer getCellRenderer(int row, int column) {
+			    // TODO Auto-generated method stub
+			    return renderer;
+		   }
+		};
 		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setCellSelectionEnabled(true);
@@ -68,8 +77,9 @@ public class Table extends JPanel implements SessionListener {
 		for (int i = 0; i < tm.getColumnCount(); ++i) {
 			TableColumn column = columnModel.getColumn(i);
 			column.setCellRenderer(new ColorCellRenderer(session));
+			//column.setCellEditor(new ColorCellEditor(session));
 		}*/
-		table.setDefaultRenderer(String.class, new ColorCellRenderer(session));
+		//table.setDefaultRenderer(String.class, new ColorCellRenderer(session));
 		
 		if (session.isHaveBatch()) {
 			session.setSelectedCell(session.getSelectedCell());
@@ -85,9 +95,15 @@ public class Table extends JPanel implements SessionListener {
 	MouseAdapter tableMouseListener = new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {  
-        int row = table.rowAtPoint(e.getPoint());//get mouse-selected row
-        int col = table.columnAtPoint(e.getPoint());//get mouse-selected col
-        session.setSelectedCell(new Cell(col,row));
+    	  //if(e.getButton() == MouseEvent.BUTTON1) {
+	        int row = table.rowAtPoint(e.getPoint());//get mouse-selected row
+	        int col = table.columnAtPoint(e.getPoint());//get mouse-selected col
+	        session.setSelectedCell(new Cell(col,row));
+    	  if (e.isPopupTrigger() || e.getButton() == MouseEvent.BUTTON2) {
+    		 
+    		  PopUpMenu menu = new PopUpMenu(null, session.getKnownWordAt(col, row).similarValues, session.getValue(col, row));
+    		  menu.show(e.getComponent(), e.getX(), e.getY());
+    	  }
       }
    };
    
@@ -164,7 +180,7 @@ public class Table extends JPanel implements SessionListener {
 class ColorCellRenderer extends JLabel implements TableCellRenderer {
 
 	private Border unselectedBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
-	private Border selectedBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
+	private Border selectedBorder = BorderFactory.createLineBorder(Color.BLACK, 2);
 
 	private Session session;
 	
@@ -181,34 +197,30 @@ class ColorCellRenderer extends JLabel implements TableCellRenderer {
 		if (session.getKnownWordAt(column, row).known == false) {
 			this.setBackground(Color.RED);
 		} else {
-			this.setBackground(Color.GREEN);
+			this.setBackground(Color.WHITE);
 		}
 		if (isSelected) {
 			this.setBorder(selectedBorder);
-		}
-		else {
+			this.setBackground(Color.BLUE);
+		} else {
 			this.setBorder(unselectedBorder);
-		}
-		
+		}		
 		this.setText((String)value);
 		
 		return this;
 	}
-
 }
+/*
 @SuppressWarnings("serial")
 class ColorCellEditor extends AbstractCellEditor implements TableCellEditor {
 	
 	private JComboBox<String> comboBox;
 	private String currentValue;
+	private Session session;
 	
 	
-	
-	public ColorCellEditor() {
-		
-		for (String colorName : colorMap.keySet()) {
-			comboBox.addItem(colorName);
-		}
+	public ColorCellEditor(Session session) {
+		this.session = session;
 	}
 
 	@Override
@@ -232,9 +244,9 @@ class ColorCellEditor extends AbstractCellEditor implements TableCellEditor {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			String comboValue = (String)comboBox.getSelectedItem();
+			currentValue = (String)comboBox.getSelectedItem();
 			
-			Color colorValue = ColorUtils.fromString(comboValue);
+			/*Color colorValue = ColorUtils.fromString(comboValue);
 			
 			if (colorValue == null) {
 				if (colorMap.containsKey(comboValue)) {
@@ -245,9 +257,9 @@ class ColorCellEditor extends AbstractCellEditor implements TableCellEditor {
 			if (colorValue != null) {
 				currentValue = ColorUtils.toString(colorValue);
 			}
-			
+			*
 			fireEditingStopped();
 		}	
 	};
 	
-}
+}*/

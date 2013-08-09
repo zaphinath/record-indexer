@@ -539,10 +539,15 @@ public class Session {
 		//this.values = new String[x][y];
 		this.values[x][y] = value;
 		try {
-			spCheck.useDictionary(urlPrefix+fields.get(x-1).getKnownData());
+			spCheck.useDictionaryURL(urlPrefix+fields.get(x-1).getKnownData());
+			System.out.println(urlPrefix+fields.get(x-1).getKnownData());
 			this.knownWords[x][y].similarValues = spCheck.suggestSimilarWords(value);
-			if (this.knownWords[x][y].similarValues.size() > 0) {
-				this.knownWords[x][y].known = false;
+			//System.out.println(this.knownWords[x][y].similarValues.toString());
+			if (this.knownWords[x][y].similarValues != null) {
+				if (this.knownWords[x][y].similarValues.size() > 0) {
+					this.knownWords[x][y].known = false;
+					System.out.println("FALSE");
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
