@@ -43,12 +43,14 @@ public class SouthWest extends JPanel {
 				Component comp = tabs.getSelectedComponent();
 				if (comp.equals(fec)) {
 					//TODO fix this
-					fec.getValues().get(session.getSelectedCell().getField()-1).requestFocusInWindow();
-					for (int i = 0; i < session.getNumRecords(); i++) {
-						if (i == session.getSelectedCell().getRecord()) {
-							for (int j = 1; j < session.getNumFields(); j++) {
-								fec.getValues().get(j-1).setText(session.getValue(j, i));
-				   		 	}
+					if (session.getSelectedCell().getField() > 0) {
+						fec.getValues().get(session.getSelectedCell().getField()-1).requestFocusInWindow();
+						for (int i = 0; i < session.getNumRecords(); i++) {
+							if (i == session.getSelectedCell().getRecord()) {
+								for (int j = 1; j < session.getNumFields(); j++) {
+									fec.getValues().get(j-1).setText(session.getValue(j, i));
+					   		 	}
+							}
 						}
 					}
 				}
