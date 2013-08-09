@@ -4,6 +4,7 @@
 package client.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
@@ -70,7 +71,8 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		for (int i = 0; i < session.getFields().size(); i++ ) {
 			JLabel tmpLabel = new JLabel(session.getFields().get(i).getTitle());
 			rightSide.add(tmpLabel);
-			values.add(new JTextField(){public boolean isManagingFocus() { return true; } });
+			values.add(new JTextField(){ 
+				public boolean isManagingFocus() { return true; } });
 			rightSide.add(values.get(i));
 			//values.get(i).setSize(150, 15);
 			values.get(i).setPreferredSize(new Dimension(150,10));
@@ -85,7 +87,10 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 			if (i == session.getSelectedCell().getRecord()) {
 				for (int j = 1; j < session.getNumFields(); j++) {
 					values.get(j-1).setText(session.getValue(j, i));
-	   		 	}
+					if (session.getKnownWordAt(j, i).known == false) {
+						values.get(j-1).setBackground(Color.RED);
+					}
+	   		}
 			}
 		}
 		list.setSelectedIndex(session.getSelectedCell().getRecord());
@@ -170,6 +175,11 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		int field = cell.getField()-1;
 		values.get(field).requestFocus();
 		values.get(field).setText(newValue);
+		if (session.getKnownWordAt(cell.getField(), cell.getRecord()).known == false) {
+			values.get(field).setBackground(Color.RED);
+		} else {
+			values.get(field).setBackground(Color.WHITE);
+		}
 		this.repaint();
 	}
 
