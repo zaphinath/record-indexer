@@ -75,7 +75,7 @@ public class ImagePanel extends JPanel implements SessionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		shapes.add(new DrawingImage(bufImage, new Rectangle2D.Double(0, 0, bufImage.getWidth(), bufImage.getHeight()), session, this));
+		shapes.add(new DrawingImage(bufImage, new Rectangle2D.Double(0, 0, bufImage.getWidth(), bufImage.getHeight()), session));
 		
 		/*
 		GridBagConstraints gbc = new GridBagConstraints();

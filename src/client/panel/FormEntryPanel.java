@@ -39,7 +39,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	private JPanel rootPanel;
 	private JPanel rightSide;
 	
-	private JList list;
+	private JList<String> list;
 	private ListModel lModel;
 	
 	private Frame frame;

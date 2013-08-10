@@ -68,9 +68,9 @@ public class ImageComponent extends JComponent implements SessionListener {
 
 		Image image = null;
 		if (session.isHaveBatch()) {
-			System.out.println(session.getImageUrl()+"URL");
+			//System.out.println(session.getImageUrl()+"URL");
 			image = loadImage(session.getImageUrl());
-			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null))));//, session, this));
+			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null)), session));
 			
 			/*JPanel rootPanel = new JPanel(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -294,6 +294,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 		w_originY = w_newOriginY;
 		this.repaint();
 	}
+
 	
 	/* (non-Javadoc)
 	 * @see client.SessionListener#hasBatchChanged()
@@ -302,7 +303,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 	public void hasBatchChanged() {
 		if (session.isHaveBatch()) {
 			Image image = loadImage(session.getImageUrl());
-			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null))));//, session, this));
+			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null)), session));
 		} else {
 			shapes.clear();
 		}
@@ -341,7 +342,9 @@ public class ImageComponent extends JComponent implements SessionListener {
 	 */
 	@Override
 	public void imageInversionChanged(boolean inversion) {
-		// TODO Auto-generated method stub
+		//invertImage(session.getImageUrl());
+		//System.out.println("FIRST " + inversion);
+		repaint();
 
 	}
 

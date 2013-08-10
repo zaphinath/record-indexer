@@ -3,11 +3,17 @@
  */
 package client.component;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Panel;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -23,18 +29,17 @@ public class DrawingImage extends JComponent implements DrawingShape {
 	private Image image;
 	private Rectangle2D rect;
 	private Session session;
-	private JPanel panel;
 	
 	public DrawingImage(Image image, Rectangle2D rect) {
 		this.image = image;
 		this.rect = rect;
 	}
 	
-	public DrawingImage(Image image, Rectangle2D rect, Session session, JPanel panel) {
+	public DrawingImage(Image image, Rectangle2D rect, Session session) {
 		this.image = image;
 		this.rect = rect;
 		this.session = session;
-		this.panel = panel;
+		//this.panel = panel;
 	}
 
 	@Override
@@ -65,8 +70,14 @@ public class DrawingImage extends JComponent implements DrawingShape {
 		Image timage = image.getScaledInstance(image.getWidth(null)+session.getZoomLevel()*30, image.getHeight(null)+session.getZoomLevel()*30, Image.SCALE_DEFAULT);
 		g2.drawImage(timage, (panel.getWidth() - timage.getWidth(null))/2, (panel.getHeight()-timage.getHeight(null))/2, null);
 		*/
-		g2.drawImage(image, (int)rect.getMinX(), (int)rect.getMinY(), (int)rect.getMaxX(), (int)rect.getMaxY(),
+		System.out.println(session.isImageInverted() + "INV");
+		if (session.isImageInverted() == false ) {
+			g2.drawImage(image, (int)rect.getMinX(), (int)rect.getMinY(), (int)rect.getMaxX(), (int)rect.getMaxY(),
 				0, 0, image.getWidth(null), image.getHeight(null), null);
+		} else {
+			g2.drawImage(invertImage(session.getImageUrl()), (int)rect.getMinX(), (int)rect.getMinY(), (int)rect.getMaxX(), (int)rect.getMaxY(),
+					0, 0, image.getWidth(null), image.getHeight(null), null);
+		}
 	}
 	
 	@Override
@@ -79,6 +90,30 @@ public class DrawingImage extends JComponent implements DrawingShape {
 		return image.getHeight(null);
 	}
 	
+	
+	private Image invertImage(URL imageName) {
+        
+		//BufferedImage inputFile = (BufferedImage) input;
+		BufferedImage inputFile = null;
+        try {
+            inputFile = ImageIO.read(imageName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (int x = 0; x < inputFile.getWidth(); x++) {
+            for (int y = 0; y < inputFile.getHeight(); y++) {
+                int rgba = inputFile.getRGB(x, y);
+                Color col = new Color(rgba, true);
+                col = new Color(255 - col.getRed(),
+                                255 - col.getGreen(),
+                                255 - col.getBlue());
+                inputFile.setRGB(x, y, col.getRGB());
+            }
+        }
+
+        return (Image) inputFile;
+    }
 	
 
 }
