@@ -530,6 +530,16 @@ public class Session {
 		
 	}
 	
+	private boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    // only got here if we didn't return false
+	    return true;
+	}
+	
 	/**
 	 * 
 	 * @param x
@@ -538,9 +548,9 @@ public class Session {
 	public void setValue(int x, int y, String value) {
 		//this.values = new String[x][y];
 		this.values[x][y] = value;
-		if (value != null && value.length() > 0) {
+		if (value != null && value.length() > 0 && !fieldTitles.get(x).equalsIgnoreCase("age")) {
 			try {
-				System.out.println("VALUE: "+ value );
+				System.out.println("VALUE: "+ value	 );
 				spCheck.useDictionaryURL(urlPrefix+fields.get(x-1).getKnownData());
 				//System.out.println(urlPrefix+fields.get(x-1).getKnownData());
 				this.knownWords[x][y].similarValues = spCheck.suggestSimilarWords(value);

@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -49,6 +50,7 @@ public class Table extends JPanel implements SessionListener {
 	private TableModel tm;
 	private Cell selectedCell;
 	private JFrame frame;
+	
 	
 	public Table(JFrame frame, Session s) {
 		super();
@@ -94,18 +96,31 @@ public class Table extends JPanel implements SessionListener {
 	}
 	
 	MouseAdapter tableMouseListener = new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {  
+		int row;
+		int col;
+		@Override
+		public void mouseClicked(MouseEvent e) {  
     	  //if(e.getButton() == MouseEvent.BUTTON1) {
-	        int row = table.rowAtPoint(e.getPoint());//get mouse-selected row
-	        int col = table.columnAtPoint(e.getPoint());//get mouse-selected col
+	        row = table.rowAtPoint(e.getPoint());//get mouse-selected row
+	        col = table.columnAtPoint(e.getPoint());//get mouse-selected col
 	        session.setSelectedCell(new Cell(col,row));
-    	  if (e.isPopupTrigger() || e.getButton() == MouseEvent.BUTTON2) {
-    		 
-    		  PopUpMenu menu = new PopUpMenu(frame, session.getKnownWordAt(col, row).similarValues, session.getValue(col, row));
-    		  menu.show(e.getComponent(), e.getX(), e.getY());
-    	  }
-      }
+	        if (SwingUtilities.isRightMouseButton(e) && session.getKnownWordAt(col, row).known == false) {
+	        	//System.out.println("popup");
+	        	PopUpMenu menu = new PopUpMenu(frame, session.getKnownWordAt(col, row).similarValues, 
+	        			session.getValue(col, row), new Cell(col, row), session);
+	        	menu.show(e.getComponent(), e.getX(), e.getY());
+	        }
+		}/*
+		public void mouseReleased(MouseEvent e) {
+			row = table.rowAtPoint(e.getPoint());//get mouse-selected row
+	        col = table.columnAtPoint(e.getPoint());//get mouse-selected col
+	        session.setSelectedCell(new Cell(col,row));
+	        if (e.isPopupTrigger() || e.getButton() == MouseEvent.BUTTON2) {
+	        	System.out.println("popup");
+	        	PopUpMenu menu = new PopUpMenu(frame, session.getKnownWordAt(col, row).similarValues, session.getValue(col, row));
+	        	menu.show(e.getComponent(), e.getX(), e.getY());
+	        }
+		}*/
    };
    
    KeyAdapter keyboardListener = new KeyAdapter() {
@@ -135,8 +150,8 @@ public class Table extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void valueChanged(Cell cell, String newValue) {
-		System.out.println(session.getValue(cell.getField(), cell.getRecord()));
-		System.out.println(session.getKnownWordAt(cell.getField(), cell.getRecord()).known);
+		//System.out.println(session.getValue(cell.getField(), cell.getRecord()));
+		//System.out.println(session.getKnownWordAt(cell.getField(), cell.getRecord()).known);
 	}
 
 	/* (non-Javadoc)

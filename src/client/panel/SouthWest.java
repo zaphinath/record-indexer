@@ -36,7 +36,7 @@ public class SouthWest extends JPanel {
 		//this.setPreferredSize(new Dimension(400,300));
 		//this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		table = new Table(frame, session);
-		fec = new FormEntryPanel(session);
+		fec = new FormEntryPanel(frame, session);
 		
 		final JTabbedPane tabs = new JTabbedPane();
 		tabs.setPreferredSize(new Dimension(450,230));
