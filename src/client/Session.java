@@ -84,7 +84,7 @@ public class Session {
 		w_originY = 0;
 		/*w_centerX = frameWidth/2;
 		w_centerY = */
-		scale = .5;
+		scale = 1;
 		imageInverted = false;
 		toggledHighlights = false;
 		
