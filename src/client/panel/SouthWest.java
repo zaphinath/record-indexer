@@ -11,6 +11,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -38,16 +39,17 @@ public class SouthWest extends JPanel {
 		table = new Table(frame, session);
 		fec = new FormEntryPanel(frame, session);
 		
+		JScrollPane sp1 = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ); 
+		
 		final JTabbedPane tabs = new JTabbedPane();
 		tabs.setPreferredSize(new Dimension(450,230));
-		tabs.addTab("Table Entry", table);
+		tabs.addTab("Table Entry", sp1);
 		tabs.addTab("Form Entry", fec);
 		
 		tabs.addChangeListener( new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Component comp = tabs.getSelectedComponent();
 				if (comp.equals(fec)) {
-					//TODO fix this
 					if (session.getSelectedCell().getField() > 0) {
 						fec.getValues().get(session.getSelectedCell().getField()-1).requestFocusInWindow();
 						for (int i = 0; i < session.getNumRecords(); i++) {

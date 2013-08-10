@@ -6,7 +6,6 @@ package client;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import shared.communication.DownloadBatch_Result;
 import shared.model.Field;
 import client.model.Cell;
 import client.process.SpellChecker;
-import client.process.SpellChecker.NoSimilarWordFoundException;
 
 /**
  * @author Derek Carr
@@ -27,6 +25,9 @@ public class Session {
 		public boolean known = true;
 		public ArrayList<String> similarValues;
 	}
+	
+	private int horizontalDivider;
+	private int verticalDivider;
 	
 	private String host;
 	private int port;
@@ -76,6 +77,9 @@ public class Session {
 	 * Class Constructor
 	 */
 	public Session() {
+		horizontalDivider = 450;
+		verticalDivider = 500;
+		
 		w_originX = 0;
 		w_originY = 0;
 		/*w_centerX = frameWidth/2;
@@ -133,6 +137,34 @@ public class Session {
 		assert host != null;
 		assert port >= 0;
 		this.urlPrefix = "http://"+host+":"+port+"/files/";
+	}
+
+	/**
+	 * @return the horizontalDivider
+	 */
+	public int getHorizontalDivider() {
+		return horizontalDivider;
+	}
+
+	/**
+	 * @param horizontalDivider the horizontalDivider to set
+	 */
+	public void setHorizontalDivider(int horizontalDivider) {
+		this.horizontalDivider = horizontalDivider;
+	}
+
+	/**
+	 * @return the verticalDivider
+	 */
+	public int getVerticalDivider() {
+		return verticalDivider;
+	}
+
+	/**
+	 * @param verticalDivider the verticalDivider to set
+	 */
+	public void setVerticalDivider(int verticalDivider) {
+		this.verticalDivider = verticalDivider;
 	}
 
 	/**
@@ -528,16 +560,6 @@ public class Session {
 			}
 		}
 		
-	}
-	
-	private boolean isInteger(String s) {
-	    try { 
-	        Integer.parseInt(s); 
-	    } catch(NumberFormatException e) { 
-	        return false; 
-	    }
-	    // only got here if we didn't return false
-	    return true;
 	}
 	
 	/**

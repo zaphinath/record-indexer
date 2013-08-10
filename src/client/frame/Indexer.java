@@ -8,6 +8,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,7 +24,6 @@ import client.Session;
 import client.SessionListener;
 import client.component.ImageComponent;
 import client.model.Cell;
-import client.panel.ImagePanel;
 import client.panel.MenuButtons;
 import client.panel.SouthEast;
 import client.panel.SouthWest;
@@ -47,6 +48,8 @@ public class Indexer extends JFrame implements SessionListener{
 	private JButton imageNav;
 	
 	private JPanel southEast;
+	JSplitPane splitPane;
+	JSplitPane splitSouth;
 	
 	private UserValidation userLogin;
 	private DownloadBatch dBatch;
@@ -137,27 +140,42 @@ public class Indexer extends JFrame implements SessionListener{
 		//JPanel imagePanel = new ImagePanel(session);
 		ImageComponent imagePanel = new ImageComponent(session);
 
-		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);//, imagePanel, southPanel);
+		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);//, imagePanel, southPanel);
 		splitPane.add(northPanel, JSplitPane.TOP);
 		splitPane.add(southPanel, JSplitPane.BOTTOM);
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setTopComponent(imagePanel);
-		splitPane.setBottomComponent(southPanel);
-		
-		splitPane.setDividerLocation(550);
-		
+		splitPane.setBottomComponent(southPanel);	
+		splitPane.setDividerLocation(session.getHorizontalDivider());
+		splitPane.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent pce) {
+			    session.setHorizontalDivider((Integer) pce.getNewValue());
+			}
+		});
 		
 		northPanel.add(menuButtons, BorderLayout.WEST);
-		southPanel.add(southWest, BorderLayout.WEST);
-		southPanel.add(southEast, BorderLayout.EAST);
 		
+		splitSouth = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitSouth.add(southWest);
+		splitSouth.add(southEast);
+		splitSouth.setOneTouchExpandable(true);
+		splitSouth.setLeftComponent(southWest);
+		splitSouth.setRightComponent(southEast);
+		splitSouth.setDividerLocation(session.getVerticalDivider());
+		splitSouth.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent pce) {
+			    session.setVerticalDivider((Integer) pce.getNewValue());
+			}
+		});
+		
+		southPanel.add(splitSouth);
+
 		rootPanel.add(northPanel, BorderLayout.NORTH);
-		rootPanel.add(imagePanel, BorderLayout.CENTER);
-		rootPanel.add(splitPane, BorderLayout.SOUTH);
-		rootPanel.add(southPanel, BorderLayout.SOUTH);
+		rootPanel.add(splitPane, BorderLayout.CENTER);
 		
 		this.add(rootPanel);
-		
 		
 	}
 	
@@ -221,7 +239,6 @@ public class Indexer extends JFrame implements SessionListener{
 	 */
 	@Override
 	public void valueChanged(Cell cell, String newValue) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -230,7 +247,6 @@ public class Indexer extends JFrame implements SessionListener{
 	 */
 	@Override
 	public void selectedCellChanged(Cell newSelectedCell) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -239,7 +255,6 @@ public class Indexer extends JFrame implements SessionListener{
 	 */
 	@Override
 	public void toggleHighlightsChanged(boolean toggle) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -248,7 +263,6 @@ public class Indexer extends JFrame implements SessionListener{
 	 */
 	@Override
 	public void imageInversionChanged(boolean inversion) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -257,7 +271,6 @@ public class Indexer extends JFrame implements SessionListener{
 	 */
 	@Override
 	public void scaleChanged(double scale) {
-		// TODO Auto-generated method stub
 		
 	}
 	

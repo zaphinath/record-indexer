@@ -64,7 +64,6 @@ public class Table extends JPanel implements SessionListener {
 		table = new JTable(tm) {
 		   @Override
 		   public TableCellRenderer getCellRenderer(int row, int column) {
-			    // TODO Auto-generated method stub
 			    return renderer;
 		   }
 		};
@@ -76,13 +75,6 @@ public class Table extends JPanel implements SessionListener {
 		table.setGridColor(Color.BLACK);
 		table.addMouseListener(tableMouseListener);
 		table.addKeyListener(keyboardListener);
-		/*TableColumnModel columnModel = table.getColumnModel();
-		for (int i = 0; i < tm.getColumnCount(); ++i) {
-			TableColumn column = columnModel.getColumn(i);
-			column.setCellRenderer(new ColorCellRenderer(session));
-			//column.setCellEditor(new ColorCellEditor(session));
-		}*/
-		//table.setDefaultRenderer(String.class, new ColorCellRenderer(session));
 		
 		if (session.isHaveBatch()) {
 			session.setSelectedCell(session.getSelectedCell());
@@ -100,12 +92,10 @@ public class Table extends JPanel implements SessionListener {
 		int col;
 		@Override
 		public void mouseClicked(MouseEvent e) {  
-    	  //if(e.getButton() == MouseEvent.BUTTON1) {
 	        row = table.rowAtPoint(e.getPoint());//get mouse-selected row
 	        col = table.columnAtPoint(e.getPoint());//get mouse-selected col
 	        session.setSelectedCell(new Cell(col,row));
 	        if (SwingUtilities.isRightMouseButton(e) && session.getKnownWordAt(col, row).known == false) {
-	        	//System.out.println("popup");
 	        	PopUpMenu menu = new PopUpMenu(frame, session.getKnownWordAt(col, row).similarValues, 
 	        			session.getValue(col, row), new Cell(col, row), session);
 	        	menu.show(e.getComponent(), e.getX(), e.getY());
