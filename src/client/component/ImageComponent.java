@@ -63,6 +63,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 	private int curFieldHeight;
 	private int currentSelX;
 	private int currentSelY;
+	private Color rectColor;
 	
 	/**
 	 * 
@@ -73,7 +74,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 		session.addListener(this);
 		shapes = new ArrayList<DrawingShape>();
 		//stroke = new BasicStroke(5);
-
+		rectColor =  new Color(122, 180, 255, 192);
 		image = null;
 		if (session.isHaveBatch()) {
 			init();
@@ -99,6 +100,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 		
 		this.addMouseListener(mouseAdapter);
 		this.addMouseMotionListener(mouseAdapter);
+		this.addMouseWheelListener(mouseAdapter);
 		//this.addComponentListener(componentAdapter);			
 	}
 
@@ -112,7 +114,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 		currentSelY = session.getFirstYCoord() + (currentRow * curFieldHeight);
 		//System.out.println("col= "+currentCol+" row="+currentRow+" curFW="+curFieldWidth+" curFH="+curFieldHeight+" curX"+currentSelX+" curY="+currentSelY);
 		image = loadImage(session.getImageUrl());
-		selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), new Color(210, 180, 140, 192), session);
+		selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), rectColor, session);
 		shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null)), session));
 		shapes.add(selRect);
 	}
@@ -163,6 +165,52 @@ public class ImageComponent extends JComponent implements SessionListener {
 	
 	private MouseAdapter mouseAdapter = new MouseAdapter() {
 
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int clickX = e.getX();
+			int clickY = e.getY();
+			
+			AffineTransform transform = new AffineTransform();
+			transform.translate(w_centerX, w_centerY);
+			transform.scale(scale, scale);
+			transform.translate(-w_originX, -w_originY);
+			
+			Point2D d_Pt = new Point2D.Double(clickX, clickY);
+			Point2D w_Pt = new Point2D.Double();
+			try
+			{
+				transform.inverseTransform(d_Pt, w_Pt);
+			}
+			catch (NoninvertibleTransformException ex) {
+				return;
+			}
+			int w_X = (int)w_Pt.getX();
+			int w_Y = (int)w_Pt.getY();
+			int cellX = 0;
+			int cellY = 0;
+			for (int i = 0; i < session.getNumFields()-1; i++) {
+				int tmpX = session.getFields().get(i).getXcoord();
+				int tmpWidth = session.getFields().get(i).getWidth();
+				if (w_X > tmpX && w_X < (tmpX+tmpWidth)) {
+					currentSelX = tmpX;
+					curFieldWidth = tmpWidth;
+					cellX = i+1;
+				}
+			}
+			for (int i = 0; i < session.getNumRecords(); i++) {
+				int tmpY = session.getFirstYCoord() + (i*curFieldHeight);
+				//System.out.println(tmpY +"tmp "+ w_Y + " world");
+				if (w_Y > tmpY && w_Y < (tmpY+curFieldHeight)) {
+					currentSelY = tmpY;
+					cellY = i;
+				}
+			}
+			shapes.remove(1);
+			selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), rectColor, session);
+			shapes.add(selRect);
+			//repaint();
+			session.setSelectedCell(new Cell(cellX, cellY));
+		}
 		@Override
 		public void mousePressed(MouseEvent e) {
 			int d_X = e.getX();
@@ -246,7 +294,14 @@ public class ImageComponent extends JComponent implements SessionListener {
 
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
-			return;
+			int scrollAmount = 0;
+			if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
+				scrollAmount = e.getUnitsToScroll();
+			} else {
+				scrollAmount = e.getWheelRotation();
+			}
+			scale = scale+(scrollAmount*.01);
+			repaint();
 		}	
 	};
 	
@@ -330,7 +385,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 			currentSelX = session.getFields().get(currentCol).getXcoord();
 			currentSelY = session.getFirstYCoord() + (currentRow*curFieldHeight);
 			shapes.remove(1);
-			selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), new Color(210, 180, 140, 192), session);
+			selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), rectColor, session);
 			shapes.add(selRect);
 			repaint();
 		} 
@@ -353,12 +408,12 @@ public class ImageComponent extends JComponent implements SessionListener {
 			currentSelX = session.getFields().get(currentCol).getXcoord();
 			currentSelY = session.getFirstYCoord() + (currentRow*curFieldHeight);
 			//shapes.remove(1);
-			selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), new Color(210, 180, 140, 192), session);
+			selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), rectColor, session);
 			shapes.add(selRect);
 			repaint();
 		}
 	}
-
+//TODO - zoom with mouse; select image location and update selected field, splitpane, move color one location
 	/* (non-Javadoc)
 	 * @see client.SessionListener#imageInversionChanged(boolean)
 	 */
