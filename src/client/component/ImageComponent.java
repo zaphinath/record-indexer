@@ -53,8 +53,16 @@ public class ImageComponent extends JComponent implements SessionListener {
 	private int w_dragStartOriginX;
 	private int w_dragStartOriginY;
 
+	//private Stroke stroke;
 	private ArrayList<DrawingShape> shapes;
-	private BasicStroke stroke;
+	private Image image;
+	private DrawingRect selRect;
+	private int currentCol;
+	private int currentRow;
+	private int curFieldWidth;
+	private int curFieldHeight;
+	private int currentSelX;
+	private int currentSelY;
 	
 	/**
 	 * 
@@ -64,39 +72,11 @@ public class ImageComponent extends JComponent implements SessionListener {
 		this.session = session;
 		session.addListener(this);
 		shapes = new ArrayList<DrawingShape>();
-		stroke = new BasicStroke(5);
+		//stroke = new BasicStroke(5);
 
-		Image image = null;
+		image = null;
 		if (session.isHaveBatch()) {
-			//System.out.println(session.getImageUrl()+"URL");
-			image = loadImage(session.getImageUrl());
-			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null)), session));
-			
-			/*JPanel rootPanel = new JPanel(new GridBagLayout());
-			GridBagConstraints gbc = new GridBagConstraints();
-			
-			for (int i=0; i < session.getNumRecords(); i++) {
-				for (int j=0; j < session.getNumFields()-1; j++) {
-					int tmpHeight = session.getRecordHeight();
-					int tmpWidth = session.getFields().get(j).getWidth();
-					double tmpX = 0;
-					double tmpY = 0;
-					//DrawingRect rect = new DrawingRect(new Rectangle2D.Double(tmpX, tmpY, tmpWidth, tmpHeight), new Color(210, 180, 140, 0));
-					JPanel tmp = new JPanel();
-					tmp.setSize(new Dimension(tmpWidth, tmpHeight));
-					tmp.setBackground(Color.BLUE);
-					tmp.setForeground(Color.BLUE);
-					gbc.fill = GridBagConstraints.HORIZONTAL;
-					gbc.gridx = session.getFields().get(j).getXcoord();
-					gbc.gridy = (session.getFirstYCoord() + session.getRecordHeight()*i);
-					gbc.weightx = 1.0;
-					gbc.weighty = 1.0;
-					rootPanel.add(tmp, gbc);
-				}
-			}
-			
-			//rootPanel.revalidate();
-			this.add(rootPanel);*/
+			init();
 		}
 		
 		w_originX = session.getW_originX();
@@ -122,6 +102,21 @@ public class ImageComponent extends JComponent implements SessionListener {
 		//this.addComponentListener(componentAdapter);			
 	}
 
+	private void init() {
+		currentCol = session.getSelectedCell().getField() -1;
+		if (currentCol < 0) currentCol = 0;
+		currentRow = session.getSelectedCell().getRecord();
+		curFieldWidth = session.getFields().get(currentCol).getWidth();
+		curFieldHeight = session.getRecordHeight();
+		currentSelX = session.getFields().get(currentCol).getXcoord();
+		currentSelY = session.getFirstYCoord() + (currentRow * curFieldHeight);
+		//System.out.println("col= "+currentCol+" row="+currentRow+" curFW="+curFieldWidth+" curFH="+curFieldHeight+" curX"+currentSelX+" curY="+currentSelY);
+		image = loadImage(session.getImageUrl());
+		selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), new Color(210, 180, 140, 192), session);
+		shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null)), session));
+		shapes.add(selRect);
+	}
+	
 	private void initDrag() {
 		dragging = false;
 		w_dragStartX = 0;
@@ -302,8 +297,9 @@ public class ImageComponent extends JComponent implements SessionListener {
 	@Override
 	public void hasBatchChanged() {
 		if (session.isHaveBatch()) {
-			Image image = loadImage(session.getImageUrl());
-			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null)), session));
+//			Image image = loadImage(session.getImageUrl());
+//			shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null)), session));
+			init();
 		} else {
 			shapes.clear();
 		}
@@ -323,9 +319,21 @@ public class ImageComponent extends JComponent implements SessionListener {
 	 * @see client.SessionListener#selectedCellChanged(client.model.Cell)
 	 */
 	@Override
-	public void selectedCellChanged(Cell newSelectedCell) {
-		// TODO Auto-generated method stub
-
+	public void selectedCellChanged(Cell cell) {
+		//System.out.println("CELL CHANGED F=" + cell.getField() + " R="+cell.getRecord());
+		if (session.isToggledHighlights() == false) {
+			currentCol = cell.getField() -1;
+			if (currentCol < 0)currentCol = 0;
+			currentRow = cell.getRecord();
+			curFieldWidth = session.getFields().get(currentCol).getWidth();
+			curFieldHeight = session.getRecordHeight();
+			currentSelX = session.getFields().get(currentCol).getXcoord();
+			currentSelY = session.getFirstYCoord() + (currentRow*curFieldHeight);
+			shapes.remove(1);
+			selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), new Color(210, 180, 140, 192), session);
+			shapes.add(selRect);
+			repaint();
+		} 
 	}
 
 	/* (non-Javadoc)
@@ -333,8 +341,22 @@ public class ImageComponent extends JComponent implements SessionListener {
 	 */
 	@Override
 	public void toggleHighlightsChanged(boolean toggle) {
-		// TODO Auto-generated method stub
-
+		if (toggle == true) {
+			shapes.remove(1);
+			repaint();
+		} else {
+			currentCol = session.getSelectedCell().getField() -1;
+			if (currentCol < 0)currentCol = 0;
+			currentRow = session.getSelectedCell().getRecord();
+			curFieldWidth = session.getFields().get(currentCol).getWidth();
+			curFieldHeight = session.getRecordHeight();
+			currentSelX = session.getFields().get(currentCol).getXcoord();
+			currentSelY = session.getFirstYCoord() + (currentRow*curFieldHeight);
+			//shapes.remove(1);
+			selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), new Color(210, 180, 140, 192), session);
+			shapes.add(selRect);
+			repaint();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -342,8 +364,6 @@ public class ImageComponent extends JComponent implements SessionListener {
 	 */
 	@Override
 	public void imageInversionChanged(boolean inversion) {
-		//invertImage(session.getImageUrl());
-		//System.out.println("FIRST " + inversion);
 		repaint();
 
 	}

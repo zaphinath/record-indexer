@@ -9,6 +9,8 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
+import client.Session;
+
 /**
  * @author zaphinath
  *
@@ -16,11 +18,12 @@ import javax.swing.JComponent;
 @SuppressWarnings("serial")
 public class DrawingRect extends JComponent implements DrawingShape {
 
-	
+	private Session session;
 	private Rectangle2D rect;
 	private Color color;
 	
-	public DrawingRect(Rectangle2D rect, Color color) {
+	public DrawingRect(Rectangle2D rect, Color color, Session session) {
+		this.session = session;
 		this.rect = rect;
 		this.color = color;
 	}
