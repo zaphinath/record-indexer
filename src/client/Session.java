@@ -538,19 +538,24 @@ public class Session {
 	public void setValue(int x, int y, String value) {
 		//this.values = new String[x][y];
 		this.values[x][y] = value;
-		try {
-			spCheck.useDictionaryURL(urlPrefix+fields.get(x-1).getKnownData());
-			System.out.println(urlPrefix+fields.get(x-1).getKnownData());
-			this.knownWords[x][y].similarValues = spCheck.suggestSimilarWords(value);
-			//System.out.println(this.knownWords[x][y].similarValues.toString());
-			if (this.knownWords[x][y].similarValues != null) {
-				if (this.knownWords[x][y].similarValues.size() > 0) {
-					this.knownWords[x][y].known = false;
-					System.out.println("FALSE");
+		if (value != null && value.length() > 0) {
+			try {
+				System.out.println("VALUE: "+ value );
+				spCheck.useDictionaryURL(urlPrefix+fields.get(x-1).getKnownData());
+				//System.out.println(urlPrefix+fields.get(x-1).getKnownData());
+				this.knownWords[x][y].similarValues = spCheck.suggestSimilarWords(value);
+				//System.out.println(this.knownWords[x][y].similarValues.toString());
+				if (this.knownWords[x][y].similarValues != null) {
+					if (this.knownWords[x][y].similarValues.size() > 0) {
+						this.knownWords[x][y].known = false;
+						//System.out.println("FALSE");
+					}
+				} else {
+					this.knownWords[x][y].known = true;
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		for (SessionListener l : listeners) {
 			l.valueChanged(new Cell(x,y), value);

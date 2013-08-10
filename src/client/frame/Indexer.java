@@ -129,7 +129,7 @@ public class Indexer extends JFrame implements SessionListener{
 		JPanel rootPanel = new JPanel(new BorderLayout());
 		JPanel northPanel = new JPanel(new BorderLayout());
 		JPanel southPanel = new JPanel(new BorderLayout());
-		JPanel southWest = new SouthWest(session);
+		JPanel southWest = new SouthWest(this, session);
 		southEast = new SouthEast(session);
 		
 		

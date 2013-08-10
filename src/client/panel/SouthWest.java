@@ -5,9 +5,11 @@ package client.panel;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -24,13 +26,16 @@ public class SouthWest extends JPanel {
 	Session session;
 	private Table table;
 	private FormEntryPanel fec;
+	private JFrame frame;
 	
-	public SouthWest(Session s) {
+	public SouthWest(JFrame frame, Session s) {
 		super();
 		this.session = s;
+		this.frame = frame;
+		
 		//this.setPreferredSize(new Dimension(400,300));
 		//this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		table = new Table(session);
+		table = new Table(frame, session);
 		fec = new FormEntryPanel(session);
 		
 		final JTabbedPane tabs = new JTabbedPane();

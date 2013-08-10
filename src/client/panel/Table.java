@@ -50,9 +50,10 @@ public class Table extends JPanel implements SessionListener {
 	private Cell selectedCell;
 	private JFrame frame;
 	
-	public Table(Session s) {
+	public Table(JFrame frame, Session s) {
 		super();
 		this.session = s;
+		this.frame = frame;
 		session.addListener(this);
 		
 		final ColorCellRenderer renderer = new ColorCellRenderer(session);
@@ -101,7 +102,7 @@ public class Table extends JPanel implements SessionListener {
 	        session.setSelectedCell(new Cell(col,row));
     	  if (e.isPopupTrigger() || e.getButton() == MouseEvent.BUTTON2) {
     		 
-    		  PopUpMenu menu = new PopUpMenu(null, session.getKnownWordAt(col, row).similarValues, session.getValue(col, row));
+    		  PopUpMenu menu = new PopUpMenu(frame, session.getKnownWordAt(col, row).similarValues, session.getValue(col, row));
     		  menu.show(e.getComponent(), e.getX(), e.getY());
     	  }
       }
@@ -134,8 +135,8 @@ public class Table extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void valueChanged(Cell cell, String newValue) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(session.getValue(cell.getField(), cell.getRecord()));
+		System.out.println(session.getKnownWordAt(cell.getField(), cell.getRecord()).known);
 	}
 
 	/* (non-Javadoc)
