@@ -80,7 +80,7 @@ public class Session {
 		horizontalDivider = 450;
 		verticalDivider = 500;
 		
-		w_originX = 0;
+		w_originX = 500;
 		w_originY = 0;
 		/*w_centerX = frameWidth/2;
 		w_centerY = */

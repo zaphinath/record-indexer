@@ -137,7 +137,7 @@ public class Indexer extends JFrame implements SessionListener{
 		
 		
 		JPanel menuButtons = new MenuButtons(this, session);
-		//JPanel imagePanel = new ImagePanel(session);
+		//ImagePanel imagePanel = new ImagePanel(session);
 		ImageComponent imagePanel = new ImageComponent(session);
 
 		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);//, imagePanel, southPanel);

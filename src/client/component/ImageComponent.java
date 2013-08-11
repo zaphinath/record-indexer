@@ -80,7 +80,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 		w_originY = session.getW_originY();
 		//w_centerX = session.getW_centerX();
 		//w_centerY = session.getW_centerY();
-		w_centerX = session.getFrameWidth()/4;
+		w_centerX = session.getFrameWidth()/2;
 		w_centerY = session.getFrameHeight()/20;
 		session.setW_centerX(w_centerX);
 		session.setW_centerY(w_centerY);
@@ -110,6 +110,7 @@ public class ImageComponent extends JComponent implements SessionListener {
 		currentSelY = session.getFirstYCoord() + (currentRow * curFieldHeight);
 		//System.out.println("col= "+currentCol+" row="+currentRow+" curFW="+curFieldWidth+" curFH="+curFieldHeight+" curX"+currentSelX+" curY="+currentSelY);
 		image = loadImage(session.getImageUrl());
+		session.setW_centerX(image.getWidth(null)/2);
 		selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), rectColor);
 		shapes.add(new DrawingImage(image, new Rectangle2D.Double(0, 0, image.getWidth(null), image.getHeight(null)), session));
 		shapes.add(selRect);
