@@ -19,7 +19,6 @@ public class ClientUnitTests {
 		try {
 			spCheck.useDictionary("data/1890_last_names.txt");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

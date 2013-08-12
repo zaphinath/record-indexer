@@ -113,7 +113,6 @@ public class Controller implements IController {
 			getView().setResponse(rr.toString());
 		} catch (ClientException e) {
 			getView().setResponse("FAILED\n");
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

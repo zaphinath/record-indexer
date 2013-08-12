@@ -199,7 +199,6 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void toggleHighlightsChanged(boolean toggle) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -207,9 +206,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	 * @see client.SessionListener#imageInversionChanged(boolean)
 	 */
 	@Override
-	public void imageInversionChanged(boolean inversion) {
-		// TODO Auto-generated method stub
-		
+	public void imageInversionChanged(boolean inversion) {		
 	}
 
 
@@ -218,7 +215,6 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void scaleChanged(double scale) {
-		// TODO Auto-generated method stub
 	}
 	
 	MouseAdapter listMouseListener = new MouseAdapter() {
