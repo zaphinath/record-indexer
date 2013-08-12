@@ -95,7 +95,7 @@ public class DownloadBatch extends JDialog {
 		projectPanel.add(box);
 		projectPanel.add(Box.createRigidArea(new Dimension(0,box.getWidth() + 10)));
 		projectPanel.add(viewSample);
-		
+		projectPanel.setSize(prod.getWidth() + box.getWidth()+viewSample.getWidth()+20, 45);
 		
 		//Button Panel
 		JPanel buttonPanel = new JPanel();
