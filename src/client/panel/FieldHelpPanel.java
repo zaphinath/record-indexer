@@ -61,6 +61,9 @@ public class FieldHelpPanel extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void hasBatchChanged() {
+		if (session.isHaveBatch() == false) {
+			htmlViewer = new JEditorPane();
+		}
 
 	}
 
