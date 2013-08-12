@@ -60,6 +60,7 @@ public class SubmitBatch {
 			e.printStackTrace();
 		}
 		
+		session.setHaveBatch(false);
 	}
 
 }

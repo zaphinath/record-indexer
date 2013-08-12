@@ -232,8 +232,8 @@ public class Indexer extends JFrame implements SessionListener{
 		} else {
 			//southEast = new SouthEast(session);
 			downloadBatch.setEnabled(true);
-			southEast = new SouthEast(session);
-			southWest = new SouthWest(this, session);
+//			southEast = new SouthEast(session);
+//			southWest = new SouthWest(this, session);
 		}
 	}
 
