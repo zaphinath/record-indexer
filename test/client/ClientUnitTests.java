@@ -29,6 +29,12 @@ public class ClientUnitTests {
 		spCheck = null;
 	}
 	
+	@Test
+	public void testSpacesInWord() {
+		ArrayList<String> result = spCheck.suggestSimilarWords("uni tes");
+		assertEquals(1, result.size());
+	}
+	
 	@Test 
 	public void testHaveWord() {
 		ArrayList<String> result = spCheck.suggestSimilarWords("travis");
@@ -68,7 +74,8 @@ public class ClientUnitTests {
 	@Test
 	public void testNoWord() {
 		ArrayList<String> result = spCheck.suggestSimilarWords("facebook");
-		assertEquals(0, result.size());
+		//assertEquals(0, result.size());
+		assertNull(result);
 	}
 
 	public static void main(String[] args) {

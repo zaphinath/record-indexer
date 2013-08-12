@@ -35,6 +35,7 @@ public class SpellChecker {
 	      sc.useDelimiter(", *");
 	      while (sc.hasNext()) {
 	    	  String tmp = sc.next().trim();
+	    	  tmp = tmp.replaceAll("\\s","");
 	    	  root.add(tmp);
 	      }
 	      sc.close();
@@ -60,7 +61,7 @@ public class SpellChecker {
 	      while ((inputLine = in.readLine()) != null) {
 	    	  String[] values = inputLine.split(",");
 	    	  for (int i = 0; i < values.length; i++) {
-	    		  root.add(values[i]);
+	    		  root.add(values[i].replaceAll("\\s",""));
 	    	  }
 	      }
 		} catch (FileNotFoundException e) {
@@ -72,6 +73,7 @@ public class SpellChecker {
 	public ArrayList<String> suggestSimilarWords(String inputWord) {
 		root.clearList();
 		ArrayList<String> tmp;
+		inputWord = inputWord.replaceAll("\\s","");
 		if (root.find(inputWord) != null) {
 			return null;
 		} else {
