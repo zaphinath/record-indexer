@@ -93,6 +93,7 @@ public class Table extends JPanel implements SessionListener {
 		int col;
 		@Override
 		public void mouseClicked(MouseEvent e) {  
+			if (session.isHaveBatch()) {
 	        row = table.rowAtPoint(e.getPoint());//get mouse-selected row
 	        col = table.columnAtPoint(e.getPoint());//get mouse-selected col
 	        session.setSelectedCell(new Cell(col,row));
@@ -101,6 +102,7 @@ public class Table extends JPanel implements SessionListener {
 	        			session.getValue(col, row), new Cell(col, row), session);
 	        	menu.show(e.getComponent(), e.getX(), e.getY());
 	        }
+			}
 		}/*
 		public void mouseReleased(MouseEvent e) {
 			row = table.rowAtPoint(e.getPoint());//get mouse-selected row
