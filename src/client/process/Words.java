@@ -37,7 +37,7 @@ public class Words implements Trie{
 	  public void add(String word) {  
 	    WordNode scanner = root;
 	    word = word.toLowerCase();
-	    System.out.println("Adding Word " + word);
+	    //System.out.println("Adding Word " + word);
 	    int length = word.length();
 	    this.numberWords++;
 	    for (int i = 0; i < length; i++) {
