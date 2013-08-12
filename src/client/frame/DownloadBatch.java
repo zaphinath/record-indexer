@@ -59,7 +59,8 @@ public class DownloadBatch extends JDialog {
 		
 		this.frame = frame;
 		this.setTitle("Download Batch");
-		this.setSize(350, 110);
+		//this.setSize(350, 110);
+		this.setPreferredSize(new Dimension(350, 110));
 		this.setResizable(false);
 		setLocationRelativeTo(null);
 		this.session = s;
