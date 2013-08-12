@@ -24,7 +24,7 @@ public class WordNode implements Trie.Node {
 	  public WordNode(){
 	    prev = null;
 	    next = null;
-	    subNodes = new WordNode[27];
+	    subNodes = new WordNode[26];
 	  }
 
 	  /**
