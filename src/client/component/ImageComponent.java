@@ -202,9 +202,11 @@ public class ImageComponent extends JComponent implements SessionListener {
 						cellY = i;
 					}
 				}
-				shapes.remove(1);
-				selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), rectColor);
-				shapes.add(selRect);
+				if (session.isToggledHighlights() == false) {
+					shapes.remove(1);
+					selRect = new DrawingRect(new Rectangle2D.Double(currentSelX, currentSelY, curFieldWidth, curFieldHeight), rectColor);
+					shapes.add(selRect);
+				}
 				//repaint();
 				session.setSelectedCell(new Cell(cellX, cellY));
 			}
