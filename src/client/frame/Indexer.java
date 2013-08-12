@@ -48,6 +48,7 @@ public class Indexer extends JFrame implements SessionListener{
 	private JButton imageNav;
 	
 	private JPanel southEast;
+	private JPanel southWest;
 	JSplitPane splitPane;
 	JSplitPane splitSouth;
 	
@@ -132,7 +133,7 @@ public class Indexer extends JFrame implements SessionListener{
 		JPanel rootPanel = new JPanel(new BorderLayout());
 		JPanel northPanel = new JPanel(new BorderLayout());
 		JPanel southPanel = new JPanel(new BorderLayout());
-		JPanel southWest = new SouthWest(this, session);
+		southWest = new SouthWest(this, session);
 		southEast = new SouthEast(session);
 		
 		
@@ -231,6 +232,8 @@ public class Indexer extends JFrame implements SessionListener{
 		} else {
 			//southEast = new SouthEast(session);
 			downloadBatch.setEnabled(true);
+			southEast = new SouthEast(session);
+			southWest = new SouthWest(this, session);
 		}
 	}
 
