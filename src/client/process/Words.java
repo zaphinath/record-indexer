@@ -183,7 +183,11 @@ public class Words implements Trie{
 	      }
 	    }
 	    //if (list.size() == 0) list = null;
-	    return list;
+	    if (list == null) {
+        list = new ArrayList();
+	      list.add("NO KNOWN WORDS");
+      }
+      return list;
 	  }
 
 
