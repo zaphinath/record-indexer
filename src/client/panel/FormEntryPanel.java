@@ -6,6 +6,7 @@ package client.panel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyAdapter;
@@ -19,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import client.Session;
 import client.SessionListener;
@@ -37,13 +39,16 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	private JPanel rootPanel;
 	private JPanel rightSide;
 	
-	private JList list;
+	private JList<String> list;
 	private ListModel lModel;
 	
+	private Frame frame;
 	
-	public FormEntryPanel(Session s) {
+	
+	public FormEntryPanel(Frame frame, Session s) {
 		this.session = s;
 		session.addListener(this);
+		this.frame = frame;
 		
 		rootPanel = new JPanel(new BorderLayout());
 		rightSide = new JPanel(new GridLayout(0,2));
@@ -234,6 +239,11 @@ public class FormEntryPanel extends JPanel implements SessionListener {
     			 values.get(j-1).setText(session.getValue(j, i));
     		 }
     	 }
+     }
+     if (SwingUtilities.isRightMouseButton(e) && session.getKnownWordAt(col, row).known == false) {
+     	PopUpMenu menu = new PopUpMenu(frame, session.getKnownWordAt(col, row).similarValues, 
+     			session.getValue(col, row), new Cell(col, row), session);
+     	menu.show(e.getComponent(), e.getX(), e.getY());
      }
    }
  };

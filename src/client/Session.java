@@ -6,7 +6,6 @@ package client;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import shared.communication.DownloadBatch_Result;
 import shared.model.Field;
 import client.model.Cell;
 import client.process.SpellChecker;
-import client.process.SpellChecker.NoSimilarWordFoundException;
 
 /**
  * @author Derek Carr
@@ -27,6 +25,9 @@ public class Session {
 		public boolean known = true;
 		public ArrayList<String> similarValues;
 	}
+	
+	private int horizontalDivider;
+	private int verticalDivider;
 	
 	private String host;
 	private int port;
@@ -76,11 +77,14 @@ public class Session {
 	 * Class Constructor
 	 */
 	public Session() {
-		w_originX = 0;
+		horizontalDivider = 450;
+		verticalDivider = 500;
+		
+		w_originX = 500;
 		w_originY = 0;
 		/*w_centerX = frameWidth/2;
 		w_centerY = */
-		scale = .5;
+		scale = 1;
 		imageInverted = false;
 		toggledHighlights = false;
 		
@@ -136,10 +140,38 @@ public class Session {
 	}
 
 	/**
+	 * @return the horizontalDivider
+	 */
+	public int getHorizontalDivider() {
+		return horizontalDivider;
+	}
+
+	/**
+	 * @param horizontalDivider the horizontalDivider to set
+	 */
+	public void setHorizontalDivider(int horizontalDivider) {
+		this.horizontalDivider = horizontalDivider;
+	}
+
+	/**
+	 * @return the verticalDivider
+	 */
+	public int getVerticalDivider() {
+		return verticalDivider;
+	}
+
+	/**
+	 * @param verticalDivider the verticalDivider to set
+	 */
+	public void setVerticalDivider(int verticalDivider) {
+		this.verticalDivider = verticalDivider;
+	}
+
+	/**
 	 * 
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return Returns Known Word object at this index
 	 */
 	public KnownWord getKnownWordAt(int x, int y) {
 		return knownWords[x][y];
@@ -538,19 +570,24 @@ public class Session {
 	public void setValue(int x, int y, String value) {
 		//this.values = new String[x][y];
 		this.values[x][y] = value;
-		try {
-			spCheck.useDictionaryURL(urlPrefix+fields.get(x-1).getKnownData());
-			System.out.println(urlPrefix+fields.get(x-1).getKnownData());
-			this.knownWords[x][y].similarValues = spCheck.suggestSimilarWords(value);
-			//System.out.println(this.knownWords[x][y].similarValues.toString());
-			if (this.knownWords[x][y].similarValues != null) {
-				if (this.knownWords[x][y].similarValues.size() > 0) {
-					this.knownWords[x][y].known = false;
-					System.out.println("FALSE");
+		if (value != null && value.length() > 0 && !fieldTitles.get(x).equalsIgnoreCase("age")) {
+			try {
+				System.out.println("VALUE: "+ value	 );
+				spCheck.useDictionaryURL(urlPrefix+fields.get(x-1).getKnownData());
+				//System.out.println(urlPrefix+fields.get(x-1).getKnownData());
+				this.knownWords[x][y].similarValues = spCheck.suggestSimilarWords(value);
+				//System.out.println(this.knownWords[x][y].similarValues.toString());
+				if (this.knownWords[x][y].similarValues != null) {
+					if (this.knownWords[x][y].similarValues.size() > 0) {
+						this.knownWords[x][y].known = false;
+						//System.out.println("FALSE");
+					}
+				} else {
+					this.knownWords[x][y].known = true;
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 		for (SessionListener l : listeners) {
 			l.valueChanged(new Cell(x,y), value);
@@ -561,7 +598,7 @@ public class Session {
 	 * 
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return the value at this index
 	 */
 	public String getValue(int x, int y) {
 		return this.values[x][y];
@@ -592,7 +629,7 @@ public class Session {
 	}
 
 	/**
-	 * @param zoomLevel the zoomLevel to set
+	 * @param scale the zoomLevel to set
 	 */
 	public void setScale(double scale) {
 		if (scale > .05 || scale < 20) {

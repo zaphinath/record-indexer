@@ -13,6 +13,7 @@ import client.model.Cell;
  * @author Derek Carr
  *
  */
+@SuppressWarnings("serial")
 public class ImageNavigationComponent extends JComponent implements
 		SessionListener {
 
@@ -20,7 +21,7 @@ public class ImageNavigationComponent extends JComponent implements
 	 * @param session
 	 */
 	public ImageNavigationComponent(Session session) {
-		// TODO Auto-generated constructor stub
+		return;
 	}
 
 	/* (non-Javadoc)
@@ -28,8 +29,7 @@ public class ImageNavigationComponent extends JComponent implements
 	 */
 	@Override
 	public void hasBatchChanged() {
-		// TODO Auto-generated method stub
-
+		return;
 	}
 
 	/* (non-Javadoc)
@@ -37,8 +37,7 @@ public class ImageNavigationComponent extends JComponent implements
 	 */
 	@Override
 	public void valueChanged(Cell cell, String newValue) {
-		// TODO Auto-generated method stub
-
+		return;
 	}
 
 	/* (non-Javadoc)
@@ -46,7 +45,6 @@ public class ImageNavigationComponent extends JComponent implements
 	 */
 	@Override
 	public void selectedCellChanged(Cell newSelectedCell) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -55,7 +53,6 @@ public class ImageNavigationComponent extends JComponent implements
 	 */
 	@Override
 	public void toggleHighlightsChanged(boolean toggle) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -64,7 +61,6 @@ public class ImageNavigationComponent extends JComponent implements
 	 */
 	@Override
 	public void imageInversionChanged(boolean inversion) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -73,7 +69,6 @@ public class ImageNavigationComponent extends JComponent implements
 	 */
 	@Override
 	public void scaleChanged(double scale) {
-		// TODO Auto-generated method stub
 		
 	}
 

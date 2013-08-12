@@ -5,6 +5,7 @@ package client.panel;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import client.Session;
@@ -32,8 +33,10 @@ public class SouthEast extends JPanel {
 		fHelp = new FieldHelpPanel(session);
 		imgNav = new ImageNavigationComponent(session);
 		
+		JScrollPane sp1 = new JScrollPane(fHelp, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ); 
+		
 		JTabbedPane tabs = new JTabbedPane();
-		tabs.addTab("Field Help", fHelp);
+		tabs.addTab("Field Help", sp1);
 		tabs.addTab("Image Navigation", imgNav);
 		
 		this.add(tabs);

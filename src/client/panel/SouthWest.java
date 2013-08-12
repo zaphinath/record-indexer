@@ -5,10 +5,13 @@ package client.panel;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -24,14 +27,19 @@ public class SouthWest extends JPanel {
 	Session session;
 	private Table table;
 	private FormEntryPanel fec;
+	private JFrame frame;
 	
-	public SouthWest(Session s) {
+	public SouthWest(JFrame frame, Session s) {
 		super();
 		this.session = s;
+		this.frame = frame;
+		
 		//this.setPreferredSize(new Dimension(400,300));
 		//this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		table = new Table(session);
-		fec = new FormEntryPanel(session);
+		table = new Table(frame, session);
+		fec = new FormEntryPanel(frame, session);
+		
+		JScrollPane sp1 = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ); 
 		
 		final JTabbedPane tabs = new JTabbedPane();
 		tabs.setPreferredSize(new Dimension(450,230));
@@ -42,20 +50,22 @@ public class SouthWest extends JPanel {
 			public void stateChanged(ChangeEvent e) {
 				Component comp = tabs.getSelectedComponent();
 				if (comp.equals(fec)) {
-					//TODO fix this
-					fec.getValues().get(session.getSelectedCell().getField()-1).requestFocusInWindow();
-					for (int i = 0; i < session.getNumRecords(); i++) {
-						if (i == session.getSelectedCell().getRecord()) {
-							for (int j = 1; j < session.getNumFields(); j++) {
-								fec.getValues().get(j-1).setText(session.getValue(j, i));
-				   		 	}
+					if (session.getSelectedCell().getField() > 0) {
+						fec.getValues().get(session.getSelectedCell().getField()-1).requestFocusInWindow();
+						for (int i = 0; i < session.getNumRecords(); i++) {
+							if (i == session.getSelectedCell().getRecord()) {
+								for (int j = 1; j < session.getNumFields(); j++) {
+									fec.getValues().get(j-1).setText(session.getValue(j, i));
+					   		 	}
+							}
 						}
 					}
 				}
 			}
 		});
 		//this.add(Box.createRigidArea(new Dimension(0,20)));
-		this.add(tabs);
+		JScrollPane lPane = new JScrollPane(tabs,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+		this.add(lPane);
 	}
 	
 	

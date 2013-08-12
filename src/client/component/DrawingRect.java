@@ -16,7 +16,6 @@ import javax.swing.JComponent;
 @SuppressWarnings("serial")
 public class DrawingRect extends JComponent implements DrawingShape {
 
-	
 	private Rectangle2D rect;
 	private Color color;
 	

@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -50,9 +51,11 @@ public class Table extends JPanel implements SessionListener {
 	private Cell selectedCell;
 	private JFrame frame;
 	
-	public Table(Session s) {
+	
+	public Table(JFrame frame, Session s) {
 		super();
 		this.session = s;
+		this.frame = frame;
 		session.addListener(this);
 		
 		final ColorCellRenderer renderer = new ColorCellRenderer(session);
@@ -61,7 +64,6 @@ public class Table extends JPanel implements SessionListener {
 		table = new JTable(tm) {
 		   @Override
 		   public TableCellRenderer getCellRenderer(int row, int column) {
-			    // TODO Auto-generated method stub
 			    return renderer;
 		   }
 		};
@@ -73,38 +75,43 @@ public class Table extends JPanel implements SessionListener {
 		table.setGridColor(Color.BLACK);
 		table.addMouseListener(tableMouseListener);
 		table.addKeyListener(keyboardListener);
-		/*TableColumnModel columnModel = table.getColumnModel();
-		for (int i = 0; i < tm.getColumnCount(); ++i) {
-			TableColumn column = columnModel.getColumn(i);
-			column.setCellRenderer(new ColorCellRenderer(session));
-			//column.setCellEditor(new ColorCellEditor(session));
-		}*/
-		//table.setDefaultRenderer(String.class, new ColorCellRenderer(session));
 		
 		if (session.isHaveBatch()) {
 			session.setSelectedCell(session.getSelectedCell());
 		}
 		this.setLayout(new BorderLayout());
 		
-		JScrollPane rPane = new JScrollPane(table);
+		//JScrollPane rPane = new JScrollPane(table);
 
-		this.add(rPane, BorderLayout.CENTER);
+		//this.add(rPane, BorderLayout.CENTER);
+		this.add(table);
 
 	}
 	
 	MouseAdapter tableMouseListener = new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {  
-    	  //if(e.getButton() == MouseEvent.BUTTON1) {
-	        int row = table.rowAtPoint(e.getPoint());//get mouse-selected row
-	        int col = table.columnAtPoint(e.getPoint());//get mouse-selected col
+		int row;
+		int col;
+		@Override
+		public void mouseClicked(MouseEvent e) {  
+	        row = table.rowAtPoint(e.getPoint());//get mouse-selected row
+	        col = table.columnAtPoint(e.getPoint());//get mouse-selected col
 	        session.setSelectedCell(new Cell(col,row));
-    	  if (e.isPopupTrigger() || e.getButton() == MouseEvent.BUTTON2) {
-    		 
-    		  PopUpMenu menu = new PopUpMenu(null, session.getKnownWordAt(col, row).similarValues, session.getValue(col, row));
-    		  menu.show(e.getComponent(), e.getX(), e.getY());
-    	  }
-      }
+	        if (SwingUtilities.isRightMouseButton(e) && session.getKnownWordAt(col, row).known == false) {
+	        	PopUpMenu menu = new PopUpMenu(frame, session.getKnownWordAt(col, row).similarValues, 
+	        			session.getValue(col, row), new Cell(col, row), session);
+	        	menu.show(e.getComponent(), e.getX(), e.getY());
+	        }
+		}/*
+		public void mouseReleased(MouseEvent e) {
+			row = table.rowAtPoint(e.getPoint());//get mouse-selected row
+	        col = table.columnAtPoint(e.getPoint());//get mouse-selected col
+	        session.setSelectedCell(new Cell(col,row));
+	        if (e.isPopupTrigger() || e.getButton() == MouseEvent.BUTTON2) {
+	        	System.out.println("popup");
+	        	PopUpMenu menu = new PopUpMenu(frame, session.getKnownWordAt(col, row).similarValues, session.getValue(col, row));
+	        	menu.show(e.getComponent(), e.getX(), e.getY());
+	        }
+		}*/
    };
    
    KeyAdapter keyboardListener = new KeyAdapter() {
@@ -134,8 +141,8 @@ public class Table extends JPanel implements SessionListener {
 	 */
 	@Override
 	public void valueChanged(Cell cell, String newValue) {
-		// TODO Auto-generated method stub
-		
+		//System.out.println(session.getValue(cell.getField(), cell.getRecord()));
+		//System.out.println(session.getKnownWordAt(cell.getField(), cell.getRecord()).known);
 	}
 
 	/* (non-Javadoc)
