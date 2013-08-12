@@ -51,7 +51,7 @@ public class SouthWest extends JPanel {
 				Component comp = tabs.getSelectedComponent();
 				if (comp.equals(fec)) {
 					if (session.getSelectedCell().getField() > 0) {
-						if (session.getSelectedCell().getField() > 0)
+						if (session.getSelectedCell().getField() > 0 && fec.getValues().size() >0)
 							fec.getValues().get(session.getSelectedCell().getField()-1).requestFocusInWindow();
 						for (int i = 0; i < session.getNumRecords(); i++) {
 							if (i == session.getSelectedCell().getRecord()) {
