@@ -90,9 +90,9 @@ public class DownloadBatch extends JDialog {
 		
 		projectPanel.add(Box.createRigidArea(new Dimension(0,5)));
 		projectPanel.add(prod);
-		projectPanel.add(Box.createRigidArea(new Dimension(0,5)));
+		projectPanel.add(Box.createRigidArea(new Dimension(0,prod.getWidth() + 5)));
 		projectPanel.add(box);
-		projectPanel.add(Box.createRigidArea(new Dimension(0,10)));
+		projectPanel.add(Box.createRigidArea(new Dimension(0,box.getWidth() + 10)));
 		projectPanel.add(viewSample);
 		
 		
