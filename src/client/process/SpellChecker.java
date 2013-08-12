@@ -77,7 +77,7 @@ public class SpellChecker {
 		if (root.find(inputWord) != null) {
 			return null;
 		} else {
-			tmp = root.filterList(inputWord); 
+      tmp = root.filterList(inputWord); 
 		}
 		return tmp;   
    }

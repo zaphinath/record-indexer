@@ -572,7 +572,7 @@ public class Session {
 		this.values[x][y] = value;
 		if (value != null && value.length() > 0 && !fieldTitles.get(x).equalsIgnoreCase("age")) {
 			try {
-				System.out.println("VALUE: "+ value	 );
+				//System.out.println("VALUE: "+ value	 );
 				spCheck.useDictionaryURL(urlPrefix+fields.get(x-1).getKnownData());
 				//System.out.println(urlPrefix+fields.get(x-1).getKnownData());
 				this.knownWords[x][y].similarValues = spCheck.suggestSimilarWords(value);
