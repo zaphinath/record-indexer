@@ -55,6 +55,7 @@ public class DownloadBatch extends JDialog {
 	
 	public DownloadBatch(Frame frame, boolean isModal, Session s) throws ClientException {
 		super(frame, isModal);
+		assert s != null;
 		
 		this.frame = frame;
 		this.setTitle("Download Batch");
@@ -63,9 +64,9 @@ public class DownloadBatch extends JDialog {
 		setLocationRelativeTo(null);
 		this.session = s;
 		
-		cc = new ClientCommunicator();
-		cc.setSERVER_HOST(session.getHost());
-		cc.setSERVER_PORT(session.getPort());
+		cc = new ClientCommunicator(session.getHost(), session.getPort());
+		//cc.setSERVER_HOST(session.getHost());
+		//cc.setSERVER_PORT(session.getPort());
 		GetProjects_Params param = new GetProjects_Params(session.getUsername(), session.getPassword());
 		result = cc.getProjects(param);
 		projects = result.getProjects();
@@ -91,7 +92,7 @@ public class DownloadBatch extends JDialog {
 		projectPanel.add(prod);
 		projectPanel.add(Box.createRigidArea(new Dimension(0,5)));
 		projectPanel.add(box);
-		projectPanel.add(Box.createRigidArea(new Dimension(0,5)));
+		projectPanel.add(Box.createRigidArea(new Dimension(0,10)));
 		projectPanel.add(viewSample);
 		
 		
@@ -166,6 +167,7 @@ public class DownloadBatch extends JDialog {
 		DownloadBatch_Result result = null;
 		DownloadBatch_Params params = new DownloadBatch_Params(session.getUsername(), session.getPassword(), selProjectId);
 		params.setUrlPrefix(session.getUrlPrefix());
+		System.out.println(params.getUrlPrefix());
 		try {
 			result = cc.downloadBatch(params);
 			//System.out.println(result.toString());

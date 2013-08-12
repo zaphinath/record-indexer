@@ -171,7 +171,7 @@ public class Session {
 	 * 
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return Returns Known Word object at this index
 	 */
 	public KnownWord getKnownWordAt(int x, int y) {
 		return knownWords[x][y];
@@ -598,7 +598,7 @@ public class Session {
 	 * 
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return the value at this index
 	 */
 	public String getValue(int x, int y) {
 		return this.values[x][y];
@@ -629,7 +629,7 @@ public class Session {
 	}
 
 	/**
-	 * @param zoomLevel the zoomLevel to set
+	 * @param scale the zoomLevel to set
 	 */
 	public void setScale(double scale) {
 		if (scale > .05 || scale < 20) {

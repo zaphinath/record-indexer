@@ -81,9 +81,10 @@ public class Table extends JPanel implements SessionListener {
 		}
 		this.setLayout(new BorderLayout());
 		
-		JScrollPane rPane = new JScrollPane(table);
+		//JScrollPane rPane = new JScrollPane(table);
 
-		this.add(rPane, BorderLayout.CENTER);
+		//this.add(rPane, BorderLayout.CENTER);
+		this.add(table);
 
 	}
 	

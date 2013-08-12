@@ -25,6 +25,7 @@ public class SubmitBatch {
 	 */
 	public SubmitBatch(Session session) {
 		this.session = session;
+		assert session != null;
 		cc = new ClientCommunicator(session.getHost(), session.getPort());
 		file = new File("sessions/"+session.getLastName().toLowerCase().trim()+session.getFirstName().toLowerCase().trim()+".session");
 		

@@ -26,6 +26,7 @@
 	<!-- File containing the report output by Checkstyle -->
 	<property name="checkstyle-report-file" location="checkstyle-report.txt"/>
   <property name="doc" location="doc/" />
+  <property name="sessions" location="sessions" />
 
 	<!-- Default values for command-line properties.  Values specified on the command-line will override these. -->
 	<property name="file" value="Records/Records.xml"/>
@@ -61,13 +62,15 @@
 		<tstamp/>
 		<mkdir dir="${build}"/>
 		<mkdir dir="${passoff}"/>
-	</target>
+	  <mkdir dir="${sessions}"/>
+  </target>
 
 	<target name="clean" description="delete build files and directories">
 		<delete dir="${build}"/>
 		<delete dir="${passoff}"/>
     <delete dir="${doc}" />
-	</target>
+	  <delete dir="${sessions}" />
+  </target>
 
 	<target name="compile" depends="init" description="compile the source code">
 		<javac srcdir="${src}" classpathref="lib-classpath" destdir="${build}" debug="true" includeantruntime="true" />
@@ -75,7 +78,9 @@
 	</target>
 
   <target name="doc" depends="clean" description="builds javadoc documentation">
-    <javadoc sourcepath="${src}" destdir="${doc}"  />
+    <javadoc sourcepath="${src}" destdir="${doc}"  >
+      <classpath refid="lib-classpath" />
+    </javadoc>
   </target>
 	
 	<!-- ant import -Dfile=<INDEXER_DATA_XML_FILE> -->

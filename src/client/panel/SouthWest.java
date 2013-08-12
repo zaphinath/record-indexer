@@ -43,7 +43,7 @@ public class SouthWest extends JPanel {
 		
 		final JTabbedPane tabs = new JTabbedPane();
 		tabs.setPreferredSize(new Dimension(450,230));
-		tabs.addTab("Table Entry", sp1);
+		tabs.addTab("Table Entry", table);
 		tabs.addTab("Form Entry", fec);
 		
 		tabs.addChangeListener( new ChangeListener() {
@@ -64,7 +64,8 @@ public class SouthWest extends JPanel {
 			}
 		});
 		//this.add(Box.createRigidArea(new Dimension(0,20)));
-		this.add(tabs);
+		JScrollPane lPane = new JScrollPane(tabs,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+		this.add(lPane);
 	}
 	
 	
