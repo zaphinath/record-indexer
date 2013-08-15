@@ -18,6 +18,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import client.Session;
 import client.model.Cell;
@@ -54,9 +56,18 @@ public class Suggestion extends JDialog {
 		
 		cancel = new JButton("Cancel");
 		useSuggestion = new JButton("Use Suggestion");
+		
 		listSuggestions = new JList(list.toArray());
 		listSuggestions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listSuggestions.setSize(200, 220);
+		listSuggestions.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				useSuggestion.setEnabled(true);
+			}
+			
+		});
 		
 		cancel.addActionListener(actionListener);
 		useSuggestion.addActionListener(actionListener);
@@ -75,6 +86,10 @@ public class Suggestion extends JDialog {
 		
 		rootPanel.add(jsp, BorderLayout.NORTH);
 		rootPanel.add(south, BorderLayout.SOUTH);
+		
+		if (listSuggestions.isSelectionEmpty()) {
+			useSuggestion.setEnabled(false);
+		}
 		
 		this.add(rootPanel);
 	}

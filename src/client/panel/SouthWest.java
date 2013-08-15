@@ -3,6 +3,7 @@
  */
 package client.panel;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -40,24 +41,32 @@ public class SouthWest extends JPanel {
 		fec = new FormEntryPanel(frame, session);
 		
 		JScrollPane sp1 = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ); 
+		JScrollPane sp2 = new JScrollPane(fec, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ); 
 		
 		final JTabbedPane tabs = new JTabbedPane();
 		tabs.setPreferredSize(new Dimension(450,230));
-		tabs.addTab("Table Entry", table);
-		tabs.addTab("Form Entry", fec);
+		tabs.addTab("Table Entry", sp1);
+		tabs.addTab("Form Entry", sp2);
 		
 		tabs.addChangeListener( new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				Component comp = tabs.getSelectedComponent();
 				if (comp.equals(fec)) {
 					if (session.getSelectedCell().getField() > 0) {
-						if (session.getSelectedCell().getField() > 0 && fec.getValues().size() >0)
+						if (session.getSelectedCell().getField() > 0 && fec.getValues().size() >0) {
 							fec.getValues().get(session.getSelectedCell().getField()-1).requestFocusInWindow();
+						}
 						for (int i = 0; i < session.getNumRecords(); i++) {
 							if (i == session.getSelectedCell().getRecord()) {
 								for (int j = 1; j < session.getNumFields(); j++) {
 									fec.getValues().get(j-1).setText(session.getValue(j, i));
-					   		 	}
+									if (session.getKnownWordAt(j-1, i).known == false) {
+										fec.getValues().get(j-1).setBackground(Color.red);
+									} else {
+										fec.getValues().get(j-1).setBackground(Color.white);
+									}
+								}
+								repaint();
 							}
 						}
 					}
@@ -65,8 +74,8 @@ public class SouthWest extends JPanel {
 			}
 		});
 		//this.add(Box.createRigidArea(new Dimension(0,20)));
-		JScrollPane lPane = new JScrollPane(tabs,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
-		this.add(lPane);
+		//JScrollPane lPane = new JScrollPane(tabs,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+		this.add(tabs);
 	}
 	
 	

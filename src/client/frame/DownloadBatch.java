@@ -4,6 +4,7 @@
 package client.frame;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,23 +60,23 @@ public class DownloadBatch extends JDialog {
 		
 		this.frame = frame;
 		this.setTitle("Download Batch");
-		//this.setSize(350, 110);
-		this.setPreferredSize(new Dimension(350, 110));
+		this.setSize(450, 110);
+		//this.setPreferredSize(this.getPreferredSize());
 		this.setResizable(false);
 		setLocationRelativeTo(null);
 		this.session = s;
 		
 		cc = new ClientCommunicator(session.getHost(), session.getPort());
-		//cc.setSERVER_HOST(session.getHost());
-		//cc.setSERVER_PORT(session.getPort());
 		GetProjects_Params param = new GetProjects_Params(session.getUsername(), session.getPassword());
 		result = cc.getProjects(param);
 		projects = result.getProjects();
 		assert projects != null;
 		
 		//Project Panel
+		FlowLayout flow = new FlowLayout();
 		JPanel projectPanel = new JPanel();
-		projectPanel.setLayout(new BoxLayout(projectPanel, BoxLayout.X_AXIS));
+		projectPanel.setLayout(flow);
+		//projectPanel.setLayout(new BoxLayout(projectPanel, BoxLayout.X_AXIS));
 		JLabel prod = new JLabel("Projects: ");
 		
 		projectMap = new HashMap<String, Integer>();
@@ -85,18 +86,14 @@ public class DownloadBatch extends JDialog {
 			projectMap.put(projects.get(i).getTitle(), projects.get(i).getId());
 		}
 		box = new JComboBox(sprods);
-//		box.addActionListener(actionListener);
 		viewSample = new JButton("View Sample");
 		viewSample.addActionListener(actionListener);
 		
-		projectPanel.add(Box.createRigidArea(new Dimension(0,5)));
 		projectPanel.add(prod);
-		projectPanel.add(Box.createRigidArea(new Dimension(0,prod.getWidth() + 5)));
 		projectPanel.add(box);
-		projectPanel.add(Box.createRigidArea(new Dimension(0,box.getWidth() + 10)));
 		projectPanel.add(viewSample);
-		projectPanel.setSize(prod.getWidth() + box.getWidth()+viewSample.getWidth()+20, 45);
-		
+
+
 		//Button Panel
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -117,8 +114,8 @@ public class DownloadBatch extends JDialog {
 		rootPanel.add(projectPanel);
 		rootPanel.add(Box.createRigidArea(new Dimension(0,5)));
 		rootPanel.add(buttonPanel);
-		rootPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
+		//rootPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		rootPanel.setPreferredSize(getPreferredSize());
 		this.add(rootPanel);
 		
 	}

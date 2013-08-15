@@ -21,6 +21,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import client.Session;
 import client.SessionListener;
@@ -56,7 +58,14 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		lModel = new ListModel(session);
 		list = new JList(lModel);
 		list.setPreferredSize(new Dimension(80,160));
-		
+		list.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				repaint();
+			}
+			
+		});
 		values = new ArrayList<JTextField>();
 		
 		if(session.isHaveBatch()) {
@@ -180,6 +189,7 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 		int field = cell.getField()-1;
 		values.get(field).requestFocus();
 		values.get(field).setText(newValue);
+		System.out.println("cell record" + cell.getRecord());
 		if (session.getKnownWordAt(cell.getField(), cell.getRecord()).known == false) {
 			values.get(field).setBackground(Color.RED);
 		} else {
@@ -194,9 +204,14 @@ public class FormEntryPanel extends JPanel implements SessionListener {
 	@Override
 	public void selectedCellChanged(Cell newSelectedCell) {
 		list.setSelectedIndex(newSelectedCell.getRecord());
-		//values.get(newSelectedCell.getField()).requestFocus();
-		//values.get(newSelectedCell.getField()-1).requestFocusInWindow();
-		//repaint();
+		values.get(newSelectedCell.getField()).requestFocus();
+		values.get(newSelectedCell.getField()-1).requestFocusInWindow();
+		if (session.getKnownWordAt(newSelectedCell.getField(), newSelectedCell.getRecord()).known == false) {
+			values.get(newSelectedCell.getField()-1).setBackground(Color.RED);
+		} else {
+			values.get(newSelectedCell.getField()-1).setBackground(Color.WHITE);
+		}
+		repaint();
 	}
 
 	/* (non-Javadoc)
